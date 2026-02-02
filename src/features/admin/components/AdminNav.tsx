@@ -11,10 +11,13 @@ type Admin = {
 
 export default function AdminNav({ admin }: { admin: Admin }) {
   const pathname = usePathname();
+  
+  // Extract locale from pathname (e.g., /es/admin/dashboard -> es)
+  const locale = pathname?.split('/')[1] || 'es';
 
   const navItems = [
     {
-      href: '/admin/dashboard',
+      href: `/${locale}/admin/dashboard`,
       label: 'Overview',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -23,7 +26,7 @@ export default function AdminNav({ admin }: { admin: Admin }) {
       ),
     },
     {
-      href: '/admin/dashboard/owners',
+      href: `/${locale}/admin/dashboard/owners`,
       label: 'Propietarios',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -32,7 +35,7 @@ export default function AdminNav({ admin }: { admin: Admin }) {
       ),
     },
     {
-      href: '/admin/dashboard/referrals',
+      href: `/${locale}/admin/dashboard/referrals`,
       label: 'Referidos',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -41,7 +44,7 @@ export default function AdminNav({ admin }: { admin: Admin }) {
       ),
     },
     {
-      href: '/admin/dashboard/vouchers',
+      href: `/${locale}/admin/dashboard/vouchers`,
       label: 'Vouchers (QR)',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -50,7 +53,7 @@ export default function AdminNav({ admin }: { admin: Admin }) {
       ),
     },
     {
-      href: '/admin/dashboard/reports',
+      href: `/${locale}/admin/dashboard/reports`,
       label: 'Reportes',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -74,7 +77,7 @@ export default function AdminNav({ admin }: { admin: Admin }) {
       <div className="p-4">
         <div className="space-y-1">
           {navItems.map((item) => {
-            const isActive = pathname === item.href || (pathname?.startsWith(item.href + '/') && item.href !== '/admin/dashboard');
+            const isActive = pathname === item.href || (pathname?.startsWith(item.href + '/') && item.href !== `/${locale}/admin/dashboard`);
             const isExactMatch = pathname === item.href;
             
             return (
