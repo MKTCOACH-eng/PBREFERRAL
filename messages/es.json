@@ -528,26 +528,177 @@
     }
   },
   "admin": {
-    "users": {
-      "title": "Gestión de Usuarios",
-      "inviteUser": "Invitar Usuario",
-      "role": "Rol",
-      "destination": "Destino",
-      "status": "Estado",
-      "actions": "Acciones"
+    "login": {
+      "title": "Acceso Administrativo",
+      "subtitle": "Ingresa tus credenciales para continuar",
+      "email": "Email",
+      "password": "Contraseña",
+      "submit": "Ingresar al Portal",
+      "loading": "Ingresando...",
+      "footer": "Solo personal autorizado de Pueblo Bonito"
     },
-    "analytics": {
-      "title": "Analíticas",
-      "conversionRate": "Tasa de Conversión",
-      "slaCompliance": "Cumplimiento de SLA",
-      "topOwners": "Mejores Propietarios"
+    "nav": {
+      "overview": "Overview",
+      "owners": "Propietarios",
+      "referrals": "Referidos",
+      "vouchers": "Vouchers (QR)",
+      "reports": "Reportes"
     },
-    "settings": {
-      "title": "Configuración",
-      "emailTemplates": "Plantillas de Email",
-      "programSettings": "Configuración del Programa",
-      "rewardAmount": "Monto de Recompensa",
-      "rewardType": "Tipo de Recompensa"
+    "overview": {
+      "title": "Dashboard Overview",
+      "subtitle": "Vista general del programa de referidos",
+      "stats": {
+        "totalOwners": "Total Propietarios",
+        "totalReferrals": "Total Referidos",
+        "wonReferrals": "Referidos Ganados",
+        "conversionRate": "Tasa de Conversión"
+      },
+      "referralsByStatus": "Estado de Referidos",
+      "vouchersByStatus": "Estado de Vouchers ($200 Bonus)",
+      "statuses": {
+        "pending": "Pendientes",
+        "contacted": "Contactados",
+        "interested": "Interesados",
+        "won": "Ganados",
+        "lost": "Perdidos",
+        "redeemed": "Canjeados",
+        "expired": "Expirados"
+      },
+      "activity": "Actividad Reciente",
+      "noActivity": "No hay actividad reciente"
+    },
+    "owners": {
+      "title": "Propietarios",
+      "registered": "propietario registrado",
+      "registered_other": "propietarios registrados",
+      "filters": {
+        "search": "Buscar",
+        "searchPlaceholder": "Nombre, email...",
+        "destination": "Destino",
+        "status": "Estado",
+        "all": "Todos",
+        "active": "Activo",
+        "inactive": "Inactivo",
+        "clearFilters": "Limpiar filtros"
+      },
+      "table": {
+        "owner": "Propietario",
+        "destination": "Destino",
+        "referrals": "Referidos",
+        "success": "Éxito",
+        "rewards": "Recompensas",
+        "registered": "Registro",
+        "status": "Estado",
+        "actions": "Acciones",
+        "viewDetail": "Ver detalle",
+        "noResults": "No se encontraron propietarios"
+      },
+      "detail": {
+        "title": "Detalle del Propietario",
+        "personalInfo": "Información Personal",
+        "name": "Nombre",
+        "email": "Email",
+        "phone": "Teléfono",
+        "preferredDestination": "Destino Preferido",
+        "registeredDate": "Fecha de Registro",
+        "totalReferrals": "Referidos Totales",
+        "wonReferrals": "Referidos Ganados",
+        "totalRewards": "Recompensas USD",
+        "referralsHistory": "Historial de Referidos",
+        "rewardsHistory": "Historial de Recompensas",
+        "noReferrals": "No hay referidos creados",
+        "noRewards": "No hay recompensas registradas"
+      }
+    },
+    "referrals": {
+      "title": "Referidos",
+      "total": "referido en total",
+      "total_other": "referidos en total",
+      "filters": {
+        "searchGuest": "Buscar Guest",
+        "dateFrom": "Desde",
+        "dateTo": "Hasta"
+      },
+      "table": {
+        "guest": "Guest",
+        "owner": "Owner",
+        "destination": "Destino",
+        "status": "Estado",
+        "created": "Creado",
+        "viewed": "Visto",
+        "actions": "Acciones",
+        "viewDetail": "Ver detalle",
+        "notViewed": "No visto",
+        "viewedBadge": "Visto",
+        "noResults": "No se encontraron referidos"
+      },
+      "detail": {
+        "title": "Actualizar Estado del Referido",
+        "selectStatus": "Seleccionar nuevo estado:",
+        "update": "Actualizar Estado",
+        "updating": "Actualizando...",
+        "cancel": "Cancelar",
+        "successMessage": "Estado actualizado correctamente"
+      }
+    },
+    "vouchers": {
+      "title": "Vouchers ($200 F&B Bonus)",
+      "generated": "voucher generado",
+      "generated_other": "vouchers generados",
+      "infoBanner": {
+        "title": "Generar Vouchers para Referidos Ganados",
+        "description": "Los vouchers con QR se generan automáticamente cuando marcas un referido como \"Ganado\". Cada voucher tiene un código único y expira en 90 días."
+      },
+      "table": {
+        "code": "Código",
+        "guest": "Guest",
+        "owner": "Owner",
+        "amount": "Monto",
+        "destination": "Destino",
+        "status": "Estado",
+        "expires": "Expira",
+        "actions": "Acciones",
+        "viewQR": "Ver QR",
+        "redeem": "Canjear",
+        "redeeming": "Canjeando...",
+        "noResults": "No se encontraron vouchers"
+      },
+      "qr": {
+        "title": "Voucher QR Code",
+        "download": "Descargar QR",
+        "close": "Cerrar",
+        "instructions": "Instrucciones de uso:",
+        "step1": "Descarga el QR en formato PNG",
+        "step2": "Envía al guest por email o WhatsApp",
+        "step3": "El guest presenta el QR en el resort",
+        "step4": "Escanea el QR y marca como \"Canjeado\"",
+        "code": "Código",
+        "guest": "Guest",
+        "destination": "Destino",
+        "validUntil": "Válido hasta",
+        "status": "Estado",
+        "confirmRedeem": "¿Confirmar que este voucher fue canjeado?",
+        "redeemed": "Voucher marcado como canjeado"
+      }
+    },
+    "reports": {
+      "title": "Reportes y Exportación",
+      "subtitle": "Descarga datos y visualiza métricas del programa",
+      "export": {
+        "title": "Exportar Datos",
+        "owners": "Propietarios",
+        "referrals": "Referidos",
+        "vouchers": "Vouchers",
+        "records": "registros",
+        "footer": "Los archivos se descargarán en formato CSV compatible con Excel y Google Sheets"
+      },
+      "charts": {
+        "byDestination": "Rendimiento por Destino",
+        "byStatus": "Distribución por Estado",
+        "totalReferrals": "Total Referidos",
+        "won": "Ganados",
+        "conversionRate": "Tasa de Conversión"
+      }
     }
   },
   "notifications": {

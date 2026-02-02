@@ -527,26 +527,177 @@
     }
   },
   "admin": {
-    "users": {
-      "title": "User Management",
-      "inviteUser": "Invite User",
-      "role": "Role",
-      "destination": "Destination",
-      "status": "Status",
-      "actions": "Actions"
+    "login": {
+      "title": "Administrative Access",
+      "subtitle": "Enter your credentials to continue",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Enter Portal",
+      "loading": "Signing in...",
+      "footer": "Authorized Pueblo Bonito personnel only"
     },
-    "analytics": {
-      "title": "Analytics",
-      "conversionRate": "Conversion Rate",
-      "slaCompliance": "SLA Compliance",
-      "topOwners": "Top Owners"
+    "nav": {
+      "overview": "Overview",
+      "owners": "Owners",
+      "referrals": "Referrals",
+      "vouchers": "Vouchers (QR)",
+      "reports": "Reports"
     },
-    "settings": {
-      "title": "Settings",
-      "emailTemplates": "Email Templates",
-      "programSettings": "Program Settings",
-      "rewardAmount": "Reward Amount",
-      "rewardType": "Reward Type"
+    "overview": {
+      "title": "Dashboard Overview",
+      "subtitle": "General view of the referral program",
+      "stats": {
+        "totalOwners": "Total Owners",
+        "totalReferrals": "Total Referrals",
+        "wonReferrals": "Won Referrals",
+        "conversionRate": "Conversion Rate"
+      },
+      "referralsByStatus": "Referral Status",
+      "vouchersByStatus": "Voucher Status ($200 Bonus)",
+      "statuses": {
+        "pending": "Pending",
+        "contacted": "Contacted",
+        "interested": "Interested",
+        "won": "Won",
+        "lost": "Lost",
+        "redeemed": "Redeemed",
+        "expired": "Expired"
+      },
+      "activity": "Recent Activity",
+      "noActivity": "No recent activity"
+    },
+    "owners": {
+      "title": "Owners",
+      "registered": "owner registered",
+      "registered_other": "owners registered",
+      "filters": {
+        "search": "Search",
+        "searchPlaceholder": "Name, email...",
+        "destination": "Destination",
+        "status": "Status",
+        "all": "All",
+        "active": "Active",
+        "inactive": "Inactive",
+        "clearFilters": "Clear filters"
+      },
+      "table": {
+        "owner": "Owner",
+        "destination": "Destination",
+        "referrals": "Referrals",
+        "success": "Success",
+        "rewards": "Rewards",
+        "registered": "Registered",
+        "status": "Status",
+        "actions": "Actions",
+        "viewDetail": "View detail",
+        "noResults": "No owners found"
+      },
+      "detail": {
+        "title": "Owner Detail",
+        "personalInfo": "Personal Information",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone",
+        "preferredDestination": "Preferred Destination",
+        "registeredDate": "Registration Date",
+        "totalReferrals": "Total Referrals",
+        "wonReferrals": "Won Referrals",
+        "totalRewards": "Rewards USD",
+        "referralsHistory": "Referrals History",
+        "rewardsHistory": "Rewards History",
+        "noReferrals": "No referrals created",
+        "noRewards": "No rewards registered"
+      }
+    },
+    "referrals": {
+      "title": "Referrals",
+      "total": "referral total",
+      "total_other": "referrals total",
+      "filters": {
+        "searchGuest": "Search Guest",
+        "dateFrom": "From",
+        "dateTo": "To"
+      },
+      "table": {
+        "guest": "Guest",
+        "owner": "Owner",
+        "destination": "Destination",
+        "status": "Status",
+        "created": "Created",
+        "viewed": "Viewed",
+        "actions": "Actions",
+        "viewDetail": "View detail",
+        "notViewed": "Not viewed",
+        "viewedBadge": "Viewed",
+        "noResults": "No referrals found"
+      },
+      "detail": {
+        "title": "Update Referral Status",
+        "selectStatus": "Select new status:",
+        "update": "Update Status",
+        "updating": "Updating...",
+        "cancel": "Cancel",
+        "successMessage": "Status updated successfully"
+      }
+    },
+    "vouchers": {
+      "title": "Vouchers ($200 F&B Bonus)",
+      "generated": "voucher generated",
+      "generated_other": "vouchers generated",
+      "infoBanner": {
+        "title": "Generate Vouchers for Won Referrals",
+        "description": "QR vouchers are automatically generated when you mark a referral as \"Won\". Each voucher has a unique code and expires in 90 days."
+      },
+      "table": {
+        "code": "Code",
+        "guest": "Guest",
+        "owner": "Owner",
+        "amount": "Amount",
+        "destination": "Destination",
+        "status": "Status",
+        "expires": "Expires",
+        "actions": "Actions",
+        "viewQR": "View QR",
+        "redeem": "Redeem",
+        "redeeming": "Redeeming...",
+        "noResults": "No vouchers found"
+      },
+      "qr": {
+        "title": "Voucher QR Code",
+        "download": "Download QR",
+        "close": "Close",
+        "instructions": "Usage instructions:",
+        "step1": "Download the QR in PNG format",
+        "step2": "Send to guest via email or WhatsApp",
+        "step3": "Guest presents QR at the resort",
+        "step4": "Scan QR and mark as \"Redeemed\"",
+        "code": "Code",
+        "guest": "Guest",
+        "destination": "Destination",
+        "validUntil": "Valid until",
+        "status": "Status",
+        "confirmRedeem": "Confirm that this voucher was redeemed?",
+        "redeemed": "Voucher marked as redeemed"
+      }
+    },
+    "reports": {
+      "title": "Reports and Export",
+      "subtitle": "Download data and view program metrics",
+      "export": {
+        "title": "Export Data",
+        "owners": "Owners",
+        "referrals": "Referrals",
+        "vouchers": "Vouchers",
+        "records": "records",
+        "footer": "Files will be downloaded in CSV format compatible with Excel and Google Sheets"
+      },
+      "charts": {
+        "byDestination": "Performance by Destination",
+        "byStatus": "Distribution by Status",
+        "totalReferrals": "Total Referrals",
+        "won": "Won",
+        "conversionRate": "Conversion Rate"
+      }
     }
   },
   "notifications": {
