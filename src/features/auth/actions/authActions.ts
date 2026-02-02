@@ -47,7 +47,8 @@ export async function signUpWithEmail(data: {
 
     if (profileError) {
       console.error('Error creating owner profile:', profileError);
-      return { error: 'Failed to create profile' };
+      // Return more detailed error information
+      return { error: `Failed to create profile: ${profileError.message}` };
     }
   }
 

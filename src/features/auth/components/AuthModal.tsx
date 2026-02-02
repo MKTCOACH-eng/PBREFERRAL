@@ -14,6 +14,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [countryCode, setCountryCode] = useState('+52');
   const t = useTranslations('auth');
 
   // Prevent body scroll when modal is open
@@ -72,12 +73,14 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
     try {
       let result;
       if (activeTab === 'signup') {
+        const phoneNumber = formData.get('phone') as string;
+        const fullPhone = `${countryCode}${phoneNumber}`;
         const data = {
           email: formData.get('email') as string,
           password: formData.get('password') as string,
           firstName: formData.get('firstName') as string,
           lastName: formData.get('lastName') as string,
-          phone: formData.get('phone') as string,
+          phone: fullPhone,
           destination: formData.get('ownerDestination') as string,
         };
         result = await signUpWithEmail(data);
@@ -87,12 +90,15 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
         result = await signInWithEmail(email, password);
       }
 
-      if (result.error) {
+      if (result?.error) {
         setError(result.error);
         setIsLoading(false);
-      } else {
+      } else if (result?.success) {
         // Success - redirect to dashboard
         window.location.href = '/dashboard';
+      } else {
+        setError('Unexpected response from server');
+        setIsLoading(false);
       }
     } catch (err: any) {
       setError(err.message || t('errors.generic'));
@@ -224,12 +230,31 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     {t('fields.phone')}
                   </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C8A882] focus:border-transparent"
-                  />
+                  <div className="flex gap-2">
+                    <select
+                      value={countryCode}
+                      onChange={(e) => setCountryCode(e.target.value)}
+                      className="w-32 px-2 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C8A882] focus:border-transparent text-sm"
+                    >
+                      <option value="+1">🇺🇸 +1</option>
+                      <option value="+52">🇲🇽 +52</option>
+                      <option value="+1">🇨🇦 +1</option>
+                      <option value="+44">🇬🇧 +44</option>
+                      <option value="+34">🇪🇸 +34</option>
+                      <option value="+33">🇫🇷 +33</option>
+                      <option value="+49">🇩🇪 +49</option>
+                      <option value="+39">🇮🇹 +39</option>
+                      <option value="+81">🇯🇵 +81</option>
+                      <option value="+86">🇨🇳 +86</option>
+                    </select>
+                    <input
+                      type="tel"
+                      name="phone"
+                      required
+                      placeholder="123 456 7890"
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C8A882] focus:border-transparent"
+                    />
+                  </div>
                 </div>
 
                 <div>
