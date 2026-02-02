@@ -32,7 +32,7 @@ export default function HomeownerLogin() {
         <div className="bg-white shadow-2xl p-10 sm:p-12 border-t-4 border-[#C8A882]">
           {/* Title with Pueblo Bonito styling */}
           <div className="text-center mb-10">
-            <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-[#1A2332] mb-3">
+            <h2 className="text-2xl sm:text-3xl font-serif font-normal text-[#1A2332] mb-3">
               {t('title')}
             </h2>
             <div className="flex items-center justify-center gap-2 mb-4">
@@ -40,7 +40,7 @@ export default function HomeownerLogin() {
               <div className="w-1.5 h-1.5 bg-[#C8A882] rotate-45"></div>
               <div className="w-8 h-px bg-[#C8A882]"></div>
             </div>
-            <p className="text-[#6B7280] text-base">
+            <p className="text-[#6B7280] text-sm font-light">
               Enter your email to receive a secure sign-in link
             </p>
           </div>
@@ -76,7 +76,7 @@ export default function HomeownerLogin() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full px-8 py-4 bg-[#C8A882] text-[#1A2332] font-medium rounded-none hover:bg-[#A88B5F] transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-[1.02] uppercase tracking-wider text-sm"
+              className="w-full px-8 py-3 bg-[#C8A882] text-[#1A2332] font-normal rounded-none hover:bg-[#A88B5F] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg uppercase tracking-widest text-xs"
             >
               {loading ? (
                 <span className="flex items-center justify-center">

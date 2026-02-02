@@ -46,12 +46,12 @@ export default function HomeownerHero() {
           </div>
 
           {/* Hero Title */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-serif font-semibold mb-6 leading-tight tracking-wide">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-serif font-normal mb-8 leading-tight tracking-wide">
             {t('title')}
           </h1>
 
           {/* Subtitle */}
-          <p className="text-lg sm:text-xl lg:text-2xl mb-14 max-w-4xl mx-auto font-light leading-relaxed text-white/90">
+          <p className="text-base sm:text-lg lg:text-xl mb-14 max-w-4xl mx-auto font-light leading-relaxed text-white/90">
             {t('subtitle')}
           </p>
 
@@ -59,18 +59,18 @@ export default function HomeownerHero() {
           <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
             <button
               onClick={scrollToLogin}
-              className="group px-10 py-4 bg-[#C8A882] text-[#1A2332] font-medium rounded-none hover:bg-[#A88B5F] transition-all duration-500 shadow-2xl hover:shadow-[#C8A882]/50 transform hover:scale-105 uppercase tracking-wider text-sm"
+              className="group px-8 py-3 bg-[#C8A882] text-[#1A2332] font-normal rounded-none hover:bg-[#A88B5F] transition-all duration-300 shadow-lg uppercase tracking-widest text-xs"
             >
               <span className="flex items-center gap-2">
                 {t('ctaPrimary')}
-                <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </span>
             </button>
             <button
               onClick={scrollToRequirements}
-              className="px-10 py-4 bg-transparent border-2 border-[#C8A882] text-[#C8A882] font-medium rounded-none hover:bg-[#C8A882] hover:text-[#1A2332] transition-all duration-500 uppercase tracking-wider text-sm"
+              className="px-8 py-3 bg-transparent border border-[#C8A882] text-[#C8A882] font-light rounded-none hover:bg-[#C8A882] hover:text-[#1A2332] transition-all duration-300 uppercase tracking-widest text-xs"
             >
               {t('ctaSecondary')}
             </button>
