@@ -433,6 +433,49 @@
         "title": "Reservaciones Mazatlán",
         "location": "Pueblo Bonito Resorts - Mazatlán"
       }
+    },
+    "chatbot": {
+      "title": "Asistente Virtual",
+      "subtitle": "Siempre disponible",
+      "welcome": "¡Hola! Soy tu asistente virtual de Pueblo Bonito. ¿En qué puedo ayudarte hoy?",
+      "openChat": "Abrir chat",
+      "quickQuestions": "Preguntas frecuentes:",
+      "placeholder": "Escribe tu pregunta...",
+      "defaultResponse": "Gracias por tu pregunta. Para información detallada, por favor contacta a nuestro equipo de ventas: Los Cabos +52 (624) 145-5400 | Mazatlán +52 (669) 989-8900 | info@pueblobonito.com",
+      "faqs": {
+        "resorts": {
+          "question": "¿Cuántos resorts tiene Pueblo Bonito?",
+          "answer": "Pueblo Bonito opera 8 resorts de lujo todo incluido: 5 en Los Cabos (Sunset Beach, Pacifica, Rose, Blanco, Los Cabos) y 3 en Mazatlán (Emerald Bay, Mazatlán, Vantage). Cada resort tiene características únicas - algunos son ideales para familias, otros para escapadas románticas, y Pacifica es solo para adultos."
+        },
+        "included": {
+          "question": "¿Qué incluye el plan todo incluido?",
+          "answer": "Nuestro plan 'Lujo Sin Límites' incluye: alojamiento de lujo, gastronomía gourmet en múltiples restaurantes, bebidas premium ilimitadas, actividades acuáticas, clases de cocina, catas de vino, entretenimiento nocturno, acceso a albercas infinity, Wi-Fi, y más. Sin cargos ocultos ni sorpresas."
+        },
+        "quivira": {
+          "question": "¿Qué es Quivira Golf Club?",
+          "answer": "Quivira es un campo de golf firma de Jack Nicklaus, reconocido por Golf Digest como uno de los '100 Mejores Campos del Mundo'. Exclusivo para propietarios de Quivira y huéspedes de Pueblo Bonito. Cuenta con vistas al océano desde cada hoyo, restaurante Quivira Steakhouse, y PGA professionals. Membresías desde $75,000 USD + cuota anual."
+        },
+        "booking": {
+          "question": "¿Cómo puedo reservar?",
+          "answer": "Puedes reservar por teléfono o en línea. Ofrecemos Garantía de Mejor Tarifa. Opciones: pago completo o depósito de 1 noche. Cancelación gratuita disponible. Los Cabos: +52 (624) 145-5400 | Mazatlán: +52 (669) 989-8900 | USA: 1-800-990-8250"
+        },
+        "family": {
+          "question": "¿Son resorts familiares?",
+          "answer": "Sí, la mayoría de nuestros resorts son family-friendly con albercas para niños, actividades, y menús especiales. Rose, Blanco, Los Cabos, Sunset Beach y Emerald Bay son ideales para familias. Pacifica Golf & Spa Resort es exclusivamente para adultos (18+)."
+        },
+        "spa": {
+          "question": "¿Qué servicios de spa ofrecen?",
+          "answer": "Armonia Spa está votado entre los 5 Mejores Spas del Mundo. Ofrecemos tratamientos de clase mundial: masajes, aromaterapia, faciales, hydrotherapy, tratamientos con piedras calientes, y más. Ubicado en varios resorts con vistas al océano. Reservaciones recomendadas."
+        },
+        "ownership": {
+          "question": "¿Puedo comprar una propiedad?",
+          "answer": "Sí, Quivira Los Cabos ofrece oportunidades de propiedad completa y fraccional en 1,850 acres. Los propietarios reciben acceso a Pueblo Bonito resorts, Quivira Golf Club, y todas las amenidades Q Life. Contacto Real Estate: 1-866-578-4847 | info@quiviraloscabos.com"
+        },
+        "location": {
+          "question": "¿Dónde están ubicados?",
+          "answer": "Los Cabos: En la punta de la península de Baja California, donde el desierto se encuentra con el mar. Aeropuerto Internacional (SJD) a 30-45 min. Mazatlán: En la costa del Pacífico, 'La Perla del Pacífico'. Aeropuerto Internacional (MZT) a 20 min. Ambos destinos con clima cálido todo el año."
+        }
+      }
     }
   },
   "shareLink": {

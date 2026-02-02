@@ -432,6 +432,49 @@
         "title": "Reservations Mazatlán",
         "location": "Pueblo Bonito Resorts - Mazatlán"
       }
+    },
+    "chatbot": {
+      "title": "Virtual Assistant",
+      "subtitle": "Always available",
+      "welcome": "Hello! I'm your Pueblo Bonito virtual assistant. How can I help you today?",
+      "openChat": "Open chat",
+      "quickQuestions": "Frequent questions:",
+      "placeholder": "Type your question...",
+      "defaultResponse": "Thank you for your question. For detailed information, please contact our sales team: Los Cabos +52 (624) 145-5400 | Mazatlán +52 (669) 989-8900 | info@pueblobonito.com",
+      "faqs": {
+        "resorts": {
+          "question": "How many resorts does Pueblo Bonito have?",
+          "answer": "Pueblo Bonito operates 8 luxury all-inclusive resorts: 5 in Los Cabos (Sunset Beach, Pacifica, Rose, Blanco, Los Cabos) and 3 in Mazatlán (Emerald Bay, Mazatlán, Vantage). Each resort has unique characteristics - some are family-friendly, others for romantic getaways, and Pacifica is adults-only."
+        },
+        "included": {
+          "question": "What's included in the all-inclusive plan?",
+          "answer": "Our 'Luxury Without Limitations' plan includes: luxury accommodations, gourmet dining at multiple restaurants, unlimited premium drinks, water activities, cooking classes, wine tastings, nightly entertainment, access to infinity pools, Wi-Fi, and more. No hidden fees or surprises."
+        },
+        "quivira": {
+          "question": "What is Quivira Golf Club?",
+          "answer": "Quivira is a Jack Nicklaus Signature golf course, recognized by Golf Digest as one of the 'World's 100 Greatest Golf Courses.' Exclusive to Quivira owners and Pueblo Bonito guests. Features ocean views from every hole, Quivira Steakhouse, and PGA professionals. Memberships from $75,000 USD + annual dues."
+        },
+        "booking": {
+          "question": "How can I book?",
+          "answer": "You can book by phone or online. We offer Best Rate Guarantee. Options: full payment or 1-night deposit. Free cancellation available. Los Cabos: +52 (624) 145-5400 | Mazatlán: +52 (669) 989-8900 | USA: 1-800-990-8250"
+        },
+        "family": {
+          "question": "Are they family-friendly resorts?",
+          "answer": "Yes, most of our resorts are family-friendly with children's pools, activities, and special menus. Rose, Blanco, Los Cabos, Sunset Beach, and Emerald Bay are ideal for families. Pacifica Golf & Spa Resort is exclusively for adults (18+)."
+        },
+        "spa": {
+          "question": "What spa services do you offer?",
+          "answer": "Armonia Spa is voted among the World's Top 5 Best Spas. We offer world-class treatments: massages, aromatherapy, facials, hydrotherapy, hot stone treatments, and more. Located at several resorts with ocean views. Reservations recommended."
+        },
+        "ownership": {
+          "question": "Can I buy a property?",
+          "answer": "Yes, Quivira Los Cabos offers full and fractional ownership opportunities on 1,850 acres. Owners receive access to Pueblo Bonito resorts, Quivira Golf Club, and all Q Life amenities. Real Estate Contact: 1-866-578-4847 | info@quiviraloscabos.com"
+        },
+        "location": {
+          "question": "Where are they located?",
+          "answer": "Los Cabos: At the tip of the Baja California peninsula, where the desert meets the sea. International Airport (SJD) 30-45 min away. Mazatlán: On the Pacific coast, 'The Pearl of the Pacific.' International Airport (MZT) 20 min away. Both destinations with warm weather year-round."
+        }
+      }
     }
   },
   "shareLink": {
