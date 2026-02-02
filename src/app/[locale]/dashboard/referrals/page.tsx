@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import ReferralRow from '@/features/dashboard/components/ReferralRow';
 
 export default async function ReferralsPage() {
   const supabase = await createClient();
@@ -53,38 +54,14 @@ export default async function ReferralsPage() {
                   <th className="px-6 py-4 text-left text-xs font-light text-gray-500 uppercase tracking-wider">
                     Fecha
                   </th>
+                  <th className="px-6 py-4 text-left text-xs font-light text-gray-500 uppercase tracking-wider">
+                    Acciones
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {referrals.map((referral) => (
-                  <tr key={referral.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="font-light text-gray-900">
-                        {referral.guest_first_name} {referral.guest_last_name}
-                      </div>
-                      <div className="text-sm font-light text-gray-500">
-                        {referral.guest_email}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 font-light text-gray-900">
-                      {referral.destination}
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className={`inline-flex px-3 py-1 rounded-full text-xs font-light ${
-                        referral.status === 'completed' 
-                          ? 'bg-green-100 text-green-800'
-                          : referral.status === 'pending'
-                          ? 'bg-yellow-100 text-yellow-800'
-                          : 'bg-gray-100 text-gray-800'
-                      }`}>
-                        {referral.status === 'pending' ? 'Pendiente' : 
-                         referral.status === 'completed' ? 'Completado' : referral.status}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 font-light text-gray-500 text-sm">
-                      {new Date(referral.created_at).toLocaleDateString('es-MX')}
-                    </td>
-                  </tr>
+                  <ReferralRow key={referral.id} referral={referral} />
                 ))}
               </tbody>
             </table>

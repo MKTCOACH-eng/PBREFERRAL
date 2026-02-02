@@ -189,6 +189,134 @@ export async function signOut() {
   return { success: true };
 }
 
+export async function updateReferral(
+  referralId: string,
+  data: {
+    guestFirstName?: string;
+    guestLastName?: string;
+    guestEmail?: string;
+    guestPhone?: string;
+    destination?: string;
+    specialRequests?: string;
+  }
+) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { error: 'No autenticado' };
+  }
+
+  try {
+    const adminClient = createAdminClient();
+    
+    // Verify ownership
+    const { data: owner } = await adminClient
+      .from('owners')
+      .select('id')
+      .eq('user_id', user.id)
+      .single();
+
+    if (!owner) {
+      return { error: 'Perfil no encontrado' };
+    }
+
+    const { data: referral } = await adminClient
+      .from('referrals')
+      .select('owner_id')
+      .eq('id', referralId)
+      .single();
+
+    if (!referral || referral.owner_id !== owner.id) {
+      return { error: 'No tienes permiso para editar este referido' };
+    }
+
+    // Update referral
+    const updateData: any = {};
+    if (data.guestFirstName !== undefined) updateData.guest_first_name = data.guestFirstName;
+    if (data.guestLastName !== undefined) updateData.guest_last_name = data.guestLastName;
+    if (data.guestEmail !== undefined) updateData.guest_email = data.guestEmail;
+    if (data.guestPhone !== undefined) updateData.guest_phone = data.guestPhone;
+    if (data.destination !== undefined) updateData.destination = data.destination;
+    if (data.specialRequests !== undefined) updateData.special_requests = data.specialRequests;
+
+    const { error: updateError } = await adminClient
+      .from('referrals')
+      .update(updateData)
+      .eq('id', referralId);
+
+    if (updateError) {
+      console.error('Error updating referral:', updateError);
+      return { error: `Error al actualizar: ${updateError.message}` };
+    }
+
+    revalidatePath('/dashboard/referrals');
+    revalidatePath('/dashboard');
+    return { success: true };
+    
+  } catch (error: any) {
+    console.error('Unexpected error updating referral:', error);
+    return { error: `Error inesperado: ${error.message}` };
+  }
+}
+
+export async function deleteReferral(referralId: string) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { error: 'No autenticado' };
+  }
+
+  try {
+    const adminClient = createAdminClient();
+    
+    // Verify ownership
+    const { data: owner } = await adminClient
+      .from('owners')
+      .select('id')
+      .eq('user_id', user.id)
+      .single();
+
+    if (!owner) {
+      return { error: 'Perfil no encontrado' };
+    }
+
+    const { data: referral } = await adminClient
+      .from('referrals')
+      .select('owner_id, status')
+      .eq('id', referralId)
+      .single();
+
+    if (!referral || referral.owner_id !== owner.id) {
+      return { error: 'No tienes permiso para eliminar este referido' };
+    }
+
+    // Only allow deletion of pending referrals
+    if (referral.status !== 'pending') {
+      return { error: 'Solo puedes eliminar referidos pendientes' };
+    }
+
+    const { error: deleteError } = await adminClient
+      .from('referrals')
+      .delete()
+      .eq('id', referralId);
+
+    if (deleteError) {
+      console.error('Error deleting referral:', deleteError);
+      return { error: `Error al eliminar: ${deleteError.message}` };
+    }
+
+    revalidatePath('/dashboard/referrals');
+    revalidatePath('/dashboard');
+    return { success: true };
+    
+  } catch (error: any) {
+    console.error('Unexpected error deleting referral:', error);
+    return { error: `Error inesperado: ${error.message}` };
+  }
+}
+
 export async function createReferral(data: {
   guestFirstName: string;
   guestLastName: string;
