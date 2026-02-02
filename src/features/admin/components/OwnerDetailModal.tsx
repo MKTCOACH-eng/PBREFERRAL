@@ -234,6 +234,6 @@ export default function OwnerDetailModal({
           ) : null}
         </div>
       </div>
-    </>
+    </div>
   );
 }
