@@ -1,24 +1,30 @@
 import { createServerClient } from '@supabase/ssr';
-import { NextRequest, NextResponse } from 'next/server';
-import createMiddleware from 'next-intl/middleware';
+import { type NextRequest, NextResponse } from 'next/server';
+import createIntlMiddleware from 'next-intl/middleware';
 import { routing } from './i18n/routing';
 
 // Admin routes that require authentication and admin role
-const adminRoutes = ['/admin/dashboard'];
+const adminRoutes = ['/admin/dashboard', '/admin/login'];
 
 // Owner routes that require authentication
 const protectedRoutes = ['/dashboard'];
 
-export async function middleware(request: NextRequest) {
+export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // First, handle internationalization
-  const intlMiddleware = createMiddleware(routing);
-  let response = intlMiddleware(request);
+  const intlMiddleware = createIntlMiddleware(routing);
+  const intlResponse = intlMiddleware(request);
 
-  // Check if it's an admin route
+  // Check if it's an admin or protected route
   const isAdminRoute = adminRoutes.some(route => pathname.includes(route));
   const isProtectedRoute = protectedRoutes.some(route => pathname.includes(route));
+  const isAdminLoginRoute = pathname.includes('/admin/login');
+
+  // Skip auth check for admin login page
+  if (isAdminLoginRoute) {
+    return intlResponse;
+  }
 
   if (isAdminRoute || isProtectedRoute) {
     // Create a Supabase client
@@ -80,7 +86,7 @@ export async function middleware(request: NextRequest) {
     return supabaseResponse;
   }
 
-  return response;
+  return intlResponse;
 }
 
 export const config = {
