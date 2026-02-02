@@ -19,9 +19,9 @@ export default function Header() {
               <Image
                 src="/Pueblo_Bonito_Beyond_Hospitality_RGB.png"
                 alt="Pueblo Bonito"
-                width={180}
-                height={60}
-                className="h-12 w-auto"
+                width={240}
+                height={80}
+                className="h-16 w-auto sm:h-20"
                 priority
               />
             </a>

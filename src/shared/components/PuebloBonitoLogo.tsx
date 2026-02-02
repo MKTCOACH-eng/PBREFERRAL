@@ -6,9 +6,9 @@ export default function PuebloBonitoLogo({ className = "" }: { className?: strin
       <Image
         src="/Pueblo_Bonito_Beyond_Hospitality_RGB.png"
         alt="Pueblo Bonito - Beyond Hospitality"
-        width={280}
-        height={100}
-        className="w-auto h-20 sm:h-24"
+        width={400}
+        height={140}
+        className="w-auto h-28 sm:h-32 lg:h-36"
         priority
       />
     </div>
