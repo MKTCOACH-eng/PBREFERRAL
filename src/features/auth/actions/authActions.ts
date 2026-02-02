@@ -79,7 +79,9 @@ export async function signUpWithEmail(data: {
       }
     }
 
-    revalidatePath('/dashboard');
+    // Revalidate for both locales
+    revalidatePath('/es/dashboard');
+    revalidatePath('/en/dashboard');
     return { success: true };
     
   } catch (error: any) {
@@ -101,7 +103,9 @@ export async function signInWithEmail(email: string, password: string) {
     return { error: error.message };
   }
 
-  revalidatePath('/dashboard');
+  // Revalidate for both locales
+  revalidatePath('/es/dashboard');
+  revalidatePath('/en/dashboard');
   return { success: true };
 }
 
@@ -172,7 +176,9 @@ export async function completeOwnerProfile(formData: FormData) {
     return { error: 'Failed to create profile' };
   }
 
-  revalidatePath('/dashboard');
+  // Revalidate for both locales
+  revalidatePath('/es/dashboard');
+  revalidatePath('/en/dashboard');
   return { success: true };
 }
 
@@ -250,8 +256,11 @@ export async function updateReferral(
       return { error: `Error al actualizar: ${updateError.message}` };
     }
 
-    revalidatePath('/dashboard/referrals');
-    revalidatePath('/dashboard');
+    // Revalidate for both locales
+    revalidatePath('/es/dashboard/referrals');
+    revalidatePath('/es/dashboard');
+    revalidatePath('/en/dashboard/referrals');
+    revalidatePath('/en/dashboard');
     return { success: true };
     
   } catch (error: any) {
@@ -307,8 +316,11 @@ export async function deleteReferral(referralId: string) {
       return { error: `Error al eliminar: ${deleteError.message}` };
     }
 
-    revalidatePath('/dashboard/referrals');
-    revalidatePath('/dashboard');
+    // Revalidate for both locales
+    revalidatePath('/es/dashboard/referrals');
+    revalidatePath('/es/dashboard');
+    revalidatePath('/en/dashboard/referrals');
+    revalidatePath('/en/dashboard');
     return { success: true };
     
   } catch (error: any) {
@@ -431,8 +443,11 @@ export async function createReferral(data: {
       // Don't fail the referral creation if emails fail
     }
 
-    revalidatePath('/dashboard/referrals');
-    revalidatePath('/dashboard');
+    // Revalidate for both locales
+    revalidatePath('/es/dashboard/referrals');
+    revalidatePath('/es/dashboard');
+    revalidatePath('/en/dashboard/referrals');
+    revalidatePath('/en/dashboard');
     return { success: true };
     
   } catch (error: any) {

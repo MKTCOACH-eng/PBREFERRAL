@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
+import { usePathname } from 'next/navigation';
 import { signUpWithEmail, signInWithEmail, signInWithGoogle, signInWithFacebook } from '@/features/auth/actions/authActions';
 
 interface AuthModalProps {
@@ -13,6 +14,8 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
   const [activeTab, setActiveTab] = useState<'signup' | 'signin'>('signup');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const pathname = usePathname();
+  const locale = pathname?.split('/')[1] || 'es';
   const [showPassword, setShowPassword] = useState(false);
   const [countryCode, setCountryCode] = useState('+52');
   const t = useTranslations('auth');
@@ -94,8 +97,8 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
         setError(result.error);
         setIsLoading(false);
       } else if (result?.success) {
-        // Success - redirect to dashboard
-        window.location.href = '/dashboard';
+        // Success - redirect to dashboard with locale
+        window.location.href = `/${locale}/dashboard`;
       } else {
         setError('Unexpected response from server');
         setIsLoading(false);
