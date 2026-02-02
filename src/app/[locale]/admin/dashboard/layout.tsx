@@ -8,12 +8,13 @@ export default async function AdminDashboardLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
   const result = await getAdminProfile();
 
   if (result.error || !result.admin) {
-    redirect(`/${params.locale}/admin/login`);
+    redirect(`/${locale}/admin/login`);
   }
 
   return (

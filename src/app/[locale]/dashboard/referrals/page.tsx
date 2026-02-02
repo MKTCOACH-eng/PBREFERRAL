@@ -9,13 +9,14 @@ export default async function ReferralsPage({
   params,
   searchParams,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{ status?: string; destination?: string; sortBy?: string }>;
 }) {
+  const { locale } = await params;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const t = await getTranslations('referrals.list');
-  const params = await searchParams;
+  const searchParamsData = await searchParams;
 
   if (!user) {
     return null;
@@ -36,16 +37,16 @@ export default async function ReferralsPage({
     .eq('owner_id', owner?.id || '');
 
   // Apply filters
-  if (params.status && params.status !== 'all') {
-    query = query.eq('status', params.status);
+  if (searchParamsData.status && searchParamsData.status !== 'all') {
+    query = query.eq('status', searchParamsData.status);
   }
   
-  if (params.destination && params.destination !== 'all') {
-    query = query.eq('destination', params.destination);
+  if (searchParamsData.destination && searchParamsData.destination !== 'all') {
+    query = query.eq('destination', searchParamsData.destination);
   }
 
   // Apply sorting
-  const sortBy = params.sortBy || 'newest';
+  const sortBy = searchParamsData.sortBy || 'newest';
   if (sortBy === 'newest') {
     query = query.order('created_at', { ascending: false });
   } else if (sortBy === 'oldest') {
@@ -115,7 +116,7 @@ export default async function ReferralsPage({
               {t('empty.description')}
             </p>
             <Link
-              href={`/${params.locale}/dashboard/referrals/new`}
+              href={`/${locale}/dashboard/referrals/new`}
               className="inline-block px-6 py-3 bg-[#C8A882] text-white font-light rounded-lg hover:bg-[#B89872] transition-all"
             >
               {t('empty.button')}

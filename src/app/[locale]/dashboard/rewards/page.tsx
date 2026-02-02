@@ -6,8 +6,9 @@ import Link from 'next/link';
 export default async function RewardsPage({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const t = await getTranslations('rewards');
@@ -140,7 +141,7 @@ export default async function RewardsPage({
               {t('empty.description')}
             </p>
             <Link
-              href={`/${params.locale}/dashboard/referrals/new`}
+              href={`/${locale}/dashboard/referrals/new`}
               className="inline-block px-6 py-3 bg-[#C8A882] text-white font-light rounded-lg hover:bg-[#B89872] transition-all"
             >
               {t('empty.button')}

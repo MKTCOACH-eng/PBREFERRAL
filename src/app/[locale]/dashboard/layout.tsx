@@ -9,14 +9,15 @@ export default async function DashboardLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   // Redirect to homeowner if not authenticated
   if (!user) {
-    redirect(`/${params.locale}/homeowner`);
+    redirect(`/${locale}/homeowner`);
   }
 
   return (

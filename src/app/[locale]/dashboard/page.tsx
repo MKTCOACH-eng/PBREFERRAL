@@ -7,8 +7,9 @@ import Link from 'next/link';
 export default async function DashboardPage({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const t = await getTranslations('dashboard');
@@ -98,7 +99,7 @@ export default async function DashboardPage({
             {t('quickActions.description')}
           </p>
           <Link
-            href={`/${params.locale}/dashboard/referrals/new`}
+            href={`/${locale}/dashboard/referrals/new`}
             className="inline-block px-8 py-3 bg-[#C8A882] text-white font-light rounded-lg hover:bg-[#B89872] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
           >
             {t('quickActions.button')}
