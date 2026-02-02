@@ -175,6 +175,19 @@ export async function completeOwnerProfile(formData: FormData) {
   return { success: true };
 }
 
+export async function signOut() {
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signOut();
+  
+  if (error) {
+    console.error('Error signing out:', error);
+    return { error: error.message };
+  }
+  
+  revalidatePath('/');
+  return { success: true };
+}
+
 export async function createReferral(data: {
   guestFirstName: string;
   guestLastName: string;

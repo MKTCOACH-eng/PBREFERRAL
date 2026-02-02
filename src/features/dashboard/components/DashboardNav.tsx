@@ -1,12 +1,16 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
+import { signOut } from '@/features/auth/actions/authActions';
+import { useState } from 'react';
 
 export default function DashboardNav() {
   const pathname = usePathname();
+  const router = useRouter();
   const t = useTranslations('dashboard.nav');
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const navItems = [
     { href: '/dashboard', label: t('overview') },
@@ -15,6 +19,17 @@ export default function DashboardNav() {
     { href: '/dashboard/rewards', label: t('myRewards') },
     { href: '/dashboard/account', label: t('myAccount') },
   ];
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    const result = await signOut();
+    if (result.success) {
+      router.push('/homeowner');
+    } else {
+      setIsLoggingOut(false);
+      alert('Error al cerrar sesión');
+    }
+  };
 
   return (
     <nav className="bg-white rounded-lg shadow-sm border border-gray-100">
@@ -39,6 +54,17 @@ export default function DashboardNav() {
               </Link>
             );
           })}
+        </div>
+        
+        {/* Logout Button */}
+        <div className="mt-6 pt-6 border-t border-gray-100">
+          <button
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+            className="w-full px-4 py-3 rounded-lg transition-all font-light text-red-600 hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isLoggingOut ? 'Cerrando sesión...' : 'Cerrar Sesión'}
+          </button>
         </div>
       </div>
     </nav>
