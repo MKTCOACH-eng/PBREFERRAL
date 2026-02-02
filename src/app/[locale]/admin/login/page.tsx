@@ -19,7 +19,7 @@ export default async function AdminLoginPage() {
       .single();
 
     if (admin) {
-      redirect('/admin/dashboard');
+      redirect('/es/admin/dashboard');
     }
   }
 

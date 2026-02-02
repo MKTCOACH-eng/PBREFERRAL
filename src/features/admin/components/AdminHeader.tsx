@@ -21,7 +21,7 @@ export default function AdminHeader({ admin }: { admin: Admin }) {
     setIsLoggingOut(true);
     const result = await signOut();
     if (result.success) {
-      router.push('/admin/login');
+      router.push('/es/admin/login');
       router.refresh();
     } else {
       setIsLoggingOut(false);

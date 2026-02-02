@@ -50,10 +50,13 @@ export async function middleware(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser();
 
     if (!user) {
-      // Redirect to login
+      // Get locale from pathname (e.g., /es/admin/dashboard -> es)
+      const locale = pathname.split('/')[1] || 'es';
+      
+      // Redirect to login with locale
       const redirectUrl = isAdminRoute 
-        ? new URL('/admin/login', request.url)
-        : new URL('/homeowner', request.url);
+        ? new URL(`/${locale}/admin/login`, request.url)
+        : new URL(`/${locale}/homeowner`, request.url);
       return NextResponse.redirect(redirectUrl);
     }
 
@@ -67,8 +70,9 @@ export async function middleware(request: NextRequest) {
         .single();
 
       if (!admin) {
-        // Not an admin, redirect to homeowner
-        const redirectUrl = new URL('/homeowner', request.url);
+        // Not an admin, redirect to homeowner with locale
+        const locale = pathname.split('/')[1] || 'es';
+        const redirectUrl = new URL(`/${locale}/homeowner`, request.url);
         return NextResponse.redirect(redirectUrl);
       }
     }

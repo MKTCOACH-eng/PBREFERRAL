@@ -1,11 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { signInAsAdmin } from '@/features/admin/actions/adminActions';
 
 export default function AdminLoginForm() {
   const router = useRouter();
+  const pathname = usePathname();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -26,8 +27,11 @@ export default function AdminLoginForm() {
         return;
       }
 
-      // Redirect to admin dashboard
-      router.push('/admin/dashboard');
+      // Get locale from current path (e.g., /es/admin/login -> es)
+      const locale = pathname?.split('/')[1] || 'es';
+      
+      // Redirect to admin dashboard with locale
+      router.push(`/${locale}/admin/dashboard`);
       router.refresh();
     } catch (err: any) {
       setError(err.message || 'Error al iniciar sesión');
