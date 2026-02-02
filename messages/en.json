@@ -477,6 +477,17 @@
       }
     }
   },
+  "footer": {
+    "resorts": "Our Resorts",
+    "contact": "Contact",
+    "follow": "Follow Us",
+    "followDescription": "Follow us on social media to stay up to date with exclusive offers, news and more.",
+    "privacy": "Privacy Policy",
+    "accessibility": "Accessibility Statement",
+    "terms": "Terms and Conditions",
+    "copyright": "© {year} Pueblo Bonito Resorts. All rights reserved.",
+    "visitSite": "Visit the official Pueblo Bonito website"
+  },
   "shareLink": {
     "title": "Share Your Referral Link",
     "description": "Share this unique link with friends and family. When they register, you'll automatically be credited as the referrer.",

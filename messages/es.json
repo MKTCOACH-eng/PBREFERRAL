@@ -478,6 +478,17 @@
       }
     }
   },
+  "footer": {
+    "resorts": "Nuestros Resorts",
+    "contact": "Contacto",
+    "follow": "Síguenos",
+    "followDescription": "Síguenos en nuestras redes sociales para estar al tanto de ofertas exclusivas, noticias y más.",
+    "privacy": "Política de privacidad",
+    "accessibility": "Declaración de accesibilidad",
+    "terms": "Términos y condiciones",
+    "copyright": "© {year} Pueblo Bonito Resorts. Reservados todos los derechos.",
+    "visitSite": "Visita el sitio oficial de Pueblo Bonito"
+  },
   "shareLink": {
     "title": "Comparte tu Enlace de Referido",
     "description": "Comparte este enlace único con amigos y familiares. Cuando se registren, automáticamente se te acreditará como el referidor.",

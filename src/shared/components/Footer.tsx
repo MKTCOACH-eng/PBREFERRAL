@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 
 export default function Footer() {
-  const t = useTranslations('common');
+  const t = useTranslations('footer');
 
   return (
     <footer className="bg-[#1A2332] text-white">
@@ -13,7 +13,7 @@ export default function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
             {/* Resorts Column */}
             <div>
-              <h4 className="text-xl font-serif mb-6 text-[#C8A882]">Nuestros Resorts</h4>
+              <h4 className="text-xl font-serif mb-6 text-[#C8A882]">{t('resorts')}</h4>
               <div className="space-y-4">
                 <div>
                   <p className="text-white font-medium mb-2">Los Cabos</p>
@@ -86,9 +86,9 @@ export default function Footer() {
 
             {/* Social Media Column */}
             <div>
-              <h4 className="text-xl font-serif mb-6 text-[#C8A882]">Síguenos</h4>
+              <h4 className="text-xl font-serif mb-6 text-[#C8A882]">{t('follow')}</h4>
               <p className="text-sm text-white/70 mb-6">
-                Síguenos en nuestras redes sociales para estar al tanto de ofertas exclusivas, noticias y más.
+                {t('followDescription')}
               </p>
               <div className="flex flex-wrap gap-4">
                 <a href="https://www.facebook.com/PuebloBonitoResort" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 hover:bg-[#C8A882] flex items-center justify-center transition-all duration-200">
@@ -134,21 +134,21 @@ export default function Footer() {
             {/* Links */}
             <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-white/60">
               <a href="https://www.pueblobonito.com.mx/politica-de-privacidad" target="_blank" rel="noopener noreferrer" className="hover:text-[#C8A882] transition-colors">
-                Política de privacidad
+                {t('privacy')}
               </a>
               <span className="text-white/30">•</span>
               <a href="https://www.pueblobonito.com.mx/declaracion-de-accesibilidad" target="_blank" rel="noopener noreferrer" className="hover:text-[#C8A882] transition-colors">
-                Declaración de accesibilidad
+                {t('accessibility')}
               </a>
               <span className="text-white/30">•</span>
               <a href="https://www.pueblobonito.com.mx/terminos-y-condiciones" target="_blank" rel="noopener noreferrer" className="hover:text-[#C8A882] transition-colors">
-                Términos y condiciones
+                {t('terms')}
               </a>
             </div>
             
             {/* Copyright */}
             <div className="text-sm text-white/50 text-center">
-              © {new Date().getFullYear()} Pueblo Bonito Resorts. Reservados todos los derechos.
+              {t('copyright', { year: new Date().getFullYear() })}
             </div>
             
             {/* Main Site Link */}
@@ -159,7 +159,7 @@ export default function Footer() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center text-sm text-[#C8A882] hover:text-[#B89872] transition-colors font-medium"
               >
-                Visita el sitio oficial de Pueblo Bonito
+                {t('visitSite')}
                 <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
