@@ -24,14 +24,14 @@ export default function Header() {
   return (
     <header className="bg-[#1A2332]/95 backdrop-blur-sm sticky top-0 z-50 border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-24 sm:h-28">
           {/* Logo */}
           <div className="flex-shrink-0">
             <a href="https://www.pueblobonito.com.mx/" target="_blank" rel="noopener noreferrer">
               <img 
                 src="/logo.svg" 
                 alt="Pueblo Bonito" 
-                className="h-12 w-auto sm:h-14 brightness-0 invert"
+                className="h-16 w-auto sm:h-20 lg:h-24 brightness-0 invert"
               />
             </a>
           </div>
