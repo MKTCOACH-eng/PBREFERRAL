@@ -18,6 +18,39 @@
     "language": "Idioma",
     "access": "Acceso"
   },
+  "auth": {
+    "tabs": {
+      "signup": "Registrarse",
+      "signin": "Iniciar Sesión"
+    },
+    "social": {
+      "google": "Continuar con Google",
+      "facebook": "Continuar con Facebook"
+    },
+    "divider": "o continuar con correo",
+    "fields": {
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "phone": "Teléfono",
+      "email": "Correo Electrónico",
+      "password": "Contraseña",
+      "destination": "Destino del Propietario",
+      "selectDestination": "Selecciona tu destino..."
+    },
+    "consent": {
+      "dataProcessing": "Acepto recibir mensajes transaccionales relacionados con mi cuenta",
+      "newsletter": "Me gustaría recibir mensajes de marketing y promocionales"
+    },
+    "buttons": {
+      "signup": "Crear Cuenta",
+      "signin": "Iniciar Sesión"
+    },
+    "loading": "Cargando...",
+    "errors": {
+      "generic": "Ocurrió un error. Por favor, inténtalo de nuevo.",
+      "socialAuth": "Error al autenticar. Por favor, inténtalo de nuevo."
+    }
+  },
   "homeowner": {
     "hero": {
       "title": "Envía tu Referido. Gana tu Recompensa.",
@@ -45,35 +78,6 @@
       "step1": "Refiere amigos y familiares",
       "step2": "Se convierten en propietarios",
       "step3": "Ganas $200 USD en crédito"
-    },
-    "auth": {
-      "signUp": "Registrarse",
-      "signIn": "Iniciar Sesión",
-      "continueWithGoogle": "Continuar con Google",
-      "continueWithFacebook": "Continuar con Facebook",
-      "orContinueWith": "o continuar con correo",
-      "firstName": "Nombre",
-      "lastName": "Apellido",
-      "phone": "Teléfono",
-      "email": "Correo Electrónico",
-      "password": "Contraseña",
-      "confirmPassword": "Confirmar Contraseña",
-      "destination": "Destino del Propietario",
-      "selectDestination": "Selecciona tu destino...",
-      "passwordHint": "Mínimo 6 caracteres",
-      "passwordMismatch": "Las contraseñas no coinciden",
-      "consentRequired": "Debes aceptar recibir mensajes transaccionales",
-      "consentTransactional": "Acepto recibir mensajes transaccionales relacionados con mi cuenta",
-      "consentMarketing": "Acepto recibir mensajes de marketing y promocionales",
-      "termsAgreement": "Al enviar este formulario, aceptas nuestra",
-      "privacyPolicy": "Política de Privacidad",
-      "and": "y",
-      "termsOfService": "Términos de Servicio",
-      "createAccount": "Crear Cuenta",
-      "signInButton": "Iniciar Sesión",
-      "forgotPassword": "¿Olvidaste tu contraseña?",
-      "loading": "Cargando...",
-      "errorMessage": "Ocurrió un error. Por favor intenta de nuevo."
     },
     "enrollment": {
       "title": "¿Nuevo Propietario? Regístrate Aquí",

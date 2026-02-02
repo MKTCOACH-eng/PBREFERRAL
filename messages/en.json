@@ -18,6 +18,39 @@
     "language": "Language",
     "access": "Access"
   },
+  "auth": {
+    "tabs": {
+      "signup": "Sign Up",
+      "signin": "Sign In"
+    },
+    "social": {
+      "google": "Continue with Google",
+      "facebook": "Continue with Facebook"
+    },
+    "divider": "or continue with email",
+    "fields": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "phone": "Phone",
+      "email": "Email",
+      "password": "Password",
+      "destination": "Owner Destination",
+      "selectDestination": "Select your destination..."
+    },
+    "consent": {
+      "dataProcessing": "I consent to receive transactional messages related to my account",
+      "newsletter": "I would like to receive marketing and promotional messages"
+    },
+    "buttons": {
+      "signup": "Create Account",
+      "signin": "Sign In"
+    },
+    "loading": "Loading...",
+    "errors": {
+      "generic": "An error occurred. Please try again.",
+      "socialAuth": "Failed to authenticate. Please try again."
+    }
+  },
   "homeowner": {
     "hero": {
       "title": "Submit Your Referral. Earn Your Reward.",
@@ -45,35 +78,6 @@
       "step1": "Refer friends & family",
       "step2": "They become owners",
       "step3": "Earn $200 F&B credit"
-    },
-    "auth": {
-      "signUp": "Sign Up",
-      "signIn": "Sign In",
-      "continueWithGoogle": "Continue with Google",
-      "continueWithFacebook": "Continue with Facebook",
-      "orContinueWith": "or continue with email",
-      "firstName": "First Name",
-      "lastName": "Last Name",
-      "phone": "Phone",
-      "email": "Email",
-      "password": "Password",
-      "confirmPassword": "Confirm Password",
-      "destination": "Owner Destination",
-      "selectDestination": "Select your destination...",
-      "passwordHint": "Minimum 6 characters",
-      "passwordMismatch": "Passwords do not match",
-      "consentRequired": "You must consent to receive transactional messages",
-      "consentTransactional": "I consent to receive transactional messages related to my account",
-      "consentMarketing": "I consent to receive marketing and promotional messages",
-      "termsAgreement": "By submitting this form, you agree to our",
-      "privacyPolicy": "Privacy Policy",
-      "and": "and",
-      "termsOfService": "Terms of Service",
-      "createAccount": "Create Account",
-      "signInButton": "Sign In",
-      "forgotPassword": "Forgot your password?",
-      "loading": "Loading...",
-      "errorMessage": "An error occurred. Please try again."
     },
     "enrollment": {
       "title": "New Owner? Register Here",
