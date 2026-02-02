@@ -1,6 +1,7 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 import { revalidatePath } from 'next/cache';
 
 export async function signUpWithEmail(data: {
@@ -40,16 +41,18 @@ export async function signUpWithEmail(data: {
     // Step 2: Wait a bit for auth to propagate
     await new Promise(resolve => setTimeout(resolve, 500));
 
-    // Step 3: Create owner profile using service role
+    // Step 3: Create owner profile using admin client (bypasses RLS)
+    const adminClient = createAdminClient();
+    
     // First check if profile already exists
-    const { data: existingOwner } = await supabase
+    const { data: existingOwner } = await adminClient
       .from('owners')
       .select('id')
       .eq('user_id', authData.user.id)
       .single();
 
     if (!existingOwner) {
-      const { error: profileError } = await supabase
+      const { error: profileError } = await adminClient
         .from('owners')
         .insert({
           user_id: authData.user.id,
@@ -65,9 +68,7 @@ export async function signUpWithEmail(data: {
         console.error('Error creating owner profile:', profileError);
         
         // Provide helpful error messages
-        if (profileError.code === '42501') {
-          return { error: 'Error de permisos. Por favor contacta al administrador.' };
-        } else if (profileError.code === '23505') {
+        if (profileError.code === '23505') {
           return { error: 'Este email ya está registrado.' };
         } else if (profileError.message.includes('relation') || profileError.message.includes('does not exist')) {
           return { error: 'La base de datos no está configurada correctamente. Por favor ejecuta el script supabase-setup.sql' };

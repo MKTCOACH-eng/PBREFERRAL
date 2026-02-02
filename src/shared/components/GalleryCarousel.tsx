@@ -5,10 +5,10 @@ import { useState, useEffect } from 'react';
 const galleryImages = [
   '/pb-mazatlan-gallery-03-60cce90164f93.jpg',
   '/pueblobonito-mazatlan-gallery-img-01-6542c2cc87066.jpg',
-  '/pb-montecristoestates-gallery-04-60df3d4ee6fd0.jpg',
   '/pb-montecristoestates-gallery-05-60df3d528a32c.jpg',
-  '/pb-montecristoestates-gallery-12-60df3d69216ca.jpg',
   '/pueblobonito-sunsetbeach-golf-6556d4b6dcc8e.jpg',
+  '/Pueblo_Bonito_1_00038245-f22d-4f36-9fa4-e3af1589ed13.jpg',
+  '/montecristo-estates-luxury.jpg',
 ];
 
 export default function GalleryCarousel() {
