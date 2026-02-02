@@ -1,0 +1,233 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter",
+    "export": "Export",
+    "puebloBonito": "Pueblo Bonito"
+  },
+  "homeowner": {
+    "hero": {
+      "title": "Submit Your Referral. Earn Your Reward.",
+      "subtitle": "As a valued Pueblo Bonito Owner, you're one step away from inviting friends and family to discover our resorts. Share their details today and unlock exclusive rewards created especially for you.",
+      "ctaPrimary": "Access My Referral Program",
+      "ctaSecondary": "Learn Guest Requirements"
+    },
+    "login": {
+      "title": "Owner Login",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "your.email@example.com",
+      "sendMagicLink": "Send Magic Link",
+      "successMessage": "Check your email for a secure sign-in link.",
+      "errorMessage": "There was an error sending the magic link. Please try again."
+    },
+    "enrollment": {
+      "title": "New Owner? Register Here",
+      "firstNameLabel": "First Name",
+      "lastNameLabel": "Last Name",
+      "phoneLabel": "Phone Number",
+      "emailLabel": "Email Address",
+      "submitButton": "Register & Continue"
+    },
+    "requirements": {
+      "title": "Referral Guest Requirements",
+      "subtitle": "Please ensure your guests meet these requirements:",
+      "ageRequirement": "Guests must be between 30 and 69 years old",
+      "marriedRequirement": "If married, both spouses must attend together",
+      "presentationRequirement": "Attend a 90-minute breakfast presentation the morning after arrival",
+      "idRequirement": "Present valid government ID + at least one active Visa or Mastercard",
+      "validForTitle": "Valid for:",
+      "validFor": "Married couples, cohabiting couples, and single women",
+      "notValidTitle": "Important Notes:",
+      "notValidSingleMen": "Not valid for single men",
+      "offerValidity": "Offer must be used within 18 months of purchase date",
+      "reservations": "Reservations subject to availability; holiday blackout dates apply",
+      "bookEarly": "Encourage guests to book early"
+    }
+  },
+  "homeguest": {
+    "hero": {
+      "title": "You've Been Invited to Experience Pueblo Bonito",
+      "subtitle": "You've been personally invited by a Pueblo Bonito Owner to enjoy an exclusive stay at our resorts. Complete the form below to begin your experience and unlock preferred guest benefits.",
+      "ctaPrimary": "Request Information"
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "step1": "Complete the registration form",
+      "step2": "Our team will contact you to confirm availability and details",
+      "step3": "Enjoy preferred guest rates"
+    },
+    "form": {
+      "title": "Guest Registration",
+      "firstNameLabel": "First Name",
+      "firstNamePlaceholder": "John",
+      "lastNameLabel": "Last Name",
+      "lastNamePlaceholder": "Doe",
+      "phoneLabel": "Phone Number",
+      "phonePlaceholder": "+1 (555) 123-4567",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "john.doe@example.com",
+      "destinationLabel": "Preferred Destination",
+      "destinationLosCabos": "Los Cabos",
+      "destinationMazatlan": "Mazatlán",
+      "consentTransactional": "I consent to receive transactional communications regarding my referral",
+      "consentMarketing": "I consent to receive marketing and promotional communications from Pueblo Bonito",
+      "submitButton": "Register My Visit",
+      "successMessage": "Thank you! We've received your information and will contact you shortly.",
+      "errorMessage": "There was an error submitting your information. Please try again."
+    }
+  },
+  "dashboard": {
+    "welcome": "Welcome back, {name}",
+    "createReferral": "Create a Referral",
+    "stats": {
+      "totalReferrals": "Total Referrals",
+      "successfulReferrals": "Successful Referrals",
+      "rewardsEarned": "Rewards Earned"
+    },
+    "menu": {
+      "home": "Home",
+      "myReferrals": "My Referrals",
+      "rewards": "Rewards",
+      "shareLink": "Share Link",
+      "settings": "Settings",
+      "logout": "Logout"
+    }
+  },
+  "referrals": {
+    "create": {
+      "title": "Create New Referral",
+      "guestFirstName": "Guest First Name",
+      "guestLastName": "Guest Last Name",
+      "guestEmail": "Guest Email",
+      "guestPhone": "Guest Phone",
+      "destination": "Destination",
+      "consentReminder": "Please ensure your guest is aware of the program requirements",
+      "submitButton": "Submit Referral",
+      "successMessage": "Referral submitted successfully!",
+      "errorMessage": "There was an error submitting the referral. Please try again."
+    },
+    "list": {
+      "title": "My Referrals",
+      "guestName": "Guest Name",
+      "destination": "Destination",
+      "status": "Status",
+      "submittedDate": "Submitted",
+      "lastUpdate": "Last Update",
+      "noReferrals": "You haven't submitted any referrals yet."
+    },
+    "status": {
+      "new": "New Referral",
+      "contacted": "Contacted",
+      "qualified": "Qualified",
+      "visit_scheduled": "Visit Scheduled",
+      "closed_won": "Closed Won",
+      "closed_lost": "Closed Lost"
+    }
+  },
+  "rewards": {
+    "title": "My Rewards",
+    "referralGuest": "Referral Guest",
+    "amount": "Amount",
+    "status": "Status",
+    "issuedDate": "Issued Date",
+    "statusPending": "Pending",
+    "statusIssued": "Issued",
+    "noRewards": "You don't have any rewards yet.",
+    "totalEarned": "Total Earned"
+  },
+  "shareLink": {
+    "title": "Share Your Referral Link",
+    "description": "Share this unique link with friends and family. When they register, you'll automatically be credited as the referrer.",
+    "copyButton": "Copy Link",
+    "copiedMessage": "Link copied to clipboard!",
+    "stats": {
+      "clicks": "Clicks",
+      "referrals": "Referrals from Link"
+    }
+  },
+  "internal": {
+    "pipeline": {
+      "title": "Referral Pipeline",
+      "filters": "Filters",
+      "dateRange": "Date Range",
+      "status": "Status",
+      "owner": "Owner",
+      "guest": "Guest"
+    },
+    "referralDetail": {
+      "title": "Referral Details",
+      "guestInfo": "Guest Information",
+      "ownerInfo": "Owner Information",
+      "notes": "Notes",
+      "addNote": "Add Note",
+      "activity": "Activity Timeline",
+      "changeStage": "Change Stage",
+      "markClosedWon": "Mark Closed Won",
+      "markClosedLost": "Mark Closed Lost"
+    },
+    "tasks": {
+      "title": "Tasks",
+      "contactWithin24h": "Contact within 24 hours",
+      "followUp": "Follow up",
+      "overdue": "Overdue",
+      "completed": "Completed"
+    }
+  },
+  "admin": {
+    "users": {
+      "title": "User Management",
+      "inviteUser": "Invite User",
+      "role": "Role",
+      "destination": "Destination",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "analytics": {
+      "title": "Analytics",
+      "conversionRate": "Conversion Rate",
+      "slaCompliance": "SLA Compliance",
+      "topOwners": "Top Owners"
+    },
+    "settings": {
+      "title": "Settings",
+      "emailTemplates": "Email Templates",
+      "programSettings": "Program Settings",
+      "rewardAmount": "Reward Amount",
+      "rewardType": "Reward Type"
+    }
+  },
+  "notifications": {
+    "guestConfirmation": {
+      "subject": "Thank you for your interest in Pueblo Bonito",
+      "body": "Hello {guestName}, Thank you for your interest in Pueblo Bonito. We've received your information and our team will contact you shortly. Warm regards, Pueblo Bonito Team"
+    },
+    "ownerConfirmation": {
+      "subject": "Your referral has been received",
+      "body": "Hello {ownerName}, We've received your referral for {guestName} ({destination}). Our team has been notified and will follow up. You will receive updates as it progresses. Pueblo Bonito Referral Program"
+    },
+    "ownerStageUpdate": {
+      "subject": "Update on your referral",
+      "body": "Hello {ownerName}, Your referral {guestName} is now in stage: {stage}. Thank you for being part of Pueblo Bonito."
+    },
+    "ownerClosedWon": {
+      "subject": "Your referral was successful — $200 F&B credit",
+      "body": "Congratulations {ownerName}, Your referral {guestName} was successfully completed. You have earned a $200 Food & Beverage credit. Our team will contact you with the next steps."
+    }
+  },
+  "errors": {
+    "generic": "An error occurred. Please try again.",
+    "unauthorized": "You are not authorized to perform this action.",
+    "notFound": "The requested resource was not found.",
+    "validation": "Please check your input and try again."
+  }
+}
