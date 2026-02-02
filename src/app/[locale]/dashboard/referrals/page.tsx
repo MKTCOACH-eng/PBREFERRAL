@@ -1,8 +1,13 @@
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import ReferralRow from '@/features/dashboard/components/ReferralRow';
+import ReferralFilters from '@/features/dashboard/components/ReferralFilters';
 
-export default async function ReferralsPage() {
+export default async function ReferralsPage({
+  searchParams,
+}: {
+  searchParams: { status?: string; destination?: string; sortBy?: string };
+}) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -18,12 +23,32 @@ export default async function ReferralsPage() {
     .eq('user_id', user.id)
     .single();
 
-  // Get referrals
-  const { data: referrals } = await adminClient
+  // Build query with filters
+  let query = adminClient
     .from('referrals')
     .select('*')
-    .eq('owner_id', owner?.id || '')
-    .order('created_at', { ascending: false });
+    .eq('owner_id', owner?.id || '');
+
+  // Apply filters
+  if (searchParams.status && searchParams.status !== 'all') {
+    query = query.eq('status', searchParams.status);
+  }
+  
+  if (searchParams.destination && searchParams.destination !== 'all') {
+    query = query.eq('destination', searchParams.destination);
+  }
+
+  // Apply sorting
+  const sortBy = searchParams.sortBy || 'newest';
+  if (sortBy === 'newest') {
+    query = query.order('created_at', { ascending: false });
+  } else if (sortBy === 'oldest') {
+    query = query.order('created_at', { ascending: true });
+  } else if (sortBy === 'name') {
+    query = query.order('guest_first_name', { ascending: true });
+  }
+
+  const { data: referrals } = await query;
 
   return (
     <div className="space-y-6">
@@ -35,6 +60,8 @@ export default async function ReferralsPage() {
           Gestiona y da seguimiento a todos tus referidos.
         </p>
       </div>
+
+      <ReferralFilters />
 
       {referrals && referrals.length > 0 ? (
         <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
