@@ -186,6 +186,8 @@ export async function createReferral(data: {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
+  console.log('[createReferral] User:', user?.id);
+
   if (!user) {
     return { error: 'No autenticado' };
   }
@@ -193,29 +195,39 @@ export async function createReferral(data: {
   try {
     // Get owner profile
     const adminClient = createAdminClient();
-    const { data: owner } = await adminClient
+    const { data: owner, error: ownerError } = await adminClient
       .from('owners')
       .select('id')
       .eq('user_id', user.id)
       .single();
+
+    console.log('[createReferral] Owner:', owner, 'Error:', ownerError);
 
     if (!owner) {
       return { error: 'Perfil de propietario no encontrado' };
     }
 
     // Create referral
-    const { error: referralError } = await adminClient
+    const referralData = {
+      owner_id: owner.id,
+      guest_first_name: data.guestFirstName,
+      guest_last_name: data.guestLastName,
+      guest_email: data.guestEmail,
+      guest_phone: data.guestPhone,
+      destination: data.destination,
+      special_requests: data.specialRequests || null,
+      status: 'pending',
+    };
+
+    console.log('[createReferral] Creating referral:', referralData);
+
+    const { data: newReferral, error: referralError } = await adminClient
       .from('referrals')
-      .insert({
-        owner_id: owner.id,
-        guest_first_name: data.guestFirstName,
-        guest_last_name: data.guestLastName,
-        guest_email: data.guestEmail,
-        guest_phone: data.guestPhone,
-        destination: data.destination,
-        special_requests: data.specialRequests || null,
-        status: 'pending',
-      });
+      .insert(referralData)
+      .select()
+      .single();
+
+    console.log('[createReferral] Result:', newReferral, 'Error:', referralError);
 
     if (referralError) {
       console.error('Error creating referral:', referralError);
@@ -223,6 +235,7 @@ export async function createReferral(data: {
     }
 
     revalidatePath('/dashboard/referrals');
+    revalidatePath('/dashboard');
     return { success: true };
     
   } catch (error: any) {
