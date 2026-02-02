@@ -1,16 +1,12 @@
 'use client';
 
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import AuthModal from './AuthModal';
 
 export default function HomeownerHero() {
   const t = useTranslations('homeowner.hero');
-
-  const scrollToLogin = () => {
-    const loginSection = document.getElementById('login-section');
-    if (loginSection) {
-      loginSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const scrollToRequirements = () => {
     const requirementsSection = document.getElementById('requirements-section');
@@ -43,7 +39,7 @@ export default function HomeownerHero() {
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button
-            onClick={scrollToLogin}
+            onClick={() => setIsAuthModalOpen(true)}
             className="px-8 py-4 bg-[#C8A882] text-white font-medium rounded-lg hover:bg-[#B89872] transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
           >
             {t('ctaPrimary')}
@@ -56,6 +52,9 @@ export default function HomeownerHero() {
           </button>
         </div>
       </div>
+
+      {/* Auth Modal */}
+      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
     </section>
   );
 }
