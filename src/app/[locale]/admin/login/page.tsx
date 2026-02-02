@@ -3,7 +3,11 @@ import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import AdminLoginForm from '@/features/admin/components/AdminLoginForm';
 
-export default async function AdminLoginPage() {
+export default async function AdminLoginPage({
+  params,
+}: {
+  params: { locale: string };
+}) {
   // Check if already authenticated as admin
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -19,7 +23,7 @@ export default async function AdminLoginPage() {
       .single();
 
     if (admin) {
-      redirect('/es/admin/dashboard');
+      redirect(`/${params.locale}/admin/dashboard`);
     }
   }
 

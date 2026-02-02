@@ -1,11 +1,12 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
 export default function VouchersFilters() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   
   const [destination, setDestination] = useState(searchParams.get('destination') || 'all');
   const [status, setStatus] = useState(searchParams.get('status') || 'all');
@@ -16,8 +17,9 @@ export default function VouchersFilters() {
     if (status !== 'all') params.set('status', status);
 
     const newUrl = params.toString() ? `?${params.toString()}` : '';
-    router.push(`/admin/dashboard/vouchers${newUrl}`);
-  }, [destination, status, router]);
+    // Use current pathname instead of hardcoded route
+    router.push(`${pathname}${newUrl}`);
+  }, [destination, status, router, pathname]);
 
   const handleReset = () => {
     setDestination('all');

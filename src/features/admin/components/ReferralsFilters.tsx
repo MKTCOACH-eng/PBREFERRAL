@@ -1,11 +1,12 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
 export default function ReferralsFilters() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   
   const [search, setSearch] = useState(searchParams.get('search') || '');
   const [destination, setDestination] = useState(searchParams.get('destination') || 'all');
@@ -22,8 +23,9 @@ export default function ReferralsFilters() {
     if (dateTo) params.set('dateTo', dateTo);
 
     const newUrl = params.toString() ? `?${params.toString()}` : '';
-    router.push(`/admin/dashboard/referrals${newUrl}`);
-  }, [search, destination, status, dateFrom, dateTo, router]);
+    // Use current pathname instead of hardcoded route
+    router.push(`${pathname}${newUrl}`);
+  }, [search, destination, status, dateFrom, dateTo, router, pathname]);
 
   const handleReset = () => {
     setSearch('');

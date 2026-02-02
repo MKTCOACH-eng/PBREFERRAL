@@ -1,11 +1,12 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
 export default function OwnersFilters() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   
   const [search, setSearch] = useState(searchParams.get('search') || '');
   const [destination, setDestination] = useState(searchParams.get('destination') || 'all');
@@ -18,8 +19,9 @@ export default function OwnersFilters() {
     if (status !== 'all') params.set('status', status);
 
     const newUrl = params.toString() ? `?${params.toString()}` : '';
-    router.push(`/admin/dashboard/owners${newUrl}`);
-  }, [search, destination, status, router]);
+    // Use current pathname instead of hardcoded route
+    router.push(`${pathname}${newUrl}`);
+  }, [search, destination, status, router, pathname]);
 
   const handleReset = () => {
     setSearch('');

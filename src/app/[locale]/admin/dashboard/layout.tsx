@@ -5,13 +5,15 @@ import AdminHeader from '@/features/admin/components/AdminHeader';
 
 export default async function AdminDashboardLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: { locale: string };
 }) {
   const result = await getAdminProfile();
 
   if (result.error || !result.admin) {
-    redirect('/admin/login');
+    redirect(`/${params.locale}/admin/login`);
   }
 
   return (
