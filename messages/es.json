@@ -416,6 +416,22 @@
         "description": "Acceso a spas de clase mundial, golf en Quivira Golf Club y gastronomía gourmet incluidos"
       },
       "awards": "Reconocidos por Condé Nast Traveler como Top Resorts de México"
+    },
+    "contact": {
+      "title": "¿Interesado en Pueblo Bonito?",
+      "subtitle": "Contacta directamente a nuestro equipo de ventas para más información sobre nuestras ofertas exclusivas.",
+      "ctaButton": "Contactar Ventas",
+      "phoneLabel": "Teléfono",
+      "emailLabel": "Email",
+      "hours": "Horario de atención: Lunes a Viernes 9:00 AM - 6:00 PM (Hora del Pacífico)",
+      "cabos": {
+        "title": "Reservaciones Los Cabos",
+        "location": "Pueblo Bonito Resorts - Los Cabos"
+      },
+      "mazatlan": {
+        "title": "Reservaciones Mazatlán",
+        "location": "Pueblo Bonito Resorts - Mazatlán"
+      }
     }
   },
   "shareLink": {

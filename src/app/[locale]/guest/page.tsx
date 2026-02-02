@@ -6,8 +6,8 @@ import GuestHero from '@/features/guest/components/GuestHero';
 import GuestOffers from '@/features/guest/components/GuestOffers';
 import GuestDestinations from '@/features/guest/components/GuestDestinations';
 import GuestBenefits from '@/features/guest/components/GuestBenefits';
-import GuestGallery from '@/features/guest/components/GuestGallery';
 import GuestActions from '@/features/guest/components/GuestActions';
+import GuestContact from '@/features/guest/components/GuestContact';
 
 export default async function GuestPage({
   searchParams,
@@ -34,8 +34,8 @@ export default async function GuestPage({
       <GuestOffers />
       <GuestDestinations />
       <GuestBenefits />
-      <GuestGallery />
       <GuestActions referralData={referralData} token={token} />
+      <GuestContact />
       <Footer />
     </main>
   );

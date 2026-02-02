@@ -415,6 +415,22 @@
         "description": "Access to world-class spas, golf at Quivira Golf Club, and gourmet dining included"
       },
       "awards": "Recognized by Condé Nast Traveler as Top Resorts in Mexico"
+    },
+    "contact": {
+      "title": "Interested in Pueblo Bonito?",
+      "subtitle": "Contact our sales team directly for more information about our exclusive offers.",
+      "ctaButton": "Contact Sales",
+      "phoneLabel": "Phone",
+      "emailLabel": "Email",
+      "hours": "Business hours: Monday to Friday 9:00 AM - 6:00 PM (Pacific Time)",
+      "cabos": {
+        "title": "Reservations Los Cabos",
+        "location": "Pueblo Bonito Resorts - Los Cabos"
+      },
+      "mazatlan": {
+        "title": "Reservations Mazatlán",
+        "location": "Pueblo Bonito Resorts - Mazatlán"
+      }
     }
   },
   "shareLink": {
