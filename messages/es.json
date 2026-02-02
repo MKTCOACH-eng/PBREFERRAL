@@ -362,7 +362,22 @@
     },
     "properties": {
       "title": "Nuestros Resorts de Lujo",
-      "subtitle": "Instalaciones de clase mundial que superarán tus expectativas"
+      "subtitle": "Destinos Excepcionales",
+      "sunset": {
+        "name": "Pueblo Bonito Sunset Beach",
+        "tagline": "Lujo frente al Pacífico con acceso exclusivo al golf de Jack Nicklaus",
+        "description": "Resort de lujo sobre un acantilado con vistas al océano Pacífico. Incluye acceso a Quivira Golf Club y experiencias gastronómicas de clase mundial."
+      },
+      "quivira": {
+        "name": "Quivira Golf Club",
+        "tagline": "Campo de golf firma de Jack Nicklaus con vistas oceánicas desde cada hoyo",
+        "description": "Campo de campeonato diseñado por Jack Nicklaus. Reconocido por Golf Digest como uno de los \"100 Mejores Campos de Golf del Mundo\". Exclusivo para huéspedes de Pueblo Bonito."
+      },
+      "emerald": {
+        "name": "Pueblo Bonito Emerald Bay",
+        "tagline": "Elegancia neoclásica frente al mar de Mazatlán",
+        "description": "Resort AAA Four Diamond con spa Armonia Spa votado entre los 5 mejores del mundo. Arquitectura neoclásica en 20 acres frente a playa privada."
+      }
     },
     "contactForm": {
       "title": "¿Listo para Vivir la Experiencia?",

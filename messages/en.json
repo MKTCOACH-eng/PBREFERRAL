@@ -361,7 +361,22 @@
     },
     "properties": {
       "title": "Our Luxury Resorts",
-      "subtitle": "World-class facilities that will exceed your expectations"
+      "subtitle": "Exceptional Destinations",
+      "sunset": {
+        "name": "Pueblo Bonito Sunset Beach",
+        "tagline": "Pacific oceanfront luxury with exclusive Jack Nicklaus golf access",
+        "description": "Luxury resort perched on a cliff overlooking the Pacific Ocean. Includes access to Quivira Golf Club and world-class dining experiences."
+      },
+      "quivira": {
+        "name": "Quivira Golf Club",
+        "tagline": "Jack Nicklaus Signature golf course with ocean views from every hole",
+        "description": "Championship course designed by Jack Nicklaus. Recognized by Golf Digest as one of the \"World's 100 Greatest Golf Courses.\" Exclusive to Pueblo Bonito guests."
+      },
+      "emerald": {
+        "name": "Pueblo Bonito Emerald Bay",
+        "tagline": "Neoclassical elegance on Mazatlán's oceanfront",
+        "description": "AAA Four Diamond resort with Armonia Spa voted among the world's top 5 spas. Neoclassical architecture on 20 oceanfront acres with private beach."
+      }
     },
     "contactForm": {
       "title": "Ready to Live the Experience?",
