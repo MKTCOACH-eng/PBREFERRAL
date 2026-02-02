@@ -20,7 +20,7 @@
   "homeowner": {
     "hero": {
       "title": "Submit Your Referral. Earn Your Reward.",
-      "subtitle": "As a valued Pueblo Bonito Owner, you're one step away from inviting friends and family to discover our resorts. Share their details today and unlock exclusive rewards created especially for you.",
+      "subtitle": "As a valued Pueblo Bonito Owner, you're just one step away from inviting your friends and family to discover the beauty of our resorts. Share their details today and unlock the exclusive rewards created especially for you — it's quick, simple, and designed to recognize your loyalty.",
       "ctaPrimary": "Access My Referral Program",
       "ctaSecondary": "Learn Guest Requirements"
     },
@@ -95,6 +95,13 @@
       "totalReferrals": "Total Referrals",
       "successfulReferrals": "Successful Referrals",
       "rewardsEarned": "Rewards Earned"
+    },
+    "nav": {
+      "overview": "Overview",
+      "newReferral": "New Referral",
+      "myReferrals": "My Referrals",
+      "myRewards": "My Rewards",
+      "myAccount": "My Account"
     },
     "menu": {
       "home": "Home",

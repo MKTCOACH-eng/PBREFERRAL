@@ -19,18 +19,20 @@
   },
   "homeowner": {
     "hero": {
-      "title": "Envía tu referido. Obtén tu beneficio.",
-      "subtitle": "Como Propietario de Pueblo Bonito, estás a un paso de invitar a tus amigos y familiares a descubrir nuestros resorts. Comparte sus datos hoy y accede a beneficios exclusivos creados especialmente para ti.",
-      "ctaPrimary": "Acceder a mi Programa de Referidos",
-      "ctaSecondary": "Ver requisitos del invitado"
+      "title": "Envía tu Referido. Gana tu Recompensa.",
+      "subtitle": "Como propietario valorado de Pueblo Bonito, estás a solo un paso de invitar a tus amigos y familiares a descubrir la belleza de nuestros resorts. Comparte sus datos hoy y desbloquea las recompensas exclusivas creadas especialmente para ti — es rápido, simple y diseñado para reconocer tu lealtad.",
+      "ctaPrimary": "Acceder a Mi Programa de Referidos",
+      "ctaSecondary": "Ver Requisitos para Invitados"
     },
     "login": {
       "title": "Acceso para Propietarios",
+      "subtitle": "Ingresa tu correo para recibir un enlace seguro de acceso",
       "emailLabel": "Correo Electrónico",
       "emailPlaceholder": "tu.correo@ejemplo.com",
-      "sendMagicLink": "Enviar enlace",
-      "successMessage": "Revisa tu correo para acceder con un enlace seguro.",
-      "errorMessage": "Hubo un error al enviar el enlace. Por favor, intenta de nuevo."
+      "sendMagicLink": "Enviar Enlace Mágico",
+      "newOwnerNote": "¿Nuevo propietario? El enlace creará tu cuenta automáticamente.",
+      "successMessage": "Revisa tu correo para el enlace de acceso seguro.",
+      "errorMessage": "Hubo un error al enviar el enlace. Por favor intenta de nuevo."
     },
     "enrollment": {
       "title": "¿Nuevo Propietario? Regístrate Aquí",
@@ -41,11 +43,11 @@
       "submitButton": "Registrar y Continuar"
     },
     "requirements": {
-      "title": "Requisitos del Invitado",
-      "subtitle": "Por favor, asegúrate de que tus invitados cumplan estos requisitos:",
-      "ageRequirement": "Los invitados deben tener entre 30 y 69 años de edad",
+      "title": "Requisitos para Invitados Referidos",
+      "subtitle": "Por favor asegúrate de que tus invitados cumplan con estos requisitos:",
+      "ageRequirement": "Los invitados deben tener entre 30 y 69 años",
       "marriedRequirement": "Si están casados, ambos cónyuges deben asistir juntos",
-      "presentationRequirement": "Asistir a una presentación de desayuno de 90 minutos la mañana siguiente a su llegada",
+      "presentationRequirement": "Asistir a una presentación de 90 minutos la mañana después de su llegada",
       "idRequirement": "Presentar identificación oficial válida + al menos una tarjeta Visa o Mastercard activa",
       "validForTitle": "Válido para:",
       "validFor": "Parejas casadas, parejas en unión libre y mujeres solteras",
@@ -53,20 +55,20 @@
       "notValidSingleMen": "No válido para hombres solteros",
       "offerValidity": "La oferta debe usarse dentro de los 18 meses posteriores a la fecha de compra",
       "reservations": "Reservaciones sujetas a disponibilidad; aplican fechas de bloqueo en días festivos",
-      "bookEarly": "Anima a los invitados a reservar con anticipación"
+      "bookEarly": "Anima a tus invitados a reservar con anticipación"
     }
   },
   "homeguest": {
     "hero": {
-      "title": "Has sido invitado a vivir Pueblo Bonito",
-      "subtitle": "Un Propietario de Pueblo Bonito te ha extendido una invitación personal para disfrutar una estancia exclusiva. Completa el formulario para comenzar y acceder a beneficios preferenciales.",
-      "ctaPrimary": "Solicitar información"
+      "title": "Has Sido Invitado a Experimentar Pueblo Bonito",
+      "subtitle": "Has sido invitado personalmente por un propietario de Pueblo Bonito para disfrutar de una estadía exclusiva en nuestros resorts. Completa el formulario para comenzar tu experiencia y desbloquear beneficios preferenciales.",
+      "ctaPrimary": "Solicitar Información"
     },
     "howItWorks": {
       "title": "Cómo Funciona",
-      "step1": "Completa el registro",
+      "step1": "Completa el formulario de registro",
       "step2": "Nuestro equipo te contactará para confirmar disponibilidad y detalles",
-      "step3": "Disfruta tarifas preferenciales"
+      "step3": "Disfruta de tarifas preferenciales"
     },
     "form": {
       "title": "Registro de Invitado",
@@ -83,23 +85,30 @@
       "destinationMazatlan": "Mazatlán",
       "consentTransactional": "Acepto recibir comunicaciones transaccionales sobre mi referido",
       "consentMarketing": "Acepto recibir comunicaciones de marketing y promocionales de Pueblo Bonito",
-      "submitButton": "Registrar mi visita",
+      "submitButton": "Registrar Mi Visita",
       "successMessage": "¡Gracias! Hemos recibido tu información y te contactaremos pronto.",
-      "errorMessage": "Hubo un error al enviar tu información. Por favor, intenta de nuevo."
+      "errorMessage": "Hubo un error al enviar tu información. Por favor intenta de nuevo."
     }
   },
   "dashboard": {
     "welcome": "Bienvenido de nuevo, {name}",
     "createReferral": "Crear un Referido",
     "stats": {
-      "totalReferrals": "Referidos Totales",
+      "totalReferrals": "Total de Referidos",
       "successfulReferrals": "Referidos Exitosos",
-      "rewardsEarned": "Beneficios Obtenidos"
+      "rewardsEarned": "Recompensas Ganadas"
+    },
+    "nav": {
+      "overview": "Resumen",
+      "newReferral": "Nuevo Referido",
+      "myReferrals": "Mis Referidos",
+      "myRewards": "Mis Recompensas",
+      "myAccount": "Mi Cuenta"
     },
     "menu": {
       "home": "Inicio",
       "myReferrals": "Mis Referidos",
-      "rewards": "Beneficios",
+      "rewards": "Recompensas",
       "shareLink": "Compartir Enlace",
       "settings": "Configuración",
       "logout": "Cerrar Sesión"
@@ -110,13 +119,13 @@
       "title": "Crear Nuevo Referido",
       "guestFirstName": "Nombre del Invitado",
       "guestLastName": "Apellido del Invitado",
-      "guestEmail": "Email del Invitado",
+      "guestEmail": "Correo del Invitado",
       "guestPhone": "Teléfono del Invitado",
       "destination": "Destino",
-      "consentReminder": "Por favor, asegúrate de que tu invitado conozca los requisitos del programa",
+      "consentReminder": "Por favor asegúrate de que tu invitado esté al tanto de los requisitos del programa",
       "submitButton": "Enviar Referido",
-      "successMessage": "¡Referido enviado con éxito!",
-      "errorMessage": "Hubo un error al enviar el referido. Por favor, intenta de nuevo."
+      "successMessage": "¡Referido enviado exitosamente!",
+      "errorMessage": "Hubo un error al enviar el referido. Por favor intenta de nuevo."
     },
     "list": {
       "title": "Mis Referidos",
@@ -137,24 +146,24 @@
     }
   },
   "rewards": {
-    "title": "Mis Beneficios",
+    "title": "Mis Recompensas",
     "referralGuest": "Invitado Referido",
-    "amount": "Cantidad",
+    "amount": "Monto",
     "status": "Estado",
     "issuedDate": "Fecha de Emisión",
     "statusPending": "Pendiente",
     "statusIssued": "Emitido",
-    "noRewards": "Aún no tienes beneficios.",
-    "totalEarned": "Total Obtenido"
+    "noRewards": "Aún no tienes recompensas.",
+    "totalEarned": "Total Ganado"
   },
   "shareLink": {
-    "title": "Comparte tu Enlace de Referidos",
-    "description": "Comparte este enlace único con amigos y familiares. Cuando se registren, automáticamente se te acreditará como referidor.",
+    "title": "Comparte tu Enlace de Referido",
+    "description": "Comparte este enlace único con amigos y familiares. Cuando se registren, automáticamente se te acreditará como el referidor.",
     "copyButton": "Copiar Enlace",
     "copiedMessage": "¡Enlace copiado al portapapeles!",
     "stats": {
       "clicks": "Clics",
-      "referrals": "Referidos desde Enlace"
+      "referrals": "Referidos desde el Enlace"
     }
   },
   "internal": {
@@ -180,7 +189,7 @@
     "tasks": {
       "title": "Tareas",
       "contactWithin24h": "Contactar dentro de 24 horas",
-      "followUp": "Dar seguimiento",
+      "followUp": "Seguimiento",
       "overdue": "Vencido",
       "completed": "Completado"
     }
@@ -204,8 +213,8 @@
       "title": "Configuración",
       "emailTemplates": "Plantillas de Email",
       "programSettings": "Configuración del Programa",
-      "rewardAmount": "Cantidad del Beneficio",
-      "rewardType": "Tipo de Beneficio"
+      "rewardAmount": "Monto de Recompensa",
+      "rewardType": "Tipo de Recompensa"
     }
   },
   "notifications": {
@@ -214,22 +223,22 @@
       "body": "Hola {guestName}, Gracias por tu interés en Pueblo Bonito. Hemos recibido tu información y nuestro equipo te contactará pronto. Saludos cordiales, Equipo Pueblo Bonito"
     },
     "ownerConfirmation": {
-      "subject": "Hemos recibido tu referido",
-      "body": "Hola {ownerName}, Hemos recibido tu referido {guestName} ({destination}). Nuestro equipo ya fue notificado y te compartiremos actualizaciones conforme avance. Programa de Referidos Pueblo Bonito"
+      "subject": "Tu referido ha sido recibido",
+      "body": "Hola {ownerName}, Hemos recibido tu referido para {guestName} ({destination}). Nuestro equipo ha sido notificado y dará seguimiento. Recibirás actualizaciones conforme progrese. Programa de Referidos Pueblo Bonito"
     },
     "ownerStageUpdate": {
-      "subject": "Actualización de tu referido",
+      "subject": "Actualización sobre tu referido",
       "body": "Hola {ownerName}, Tu referido {guestName} ahora está en la etapa: {stage}. Gracias por ser parte de Pueblo Bonito."
     },
     "ownerClosedWon": {
-      "subject": "Tu referido fue exitoso — crédito de $200 en A&B",
-      "body": "¡Felicidades {ownerName}! Tu referido {guestName} se completó con éxito. Has obtenido un crédito de $200 USD en Alimentos y Bebidas. Nuestro equipo te contactará con los siguientes pasos."
+      "subject": "Tu referido fue exitoso — $200 crédito F&B",
+      "body": "Felicidades {ownerName}, Tu referido {guestName} se completó exitosamente. Has ganado un crédito de $200 en Alimentos y Bebidas. Nuestro equipo te contactará con los próximos pasos."
     }
   },
   "errors": {
-    "generic": "Ocurrió un error. Por favor, intenta de nuevo.",
+    "generic": "Ocurrió un error. Por favor intenta de nuevo.",
     "unauthorized": "No estás autorizado para realizar esta acción.",
     "notFound": "El recurso solicitado no fue encontrado.",
-    "validation": "Por favor, verifica tu información e intenta de nuevo."
+    "validation": "Por favor verifica tu información e intenta de nuevo."
   }
 }

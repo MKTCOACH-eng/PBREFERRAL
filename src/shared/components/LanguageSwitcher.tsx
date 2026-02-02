@@ -36,7 +36,7 @@ export default function LanguageSwitcher() {
             : 'text-white/70 hover:text-white'
         }`}
       >
-        English
+        EN
       </button>
     </div>
   );

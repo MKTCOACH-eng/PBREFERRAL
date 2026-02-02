@@ -6,77 +6,102 @@ export default function RequirementsSection() {
   const t = useTranslations('homeowner.requirements');
 
   return (
-    <section id="requirements-section" className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
-      <div className="max-w-5xl mx-auto">
-        {/* Elegant Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-[#1A2332] mb-4">
+    <section id="requirements-section" className="py-16 bg-[#F8F6F3]">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Title */}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-serif font-light text-[#1A2332] mb-4">
             {t('title')}
           </h2>
-          <div className="flex items-center justify-center gap-2 mb-6">
-            <div className="w-12 h-px bg-[#C8A882]"></div>
-            <div className="w-1.5 h-1.5 bg-[#C8A882] rotate-45"></div>
-            <div className="w-12 h-px bg-[#C8A882]"></div>
-          </div>
-          <p className="text-[#6B7280] text-lg max-w-2xl mx-auto">
-            {t('subtitle')}
-          </p>
         </div>
 
-        <div className="bg-[#F8F6F3] shadow-xl p-10 sm:p-12 border-t-4 border-[#C8A882]">
-          {/* Requirements Grid */}
-          <div className="grid md:grid-cols-2 gap-6 mb-10">
-            <RequirementItem icon="✓" text={t('ageRequirement')} />
-            <RequirementItem icon="✓" text={t('marriedRequirement')} />
-            <RequirementItem icon="✓" text={t('presentationRequirement')} />
-            <RequirementItem icon="✓" text={t('idRequirement')} />
-          </div>
-
-          {/* Valid For Section */}
-          <div className="border-t-2 border-[#C8A882] pt-8 mb-8">
-            <h3 className="text-xl font-serif font-semibold text-[#1A2332] mb-4 uppercase tracking-wider">
-              {t('validForTitle')}
-            </h3>
-            <p className="text-[#2C3E50] leading-relaxed">{t('validFor')}</p>
-          </div>
+        {/* Requirements List */}
+        <div className="bg-white rounded-lg shadow-lg border border-[#C8A882]/20 p-8 md:p-10">
+          <ul className="space-y-4 mb-8">
+            <li className="flex items-start gap-3">
+              <svg className="w-6 h-6 text-[#C8A882] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="text-[#1A2332] font-light">
+                Guests must be between <strong className="font-medium">30 and 69 years old</strong>
+              </span>
+            </li>
+            <li className="flex items-start gap-3">
+              <svg className="w-6 h-6 text-[#C8A882] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="text-[#1A2332] font-light">
+                If married, <strong className="font-medium">both spouses must attend</strong> together
+              </span>
+            </li>
+            <li className="flex items-start gap-3">
+              <svg className="w-6 h-6 text-[#C8A882] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="text-[#1A2332] font-light">
+                Attend a <strong className="font-medium">90-minute breakfast presentation</strong> the morning after arrival
+              </span>
+            </li>
+            <li className="flex items-start gap-3">
+              <svg className="w-6 h-6 text-[#C8A882] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="text-[#1A2332] font-light">
+                Present a <strong className="font-medium">valid government ID</strong> and at least <strong className="font-medium">one active Visa or Mastercard</strong>
+              </span>
+            </li>
+            <li className="flex items-start gap-3">
+              <svg className="w-6 h-6 text-[#C8A882] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="text-[#1A2332] font-light">
+                Valid for <strong className="font-medium">married couples, cohabiting couples, and single women</strong>
+              </span>
+            </li>
+          </ul>
 
           {/* Important Notes */}
-          <div className="bg-white border-l-4 border-[#C8A882] p-8 shadow-md">
-            <h3 className="text-xl font-serif font-semibold text-[#1A2332] mb-5 uppercase tracking-wider">
-              {t('notValidTitle')}
+          <div className="border-t border-[#C8A882]/20 pt-8">
+            <h3 className="text-xl font-serif font-light text-[#1A2332] mb-4">
+              Important Notes:
             </h3>
-            <ul className="space-y-3 text-[#2C3E50]">
-              <li className="flex items-start">
-                <span className="text-[#C8A882] mr-3 text-xl">•</span>
-                <span className="leading-relaxed">{t('notValidSingleMen')}</span>
+            <ul className="space-y-3">
+              <li className="flex items-start gap-3">
+                <svg className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <span className="text-[#1A2332]/80 font-light text-sm">
+                  Not valid for single men.
+                </span>
               </li>
-              <li className="flex items-start">
-                <span className="text-[#C8A882] mr-3 text-xl">•</span>
-                <span className="leading-relaxed">{t('offerValidity')}</span>
+              <li className="flex items-start gap-3">
+                <svg className="w-5 h-5 text-[#C8A882] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span className="text-[#1A2332]/80 font-light text-sm">
+                  Offer must be used within <strong className="font-medium">18 months of your purchase date</strong>.
+                </span>
               </li>
-              <li className="flex items-start">
-                <span className="text-[#C8A882] mr-3 text-xl">•</span>
-                <span className="leading-relaxed">{t('reservations')}</span>
+              <li className="flex items-start gap-3">
+                <svg className="w-5 h-5 text-[#C8A882] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <span className="text-[#1A2332]/80 font-light text-sm">
+                  Reservations are subject to <strong className="font-medium">availability</strong> and <strong className="font-medium">holiday blackout dates</strong> apply.
+                </span>
               </li>
-              <li className="flex items-start">
-                <span className="text-[#C8A882] mr-3 text-xl">•</span>
-                <span className="leading-relaxed">{t('bookEarly')}</span>
+              <li className="flex items-start gap-3">
+                <svg className="w-5 h-5 text-[#C8A882] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span className="text-[#1A2332]/80 font-light text-sm">
+                  Encourage your guests to <strong className="font-medium">book early</strong> to secure their preferred dates.
+                </span>
               </li>
             </ul>
           </div>
         </div>
       </div>
     </section>
-  );
-}
-
-function RequirementItem({ icon, text }: { icon: string; text: string }) {
-  return (
-    <div className="flex items-start bg-white p-5 shadow-sm border-l-4 border-[#C8A882]">
-      <span className="flex-shrink-0 w-8 h-8 bg-[#C8A882] text-white rounded-full flex items-center justify-center text-sm font-bold mr-4">
-        {icon}
-      </span>
-      <p className="text-[#2C3E50] flex-1 leading-relaxed pt-1">{text}</p>
-    </div>
   );
 }
