@@ -339,24 +339,24 @@
       "subtitle": "Elige entre dos paraísos mexicanos",
       "losCabos": {
         "name": "Los Cabos",
-        "description": "Donde el desierto se encuentra con el mar. Disfruta de playas espectaculares, vida nocturna vibrante y los mejores campos de golf de México.",
+        "description": "Donde el desierto se encuentra con el mar. Destino de lujo con acceso exclusivo a Quivira Golf Club y experiencias gastronómicas de clase mundial.",
         "highlights": [
-          "Playas de clase mundial",
-          "Golf de campeonato",
-          "Pesca deportiva",
-          "Vida nocturna animada",
-          "Gastronomía excepcional"
+          "Quivira Golf Club - Jack Nicklaus Signature Course",
+          "Acceso a 3 resorts Pueblo Bonito en Los Cabos",
+          "Armonia Spa con tratamientos frente al océano",
+          "Avistamiento de ballenas (Diciembre-Marzo)",
+          "Actividades acuáticas: snorkel, paddle, kayak"
         ]
       },
       "mazatlan": {
         "name": "Mazatlán",
-        "description": "La Perla del Pacífico. Un destino tradicional mexicano con hermosas playas doradas, malecón histórico y cultura auténtica.",
+        "description": "La Perla del Pacífico. Resort AAA Four Diamond con Armonia Spa votado entre los 5 mejores spas del mundo.",
         "highlights": [
-          "Centro histórico colonial",
-          "Malecón más largo de México",
-          "Playas doradas",
-          "Cultura auténtica mexicana",
-          "Mariscos frescos"
+          "Armonia Spa - Top 5 Mejores Spas del Mundo",
+          "Playa privada exclusiva para huéspedes",
+          "5 restaurantes gourmet + 4 bares premium",
+          "Brunch de Champagne los domingos",
+          "A 12 millas de la Zona Dorada de Mazatlán"
         ]
       }
     },

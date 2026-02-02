@@ -338,24 +338,24 @@
       "subtitle": "Choose between two Mexican paradises",
       "losCabos": {
         "name": "Los Cabos",
-        "description": "Where the desert meets the sea. Enjoy spectacular beaches, vibrant nightlife, and Mexico's best golf courses.",
+        "description": "Where the desert meets the sea. Luxury destination with exclusive access to Quivira Golf Club and world-class dining experiences.",
         "highlights": [
-          "World-class beaches",
-          "Championship golf",
-          "Sport fishing",
-          "Lively nightlife",
-          "Exceptional dining"
+          "Quivira Golf Club - Jack Nicklaus Signature Course",
+          "Access to 3 Pueblo Bonito resorts in Los Cabos",
+          "Armonia Spa with oceanfront treatments",
+          "Whale watching (December-March)",
+          "Water activities: snorkeling, paddle, kayak"
         ]
       },
       "mazatlan": {
         "name": "Mazatlán",
-        "description": "The Pearl of the Pacific. A traditional Mexican destination with beautiful golden beaches, historic boardwalk, and authentic culture.",
+        "description": "The Pearl of the Pacific. AAA Four Diamond resort with Armonia Spa voted among the world's top 5 spas.",
         "highlights": [
-          "Colonial historic center",
-          "Longest boardwalk in Mexico",
-          "Golden beaches",
-          "Authentic Mexican culture",
-          "Fresh seafood"
+          "Armonia Spa - World's Top 5 Best Spas",
+          "Private beach exclusive to guests",
+          "5 gourmet restaurants + 4 premium bars",
+          "Sunday Champagne Brunch",
+          "12 miles from Mazatlán's Golden Zone"
         ]
       }
     },
