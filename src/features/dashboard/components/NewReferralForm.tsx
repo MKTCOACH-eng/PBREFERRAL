@@ -30,18 +30,12 @@ export default function NewReferralForm() {
       specialRequests: formData.get('specialRequests') as string,
     };
 
-    console.log('[CLIENT] Enviando referido:', data);
-
     const result = await createReferral(data);
 
-    console.log('[CLIENT] Resultado:', result);
-
     if (result.error) {
-      console.error('[CLIENT] Error:', result.error);
       setError(result.error);
       setIsLoading(false);
     } else {
-      console.log('[CLIENT] Éxito! Redirigiendo...');
       setSuccess(true);
       setIsLoading(false);
       setTimeout(() => router.push('/dashboard/referrals'), 2000);

@@ -186,8 +186,6 @@ export async function createReferral(data: {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  console.log('[createReferral] User:', user?.id);
-
   if (!user) {
     return { error: 'No autenticado' };
   }
@@ -195,13 +193,11 @@ export async function createReferral(data: {
   try {
     // Get owner profile
     const adminClient = createAdminClient();
-    const { data: owner, error: ownerError } = await adminClient
+    const { data: owner } = await adminClient
       .from('owners')
       .select('id')
       .eq('user_id', user.id)
       .single();
-
-    console.log('[createReferral] Owner:', owner, 'Error:', ownerError);
 
     if (!owner) {
       return { error: 'Perfil de propietario no encontrado' };
@@ -219,15 +215,11 @@ export async function createReferral(data: {
       status: 'pending',
     };
 
-    console.log('[createReferral] Creating referral:', referralData);
-
-    const { data: newReferral, error: referralError } = await adminClient
+    const { error: referralError } = await adminClient
       .from('referrals')
       .insert(referralData)
       .select()
       .single();
-
-    console.log('[createReferral] Result:', newReferral, 'Error:', referralError);
 
     if (referralError) {
       console.error('Error creating referral:', referralError);
