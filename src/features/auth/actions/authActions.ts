@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { revalidatePath } from 'next/cache';
+import { sendEmail, generateReferralConfirmationEmail, generateGuestWelcomeEmail } from '@/lib/email/sendEmail';
 
 export async function signUpWithEmail(data: {
   email: string;
@@ -204,11 +205,11 @@ export async function createReferral(data: {
   }
 
   try {
-    // Get owner profile
+    // Get owner profile with email and name
     const adminClient = createAdminClient();
     const { data: owner } = await adminClient
       .from('owners')
-      .select('id')
+      .select('id, email, first_name, last_name')
       .eq('user_id', user.id)
       .single();
 
@@ -228,7 +229,7 @@ export async function createReferral(data: {
       status: 'pending',
     };
 
-    const { error: referralError } = await adminClient
+    const { data: newReferral, error: referralError } = await adminClient
       .from('referrals')
       .insert(referralData)
       .select()
@@ -237,6 +238,29 @@ export async function createReferral(data: {
     if (referralError) {
       console.error('Error creating referral:', referralError);
       return { error: `Error al crear referido: ${referralError.message}` };
+    }
+
+    // Send confirmation emails (non-blocking)
+    try {
+      // Email to owner
+      const ownerFullName = `${owner.first_name || ''} ${owner.last_name || ''}`.trim() || 'Propietario';
+      const guestFullName = `${data.guestFirstName} ${data.guestLastName}`;
+      
+      await sendEmail({
+        to: owner.email,
+        subject: '✅ Referido Creado Exitosamente - Pueblo Bonito',
+        html: generateReferralConfirmationEmail(ownerFullName, guestFullName, data.destination),
+      });
+
+      // Email to guest
+      await sendEmail({
+        to: data.guestEmail,
+        subject: '🏖️ ¡Bienvenido a Pueblo Bonito! Oferta Exclusiva',
+        html: generateGuestWelcomeEmail(guestFullName, ownerFullName, data.destination),
+      });
+    } catch (emailError: any) {
+      console.error('Error sending emails (non-critical):', emailError);
+      // Don't fail the referral creation if emails fail
     }
 
     revalidatePath('/dashboard/referrals');
