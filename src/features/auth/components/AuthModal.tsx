@@ -44,14 +44,19 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
     setIsLoading(true);
     setError(null);
     try {
-      if (provider === 'google') {
-        await signInWithGoogle();
-      } else {
-        await signInWithFacebook();
+      const result = provider === 'google' 
+        ? await signInWithGoogle()
+        : await signInWithFacebook();
+      
+      if (result.error) {
+        setError(result.error);
+        setIsLoading(false);
+      } else if (result.url) {
+        // Redirect to OAuth provider
+        window.location.href = result.url;
       }
     } catch (err: any) {
       setError(err.message || t('errors.socialAuth'));
-    } finally {
       setIsLoading(false);
     }
   };
@@ -64,14 +69,32 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
     const formData = new FormData(e.currentTarget);
     
     try {
+      let result;
       if (activeTab === 'signup') {
-        await signUpWithEmail(formData);
+        const data = {
+          email: formData.get('email') as string,
+          password: formData.get('password') as string,
+          firstName: formData.get('firstName') as string,
+          lastName: formData.get('lastName') as string,
+          phone: formData.get('phone') as string,
+          destination: formData.get('ownerDestination') as string,
+        };
+        result = await signUpWithEmail(data);
       } else {
-        await signInWithEmail(formData);
+        const email = formData.get('email') as string;
+        const password = formData.get('password') as string;
+        result = await signInWithEmail(email, password);
+      }
+
+      if (result.error) {
+        setError(result.error);
+        setIsLoading(false);
+      } else {
+        // Success - redirect to dashboard
+        window.location.href = '/dashboard';
       }
     } catch (err: any) {
       setError(err.message || t('errors.generic'));
-    } finally {
       setIsLoading(false);
     }
   };

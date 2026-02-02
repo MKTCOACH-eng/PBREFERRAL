@@ -33,17 +33,17 @@ export default function Header() {
               <img 
                 src="/logo.svg" 
                 alt="Pueblo Bonito" 
-                className="h-16 w-auto sm:h-20 md:h-24 brightness-0 invert"
+                className="h-12 w-auto sm:h-14 brightness-0 invert"
               />
             </a>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
+          <div className="hidden md:flex items-center space-x-3 lg:space-x-6">
             {/* Access Button */}
             <button
               onClick={() => setIsAuthModalOpen(true)}
-              className="px-4 py-2 bg-[#C8A882] text-white font-medium rounded-lg hover:bg-[#B89872] transition-all duration-200 shadow-md hover:shadow-lg"
+              className="px-3 py-2 text-sm lg:px-4 lg:text-base bg-[#C8A882] text-white font-medium rounded-lg hover:bg-[#B89872] transition-all duration-200 shadow-md hover:shadow-lg whitespace-nowrap"
             >
               {t('access')}
             </button>
@@ -52,7 +52,7 @@ export default function Header() {
             <div className="relative" ref={contactRef}>
               <button
                 onClick={() => setIsContactOpen(!isContactOpen)}
-                className="text-white hover:text-[#C8A882] transition-colors duration-200 font-light flex items-center space-x-1"
+                className="text-white hover:text-[#C8A882] transition-colors duration-200 font-light flex items-center space-x-1 text-sm lg:text-base whitespace-nowrap"
               >
                 <span>{t('contact')}</span>
                 <svg 
