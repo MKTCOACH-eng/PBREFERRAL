@@ -286,6 +286,120 @@
     },
     "memberSince": "Referral Program Member since"
   },
+  "guest": {
+    "hero": {
+      "title": "Welcome to Your Exclusive Experience!",
+      "subtitle": "You've been referred by a Pueblo Bonito owner",
+      "offer": "Special Offer for You",
+      "ctaButton": "I Want More Information"
+    },
+    "offers": {
+      "title": "Exclusive Guest Offers",
+      "subtitle": "Discover the incredible offers we have for you",
+      "offer7nights": {
+        "title": "7 Nights All-Inclusive",
+        "price": "$630 USD",
+        "description": "Enjoy a full week at our luxury resorts with everything included",
+        "features": [
+          "7 nights accommodation",
+          "All meals included",
+          "Unlimited beverages",
+          "Recreational activities",
+          "Access to all facilities"
+        ]
+      },
+      "offer3nights": {
+        "title": "3 Nights All-Inclusive",
+        "price": "$270 USD",
+        "description": "A perfect getaway to enjoy our resorts",
+        "features": [
+          "3 nights accommodation",
+          "All meals included",
+          "Unlimited beverages",
+          "Recreational activities",
+          "Access to all facilities"
+        ]
+      },
+      "allInclusive": {
+        "title": "All-Inclusive Experience",
+        "description": "Enjoy our world-class all-inclusive plan with unlimited access to:",
+        "features": [
+          "Gourmet restaurants",
+          "Premium bars",
+          "Infinity pools",
+          "World-class spa",
+          "Water activities",
+          "Nightly entertainment"
+        ]
+      }
+    },
+    "destinations": {
+      "title": "Our Destinations",
+      "subtitle": "Choose between two Mexican paradises",
+      "losCabos": {
+        "name": "Los Cabos",
+        "description": "Where the desert meets the sea. Enjoy spectacular beaches, vibrant nightlife, and Mexico's best golf courses.",
+        "highlights": [
+          "World-class beaches",
+          "Championship golf",
+          "Sport fishing",
+          "Lively nightlife",
+          "Exceptional dining"
+        ]
+      },
+      "mazatlan": {
+        "name": "Mazatlán",
+        "description": "The Pearl of the Pacific. A traditional Mexican destination with beautiful golden beaches, historic boardwalk, and authentic culture.",
+        "highlights": [
+          "Colonial historic center",
+          "Longest boardwalk in Mexico",
+          "Golden beaches",
+          "Authentic Mexican culture",
+          "Fresh seafood"
+        ]
+      }
+    },
+    "properties": {
+      "title": "Our Luxury Resorts",
+      "subtitle": "World-class facilities that will exceed your expectations"
+    },
+    "contactForm": {
+      "title": "Ready to Live the Experience?",
+      "subtitle": "Complete the form and one of our specialists will contact you",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email Address",
+      "phone": "Phone",
+      "preferredDestination": "Preferred Destination",
+      "preferredDates": "Preferred Dates (Optional)",
+      "comments": "Comments or Questions",
+      "selectDestination": "Select a destination...",
+      "submitButton": "Submit Request",
+      "submitting": "Submitting...",
+      "successTitle": "Request Submitted!",
+      "successMessage": "One of our specialists will contact you soon.",
+      "consent": "I agree to receive communications from Pueblo Bonito"
+    },
+    "benefits": {
+      "title": "Why Pueblo Bonito?",
+      "luxury": {
+        "title": "Authentic Luxury",
+        "description": "Experience true Mexican luxury with world-class services"
+      },
+      "locations": {
+        "title": "Prime Locations",
+        "description": "The best beach destinations in Mexico"
+      },
+      "service": {
+        "title": "Exceptional Service",
+        "description": "Personalized attention that exceeds expectations"
+      },
+      "value": {
+        "title": "Unmatched Value",
+        "description": "The best value for money in luxury resorts"
+      }
+    }
+  },
   "shareLink": {
     "title": "Share Your Referral Link",
     "description": "Share this unique link with friends and family. When they register, you'll automatically be credited as the referrer.",

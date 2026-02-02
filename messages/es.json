@@ -287,6 +287,120 @@
     },
     "memberSince": "Miembro del Programa de Referidos desde"
   },
+  "guest": {
+    "hero": {
+      "title": "¡Bienvenido a Tu Experiencia Exclusiva!",
+      "subtitle": "Has sido referido por un propietario de Pueblo Bonito",
+      "offer": "Oferta Especial para Ti",
+      "ctaButton": "Quiero Más Información"
+    },
+    "offers": {
+      "title": "Ofertas Exclusivas para Invitados",
+      "subtitle": "Descubre las increíbles ofertas que tenemos para ti",
+      "offer7nights": {
+        "title": "7 Noches Todo Incluido",
+        "price": "$630 USD",
+        "description": "Disfruta de una semana completa en nuestros resorts de lujo con todo incluido",
+        "features": [
+          "7 noches de alojamiento",
+          "Todas las comidas incluidas",
+          "Bebidas ilimitadas",
+          "Actividades recreativas",
+          "Acceso a todas las instalaciones"
+        ]
+      },
+      "offer3nights": {
+        "title": "3 Noches Todo Incluido",
+        "price": "$270 USD",
+        "description": "Una escapada perfecta para disfrutar de nuestros resorts",
+        "features": [
+          "3 noches de alojamiento",
+          "Todas las comidas incluidas",
+          "Bebidas ilimitadas",
+          "Actividades recreativas",
+          "Acceso a todas las instalaciones"
+        ]
+      },
+      "allInclusive": {
+        "title": "Experiencia Todo Incluido",
+        "description": "Disfruta de nuestro plan todo incluido de clase mundial con acceso ilimitado a:",
+        "features": [
+          "Restaurantes gourmet",
+          "Bares premium",
+          "Albercas infinity",
+          "Spa de clase mundial",
+          "Actividades acuáticas",
+          "Entretenimiento nocturno"
+        ]
+      }
+    },
+    "destinations": {
+      "title": "Nuestros Destinos",
+      "subtitle": "Elige entre dos paraísos mexicanos",
+      "losCabos": {
+        "name": "Los Cabos",
+        "description": "Donde el desierto se encuentra con el mar. Disfruta de playas espectaculares, vida nocturna vibrante y los mejores campos de golf de México.",
+        "highlights": [
+          "Playas de clase mundial",
+          "Golf de campeonato",
+          "Pesca deportiva",
+          "Vida nocturna animada",
+          "Gastronomía excepcional"
+        ]
+      },
+      "mazatlan": {
+        "name": "Mazatlán",
+        "description": "La Perla del Pacífico. Un destino tradicional mexicano con hermosas playas doradas, malecón histórico y cultura auténtica.",
+        "highlights": [
+          "Centro histórico colonial",
+          "Malecón más largo de México",
+          "Playas doradas",
+          "Cultura auténtica mexicana",
+          "Mariscos frescos"
+        ]
+      }
+    },
+    "properties": {
+      "title": "Nuestros Resorts de Lujo",
+      "subtitle": "Instalaciones de clase mundial que superarán tus expectativas"
+    },
+    "contactForm": {
+      "title": "¿Listo para Vivir la Experiencia?",
+      "subtitle": "Completa el formulario y uno de nuestros especialistas te contactará",
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "email": "Correo Electrónico",
+      "phone": "Teléfono",
+      "preferredDestination": "Destino Preferido",
+      "preferredDates": "Fechas Preferidas (Opcional)",
+      "comments": "Comentarios o Preguntas",
+      "selectDestination": "Selecciona un destino...",
+      "submitButton": "Enviar Solicitud",
+      "submitting": "Enviando...",
+      "successTitle": "¡Solicitud Enviada!",
+      "successMessage": "Uno de nuestros especialistas se pondrá en contacto contigo pronto.",
+      "consent": "Acepto recibir comunicaciones de Pueblo Bonito"
+    },
+    "benefits": {
+      "title": "¿Por Qué Pueblo Bonito?",
+      "luxury": {
+        "title": "Lujo Auténtico",
+        "description": "Experimenta el verdadero lujo mexicano con servicios de primera clase"
+      },
+      "locations": {
+        "title": "Ubicaciones Privilegiadas",
+        "description": "Los mejores destinos de playa en México"
+      },
+      "service": {
+        "title": "Servicio Excepcional",
+        "description": "Atención personalizada que supera expectativas"
+      },
+      "value": {
+        "title": "Valor Incomparable",
+        "description": "La mejor relación calidad-precio en resorts de lujo"
+      }
+    }
+  },
   "shareLink": {
     "title": "Comparte tu Enlace de Referido",
     "description": "Comparte este enlace único con amigos y familiares. Cuando se registren, automáticamente se te acreditará como el referidor.",
