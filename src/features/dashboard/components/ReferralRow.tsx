@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { deleteReferral } from '@/features/auth/actions/authActions';
 import EditReferralModal from './EditReferralModal';
 
@@ -19,9 +20,10 @@ interface Referral {
 export default function ReferralRow({ referral }: { referral: Referral }) {
   const [isDeleting, setIsDeleting] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const t = useTranslations('referrals.row');
 
   const handleDelete = async () => {
-    if (!confirm('¿Estás seguro de eliminar este referido? Esta acción no se puede deshacer.')) {
+    if (!confirm(t('deleteConfirm'))) {
       return;
     }
 
@@ -57,8 +59,8 @@ export default function ReferralRow({ referral }: { referral: Referral }) {
               ? 'bg-yellow-100 text-yellow-800'
               : 'bg-gray-100 text-gray-800'
           }`}>
-            {referral.status === 'pending' ? 'Pendiente' : 
-             referral.status === 'completed' ? 'Completado' : referral.status}
+            {referral.status === 'pending' ? t('statusPending') : 
+             referral.status === 'completed' ? t('statusCompleted') : referral.status}
           </span>
         </td>
         <td className="px-6 py-4 font-light text-gray-500 text-sm">
@@ -69,7 +71,7 @@ export default function ReferralRow({ referral }: { referral: Referral }) {
             <button
               onClick={() => setShowEditModal(true)}
               className="p-2 text-[#C8A882] hover:bg-[#C8A882] hover:text-white rounded-lg transition-all"
-              title="Editar"
+              title={t('editButton')}
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -80,7 +82,7 @@ export default function ReferralRow({ referral }: { referral: Referral }) {
                 onClick={handleDelete}
                 disabled={isDeleting}
                 className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                title="Eliminar"
+                title={t('deleteButton')}
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />

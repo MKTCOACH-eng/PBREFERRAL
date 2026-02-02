@@ -180,6 +180,31 @@
       "successMessage": "Referral submitted successfully!",
       "errorMessage": "There was an error submitting the referral. Please try again."
     },
+    "form": {
+      "guestFirstName": "Guest First Name",
+      "guestLastName": "Guest Last Name",
+      "guestEmail": "Email Address",
+      "guestPhone": "Phone",
+      "destination": "Preferred Destination",
+      "specialRequests": "Special Notes (Optional)",
+      "firstNamePlaceholder": "John",
+      "lastNamePlaceholder": "Doe",
+      "emailPlaceholder": "john.doe@example.com",
+      "phonePlaceholder": "123 456 7890",
+      "selectDestination": "Select a destination...",
+      "specialRequestsPlaceholder": "Any additional information that will help us better serve your guest...",
+      "submitButton": "Submit Referral",
+      "submitting": "Submitting...",
+      "successTitle": "Referral Submitted!",
+      "successMessage": "Our team will contact your guest soon."
+    },
+    "row": {
+      "statusPending": "Pending",
+      "statusCompleted": "Completed",
+      "editButton": "Edit",
+      "deleteButton": "Delete",
+      "deleteConfirm": "Are you sure you want to delete this referral? This action cannot be undone."
+    },
     "list": {
       "title": "My Referrals",
       "subtitle": "Manage and track all your referrals.",

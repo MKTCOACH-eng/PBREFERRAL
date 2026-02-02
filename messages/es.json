@@ -180,6 +180,31 @@
       "successMessage": "¡Referido enviado exitosamente!",
       "errorMessage": "Hubo un error al enviar el referido. Por favor intenta de nuevo."
     },
+    "form": {
+      "guestFirstName": "Nombre del Invitado",
+      "guestLastName": "Apellido del Invitado",
+      "guestEmail": "Correo Electrónico",
+      "guestPhone": "Teléfono",
+      "destination": "Destino Preferido",
+      "specialRequests": "Notas Especiales (Opcional)",
+      "firstNamePlaceholder": "Juan",
+      "lastNamePlaceholder": "Pérez",
+      "emailPlaceholder": "juan.perez@ejemplo.com",
+      "phonePlaceholder": "123 456 7890",
+      "selectDestination": "Selecciona un destino...",
+      "specialRequestsPlaceholder": "Cualquier información adicional que nos ayude a atender mejor a tu invitado...",
+      "submitButton": "Enviar Referido",
+      "submitting": "Enviando...",
+      "successTitle": "¡Referido Enviado!",
+      "successMessage": "Nuestro equipo contactará a tu invitado pronto."
+    },
+    "row": {
+      "statusPending": "Pendiente",
+      "statusCompleted": "Completado",
+      "editButton": "Editar",
+      "deleteButton": "Eliminar",
+      "deleteConfirm": "¿Estás seguro de eliminar este referido? Esta acción no se puede deshacer."
+    },
     "list": {
       "title": "Mis Referidos",
       "subtitle": "Gestiona y da seguimiento a todos tus referidos.",

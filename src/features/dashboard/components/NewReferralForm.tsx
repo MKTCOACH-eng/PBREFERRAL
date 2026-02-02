@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { createReferral } from '@/features/auth/actions/authActions';
 
 export default function NewReferralForm() {
@@ -10,6 +11,7 @@ export default function NewReferralForm() {
   const [success, setSuccess] = useState(false);
   const [countryCode, setCountryCode] = useState('+52');
   const router = useRouter();
+  const t = useTranslations('referrals.form');
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -52,10 +54,10 @@ export default function NewReferralForm() {
             </svg>
           </div>
           <h2 className="text-2xl font-serif font-light text-gray-900 mb-2">
-            ¡Referido Enviado!
+            {t('successTitle')}
           </h2>
           <p className="text-gray-600 font-light">
-            Nuestro equipo contactará a tu invitado pronto.
+            {t('successMessage')}
           </p>
         </div>
       </div>
@@ -74,47 +76,47 @@ export default function NewReferralForm() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-light text-gray-700 mb-2">
-              Nombre del Invitado <span className="text-red-500">*</span>
+              {t('guestFirstName')} <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
               name="guestFirstName"
               required
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C8A882] focus:border-transparent font-light"
-              placeholder="Juan"
+              placeholder={t('firstNamePlaceholder')}
             />
           </div>
 
           <div>
             <label className="block text-sm font-light text-gray-700 mb-2">
-              Apellido del Invitado <span className="text-red-500">*</span>
+              {t('guestLastName')} <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
               name="guestLastName"
               required
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C8A882] focus:border-transparent font-light"
-              placeholder="Pérez"
+              placeholder={t('lastNamePlaceholder')}
             />
           </div>
         </div>
 
         <div>
           <label className="block text-sm font-light text-gray-700 mb-2">
-            Correo Electrónico <span className="text-red-500">*</span>
+            {t('guestEmail')} <span className="text-red-500">*</span>
           </label>
           <input
             type="email"
             name="guestEmail"
             required
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C8A882] focus:border-transparent font-light"
-            placeholder="juan.perez@ejemplo.com"
+            placeholder={t('emailPlaceholder')}
           />
         </div>
 
         <div>
           <label className="block text-sm font-light text-gray-700 mb-2">
-            Teléfono <span className="text-red-500">*</span>
+            {t('guestPhone')} <span className="text-red-500">*</span>
           </label>
           <div className="flex gap-2">
             <select
@@ -135,7 +137,7 @@ export default function NewReferralForm() {
               type="tel"
               name="guestPhone"
               required
-              placeholder="123 456 7890"
+              placeholder={t('phonePlaceholder')}
               className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C8A882] focus:border-transparent font-light"
             />
           </div>
@@ -143,14 +145,14 @@ export default function NewReferralForm() {
 
         <div>
           <label className="block text-sm font-light text-gray-700 mb-2">
-            Destino Preferido <span className="text-red-500">*</span>
+            {t('destination')} <span className="text-red-500">*</span>
           </label>
           <select
             name="destination"
             required
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C8A882] focus:border-transparent font-light"
           >
-            <option value="">Selecciona un destino...</option>
+            <option value="">{t('selectDestination')}</option>
             <option value="Los Cabos">Los Cabos</option>
             <option value="Mazatlán">Mazatlán</option>
           </select>
@@ -158,13 +160,13 @@ export default function NewReferralForm() {
 
         <div>
           <label className="block text-sm font-light text-gray-700 mb-2">
-            Notas Especiales (Opcional)
+            {t('specialRequests')}
           </label>
           <textarea
             name="specialRequests"
             rows={4}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C8A882] focus:border-transparent font-light"
-            placeholder="Cualquier información adicional que nos ayude a atender mejor a tu invitado..."
+            placeholder={t('specialRequestsPlaceholder')}
           />
         </div>
 
@@ -174,7 +176,7 @@ export default function NewReferralForm() {
             disabled={isLoading}
             className="w-full md:w-auto px-8 py-3 bg-[#C8A882] text-white font-light rounded-lg hover:bg-[#B89872] transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
           >
-            {isLoading ? 'Enviando...' : 'Enviar Referido'}
+            {isLoading ? t('submitting') : t('submitButton')}
           </button>
         </div>
       </form>
