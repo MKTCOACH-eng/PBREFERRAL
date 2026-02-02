@@ -7,7 +7,7 @@ import GuestOffers from '@/features/guest/components/GuestOffers';
 import GuestDestinations from '@/features/guest/components/GuestDestinations';
 import GuestBenefits from '@/features/guest/components/GuestBenefits';
 import GuestActions from '@/features/guest/components/GuestActions';
-import GuestContact from '@/features/guest/components/GuestContact';
+import GuestPhotoCarousel from '@/features/guest/components/GuestPhotoCarousel';
 import GuestChatbot from '@/features/guest/components/GuestChatbot';
 
 export default async function GuestPage({
@@ -36,7 +36,7 @@ export default async function GuestPage({
       <GuestDestinations />
       <GuestBenefits />
       <GuestActions referralData={referralData} token={token} />
-      <GuestContact />
+      <GuestPhotoCarousel />
       <GuestChatbot />
       <Footer />
     </main>

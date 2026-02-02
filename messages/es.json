@@ -437,7 +437,7 @@
     "chatbot": {
       "title": "Asistente Virtual",
       "subtitle": "Siempre disponible",
-      "welcome": "¡Hola! Soy tu asistente virtual de Pueblo Bonito. ¿En qué puedo ayudarte hoy?",
+      "welcome": "¡Hola! 👋 Soy tu asistente virtual de Pueblo Bonito. Pregúntame sobre nuestros resorts, Quivira Golf Club, amenidades, o cualquier duda que tengas. ¿En qué puedo ayudarte?",
       "openChat": "Abrir chat",
       "quickQuestions": "Preguntas frecuentes:",
       "placeholder": "Escribe tu pregunta...",
