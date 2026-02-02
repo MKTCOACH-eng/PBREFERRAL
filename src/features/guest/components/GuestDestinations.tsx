@@ -23,7 +23,7 @@ export default function GuestDestinations() {
           <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition-shadow">
             <div className="relative h-64">
               <Image
-                src="/pueblobonito-hero-01-658c8621d460f.jpg"
+                src="/pueblobonito-sunsetbeach-golf-6556d4b6dcc8e.jpg"
                 alt="Los Cabos"
                 fill
                 className="object-cover"
@@ -58,7 +58,7 @@ export default function GuestDestinations() {
           <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-100 hover:shadow-xl transition-shadow">
             <div className="relative h-64">
               <Image
-                src="/pueblobonito-hero-01-658c8621d460f.jpg"
+                src="/pueblobonito-mazatlan-gallery-img-01-6542c2cc87066.jpg"
                 alt="Mazatlán"
                 fill
                 className="object-cover"
