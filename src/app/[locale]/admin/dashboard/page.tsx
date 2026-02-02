@@ -2,8 +2,13 @@ import { getAdminDashboardStats } from '@/features/admin/actions/adminActions';
 import AdminStatsCards from '@/features/admin/components/AdminStatsCards';
 import AdminRecentActivity from '@/features/admin/components/AdminRecentActivity';
 
-export default async function AdminDashboardPage() {
-  const result = await getAdminDashboardStats();
+export default async function AdminDashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ team?: string }>;
+}) {
+  const searchParamsData = await searchParams;
+  const result = await getAdminDashboardStats(searchParamsData.team);
 
   if (result.error || !result.stats) {
     return (
