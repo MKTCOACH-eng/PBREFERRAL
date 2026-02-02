@@ -449,12 +449,12 @@ ON CONFLICT (email) DO NOTHING;
 -- View: Referral Pipeline Summary by Destination
 CREATE OR REPLACE VIEW v_pipeline_summary AS
 SELECT 
-    destination,
+    destination_current as destination,
     status,
     COUNT(*) as count,
     COUNT(*) FILTER (WHERE submitted_at > NOW() - INTERVAL '30 days') as count_last_30_days
 FROM referrals
-GROUP BY destination, status;
+GROUP BY destination_current, status;
 
 -- View: Owner Performance
 CREATE OR REPLACE VIEW v_owner_performance AS
