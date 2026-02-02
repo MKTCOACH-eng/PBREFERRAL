@@ -335,16 +335,46 @@ export async function createReferral(data: {
   try {
     // Get owner profile with email and name
     const adminClient = createAdminClient();
-    const { data: owner } = await adminClient
+    let { data: owner, error: ownerError } = await adminClient
       .from('owners')
       .select('id, email, first_name, last_name')
       .eq('user_id', user.id)
       .single();
 
+    // If owner not found, try to create from auth metadata
     if (!owner) {
-      return { error: 'Perfil de propietario no encontrado' };
+      console.error('Owner not found for user:', user.id, ownerError);
+      
+      const metadata = user.user_metadata;
+      if (metadata && metadata.first_name && metadata.last_name) {
+        console.log('Attempting to create missing owner profile from metadata...');
+        const { data: newOwner, error: createError } = await adminClient
+          .from('owners')
+          .insert({
+            user_id: user.id,
+            email: user.email!,
+            first_name: metadata.first_name,
+            last_name: metadata.last_name,
+            phone: metadata.phone || '',
+            preferred_destination: metadata.destination || data.destination,
+            status: 'active',
+          })
+          .select('id, email, first_name, last_name')
+          .single();
+        
+        if (createError) {
+          console.error('Failed to create owner profile:', createError);
+          return { error: `Error: No se encontró tu perfil y no se pudo crear automáticamente. Por favor ejecuta SETUP-RAPIDO.sql en Supabase. Código: ${createError.code}` };
+        }
+        
+        owner = newOwner;
+        console.log('✓ Owner profile created successfully');
+      } else {
+        return { error: 'Perfil de propietario no encontrado. Por favor cierra sesión y registra una nueva cuenta.' };
+      }
     }
 
+    // Now owner definitely exists
     // Generate unique guest token (URL-safe)
     const guestToken = btoa(Math.random().toString(36).substring(2) + Date.now().toString(36)).replace(/[^a-zA-Z0-9]/g, '').substring(0, 32);
     
