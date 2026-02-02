@@ -137,11 +137,18 @@
   },
   "dashboard": {
     "welcome": "Bienvenido de nuevo, {name}",
+    "welcomeSubtitle": "Aquí puedes gestionar tus referidos y ver tus recompensas.",
     "createReferral": "Crear un Referido",
     "stats": {
       "totalReferrals": "Total de Referidos",
       "successfulReferrals": "Referidos Exitosos",
-      "rewardsEarned": "Recompensas Ganadas"
+      "rewardsEarned": "Recompensas Ganadas",
+      "rewardsCurrency": "USD en crédito F&B"
+    },
+    "quickActions": {
+      "title": "¿Listo para referir?",
+      "description": "Comparte Pueblo Bonito con tus amigos y familiares y gana $200 USD en crédito F&B por cada referido exitoso.",
+      "button": "Crear Nuevo Referido"
     },
     "nav": {
       "overview": "Resumen",
@@ -162,6 +169,7 @@
   "referrals": {
     "create": {
       "title": "Crear Nuevo Referido",
+      "subtitle": "Comparte los detalles de tu invitado y nuestro equipo se encargará del resto.",
       "guestFirstName": "Nombre del Invitado",
       "guestLastName": "Apellido del Invitado",
       "guestEmail": "Correo del Invitado",
@@ -174,12 +182,25 @@
     },
     "list": {
       "title": "Mis Referidos",
+      "subtitle": "Gestiona y da seguimiento a todos tus referidos.",
       "guestName": "Nombre del Invitado",
       "destination": "Destino",
       "status": "Estado",
       "submittedDate": "Enviado",
       "lastUpdate": "Última Actualización",
-      "noReferrals": "Aún no has enviado ningún referido."
+      "noReferrals": "Aún no has enviado ningún referido.",
+      "table": {
+        "guest": "Invitado",
+        "destination": "Destino",
+        "status": "Estado",
+        "date": "Fecha",
+        "actions": "Acciones"
+      },
+      "empty": {
+        "title": "Aún no tienes referidos",
+        "description": "Comienza a compartir Pueblo Bonito con tus amigos y familiares.",
+        "button": "Crear Tu Primer Referido"
+      }
     },
     "status": {
       "new": "Nuevo Referido",
@@ -192,6 +213,7 @@
   },
   "rewards": {
     "title": "Mis Recompensas",
+    "subtitle": "Consulta tus recompensas y créditos F&B ganados.",
     "referralGuest": "Invitado Referido",
     "amount": "Monto",
     "status": "Estado",
@@ -199,7 +221,46 @@
     "statusPending": "Pendiente",
     "statusIssued": "Emitido",
     "noRewards": "Aún no tienes recompensas.",
-    "totalEarned": "Total Ganado"
+    "totalEarned": "Total Ganado",
+    "summary": {
+      "totalEarned": "Total Ganado",
+      "currency": "USD en crédito F&B",
+      "pendingRewards": "Recompensas Pendientes",
+      "inApproval": "En proceso de aprobación"
+    },
+    "history": {
+      "title": "Historial de Recompensas",
+      "defaultDescription": "Bono por Referido Exitoso",
+      "statusPending": "Pendiente",
+      "statusPaid": "Pagado",
+      "statusApproved": "Aprobado"
+    },
+    "empty": {
+      "title": "Aún no tienes recompensas",
+      "description": "Cuando tus referidos se conviertan en propietarios, aparecerán aquí tus recompensas.",
+      "button": "Crear Primer Referido"
+    }
+  },
+  "account": {
+    "title": "Mi Cuenta",
+    "subtitle": "Gestiona tu información personal y preferencias.",
+    "personalInfo": {
+      "title": "Información Personal",
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "email": "Correo Electrónico",
+      "phone": "Teléfono",
+      "destination": "Destino Preferido",
+      "accountStatus": "Estado de la Cuenta",
+      "active": "Activa"
+    },
+    "stats": {
+      "title": "Estadísticas de Tu Cuenta",
+      "totalReferrals": "Referidos Totales",
+      "successfulReferrals": "Referidos Exitosos",
+      "totalEarned": "Total Ganado (USD)"
+    },
+    "memberSince": "Miembro del Programa de Referidos desde"
   },
   "shareLink": {
     "title": "Comparte tu Enlace de Referido",

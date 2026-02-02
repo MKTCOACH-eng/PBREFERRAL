@@ -137,11 +137,18 @@
   },
   "dashboard": {
     "welcome": "Welcome back, {name}",
+    "welcomeSubtitle": "Here you can manage your referrals and view your rewards.",
     "createReferral": "Create a Referral",
     "stats": {
       "totalReferrals": "Total Referrals",
       "successfulReferrals": "Successful Referrals",
-      "rewardsEarned": "Rewards Earned"
+      "rewardsEarned": "Rewards Earned",
+      "rewardsCurrency": "USD F&B credit"
+    },
+    "quickActions": {
+      "title": "Ready to refer?",
+      "description": "Share Pueblo Bonito with your friends and family and earn $200 USD F&B credit for each successful referral.",
+      "button": "Create New Referral"
     },
     "nav": {
       "overview": "Overview",
@@ -162,6 +169,7 @@
   "referrals": {
     "create": {
       "title": "Create New Referral",
+      "subtitle": "Share your guest's details and our team will handle the rest.",
       "guestFirstName": "Guest First Name",
       "guestLastName": "Guest Last Name",
       "guestEmail": "Guest Email",
@@ -174,12 +182,25 @@
     },
     "list": {
       "title": "My Referrals",
+      "subtitle": "Manage and track all your referrals.",
       "guestName": "Guest Name",
       "destination": "Destination",
       "status": "Status",
       "submittedDate": "Submitted",
       "lastUpdate": "Last Update",
-      "noReferrals": "You haven't submitted any referrals yet."
+      "noReferrals": "You haven't submitted any referrals yet.",
+      "table": {
+        "guest": "Guest",
+        "destination": "Destination",
+        "status": "Status",
+        "date": "Date",
+        "actions": "Actions"
+      },
+      "empty": {
+        "title": "No referrals yet",
+        "description": "Start sharing Pueblo Bonito with your friends and family.",
+        "button": "Create Your First Referral"
+      }
     },
     "status": {
       "new": "New Referral",
@@ -199,7 +220,46 @@
     "statusPending": "Pending",
     "statusIssued": "Issued",
     "noRewards": "You don't have any rewards yet.",
-    "totalEarned": "Total Earned"
+    "totalEarned": "Total Earned",
+    "summary": {
+      "totalEarned": "Total Earned",
+      "currency": "USD F&B credit",
+      "pendingRewards": "Pending Rewards",
+      "inApproval": "In approval process"
+    },
+    "history": {
+      "title": "Rewards History",
+      "defaultDescription": "Successful Referral Bonus",
+      "statusPending": "Pending",
+      "statusPaid": "Paid",
+      "statusApproved": "Approved"
+    },
+    "empty": {
+      "title": "No rewards yet",
+      "description": "When your referrals become owners, your rewards will appear here.",
+      "button": "Create First Referral"
+    }
+  },
+  "account": {
+    "title": "My Account",
+    "subtitle": "Manage your personal information and preferences.",
+    "personalInfo": {
+      "title": "Personal Information",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phone": "Phone",
+      "destination": "Preferred Destination",
+      "accountStatus": "Account Status",
+      "active": "Active"
+    },
+    "stats": {
+      "title": "Your Account Statistics",
+      "totalReferrals": "Total Referrals",
+      "successfulReferrals": "Successful Referrals",
+      "totalEarned": "Total Earned (USD)"
+    },
+    "memberSince": "Referral Program Member since"
   },
   "shareLink": {
     "title": "Share Your Referral Link",

@@ -6,13 +6,9 @@ import Footer from '@/shared/components/Footer';
 
 export default async function DashboardLayout({
   children,
-  params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ locale: string }>;
 }) {
-  await params;
-  
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 

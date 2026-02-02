@@ -1,6 +1,4 @@
-'use server';
-
-import { createAdminClient } from '@/lib/supabase/admin';
+// Email utility functions (NOT server actions)
 
 interface EmailData {
   to: string;
@@ -9,6 +7,8 @@ interface EmailData {
 }
 
 export async function sendEmail({ to, subject, html }: EmailData) {
+  'use server';
+  
   try {
     // Using Supabase Edge Function or external email service
     // For now, we'll log it (you can integrate with SendGrid, Resend, etc.)
@@ -30,6 +30,7 @@ export async function sendEmail({ to, subject, html }: EmailData) {
   }
 }
 
+// Helper function to generate email HTML (NOT a server action)
 export function generateReferralConfirmationEmail(
   ownerName: string,
   guestName: string,
@@ -92,6 +93,7 @@ export function generateReferralConfirmationEmail(
   `;
 }
 
+// Helper function to generate guest welcome email HTML (NOT a server action)
 export function generateGuestWelcomeEmail(
   guestName: string,
   ownerName: string,

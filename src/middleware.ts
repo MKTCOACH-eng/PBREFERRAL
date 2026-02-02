@@ -5,7 +5,7 @@ export default createMiddleware({
   locales: ['en', 'es'],
   
   // Used when no locale matches
-  defaultLocale: 'en',
+  defaultLocale: 'es',
   
   // Always include locale prefix in URLs
   localePrefix: 'always'

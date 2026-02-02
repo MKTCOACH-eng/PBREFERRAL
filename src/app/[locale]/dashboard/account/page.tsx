@@ -1,9 +1,11 @@
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { getTranslations } from 'next-intl/server';
 
 export default async function AccountPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
+  const t = await getTranslations('account');
 
   if (!user) {
     return null;
@@ -21,23 +23,23 @@ export default async function AccountPage() {
     <div className="space-y-6">
       <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-8">
         <h1 className="text-3xl font-serif font-light text-gray-900 mb-2">
-          Mi Cuenta
+          {t('title')}
         </h1>
         <p className="text-gray-600 font-light">
-          Gestiona tu información personal y preferencias.
+          {t('subtitle')}
         </p>
       </div>
 
       {/* Profile Information */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-8">
         <h2 className="text-xl font-serif font-light text-gray-900 mb-6 pb-4 border-b border-gray-200">
-          Información Personal
+          {t('personalInfo.title')}
         </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-light text-gray-500 mb-2">
-              Nombre
+              {t('personalInfo.firstName')}
             </label>
             <div className="font-light text-gray-900 text-lg">
               {owner?.first_name}
@@ -46,7 +48,7 @@ export default async function AccountPage() {
 
           <div>
             <label className="block text-sm font-light text-gray-500 mb-2">
-              Apellido
+              {t('personalInfo.lastName')}
             </label>
             <div className="font-light text-gray-900 text-lg">
               {owner?.last_name}
@@ -55,7 +57,7 @@ export default async function AccountPage() {
 
           <div>
             <label className="block text-sm font-light text-gray-500 mb-2">
-              Correo Electrónico
+              {t('personalInfo.email')}
             </label>
             <div className="font-light text-gray-900 text-lg">
               {owner?.email}
@@ -64,7 +66,7 @@ export default async function AccountPage() {
 
           <div>
             <label className="block text-sm font-light text-gray-500 mb-2">
-              Teléfono
+              {t('personalInfo.phone')}
             </label>
             <div className="font-light text-gray-900 text-lg">
               {owner?.phone}
@@ -73,7 +75,7 @@ export default async function AccountPage() {
 
           <div>
             <label className="block text-sm font-light text-gray-500 mb-2">
-              Destino Preferido
+              {t('personalInfo.destination')}
             </label>
             <div className="font-light text-gray-900 text-lg">
               {owner?.preferred_destination}
@@ -82,10 +84,10 @@ export default async function AccountPage() {
 
           <div>
             <label className="block text-sm font-light text-gray-500 mb-2">
-              Estado de la Cuenta
+              {t('personalInfo.accountStatus')}
             </label>
             <span className="inline-flex px-3 py-1 rounded-full text-sm font-light bg-green-100 text-green-800">
-              {owner?.status === 'active' ? 'Activa' : owner?.status}
+              {owner?.status === 'active' ? t('personalInfo.active') : owner?.status}
             </span>
           </div>
         </div>
@@ -94,7 +96,7 @@ export default async function AccountPage() {
       {/* Account Statistics */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-8">
         <h2 className="text-xl font-serif font-light text-gray-900 mb-6 pb-4 border-b border-gray-200">
-          Estadísticas de Tu Cuenta
+          {t('stats.title')}
         </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -103,7 +105,7 @@ export default async function AccountPage() {
               {owner?.total_referrals || 0}
             </div>
             <div className="text-sm font-light text-gray-600">
-              Referidos Totales
+              {t('stats.totalReferrals')}
             </div>
           </div>
 
@@ -112,7 +114,7 @@ export default async function AccountPage() {
               {owner?.successful_referrals || 0}
             </div>
             <div className="text-sm font-light text-gray-600">
-              Referidos Exitosos
+              {t('stats.successfulReferrals')}
             </div>
           </div>
 
@@ -121,7 +123,7 @@ export default async function AccountPage() {
               ${owner?.total_rewards_earned?.toFixed(2) || '0.00'}
             </div>
             <div className="text-sm font-light text-gray-600">
-              Total Ganado (USD)
+              {t('stats.totalEarned')}
             </div>
           </div>
         </div>
@@ -130,7 +132,7 @@ export default async function AccountPage() {
       {/* Member Since */}
       <div className="bg-gradient-to-r from-[#1A2332] to-[#2A3342] rounded-lg shadow-lg p-8 text-white">
         <div className="text-sm font-light text-white/80 mb-2">
-          Miembro del Programa de Referidos desde
+          {t('memberSince')}
         </div>
         <div className="text-2xl font-serif font-light">
           {owner?.created_at 

@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { getTranslations } from 'next-intl/server';
 import ReferralRow from '@/features/dashboard/components/ReferralRow';
 import ReferralFilters from '@/features/dashboard/components/ReferralFilters';
 
@@ -10,6 +11,7 @@ export default async function ReferralsPage({
 }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
+  const t = await getTranslations('referrals.list');
 
   if (!user) {
     return null;
@@ -54,10 +56,10 @@ export default async function ReferralsPage({
     <div className="space-y-6">
       <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-8">
         <h1 className="text-3xl font-serif font-light text-gray-900 mb-2">
-          Mis Referidos
+          {t('title')}
         </h1>
         <p className="text-gray-600 font-light">
-          Gestiona y da seguimiento a todos tus referidos.
+          {t('subtitle')}
         </p>
       </div>
 
@@ -70,19 +72,19 @@ export default async function ReferralsPage({
               <thead className="bg-gray-50 border-b border-gray-200">
                 <tr>
                   <th className="px-6 py-4 text-left text-xs font-light text-gray-500 uppercase tracking-wider">
-                    Invitado
+                    {t('table.guest')}
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-light text-gray-500 uppercase tracking-wider">
-                    Destino
+                    {t('table.destination')}
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-light text-gray-500 uppercase tracking-wider">
-                    Estado
+                    {t('table.status')}
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-light text-gray-500 uppercase tracking-wider">
-                    Fecha
+                    {t('table.date')}
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-light text-gray-500 uppercase tracking-wider">
-                    Acciones
+                    {t('table.actions')}
                   </th>
                 </tr>
               </thead>
@@ -103,16 +105,16 @@ export default async function ReferralsPage({
               </svg>
             </div>
             <h3 className="text-xl font-serif font-light text-gray-900 mb-2">
-              Aún no tienes referidos
+              {t('empty.title')}
             </h3>
             <p className="text-gray-600 font-light mb-6">
-              Comienza a compartir Pueblo Bonito con tus amigos y familiares.
+              {t('empty.description')}
             </p>
             <a
               href="/dashboard/referrals/new"
               className="inline-block px-6 py-3 bg-[#C8A882] text-white font-light rounded-lg hover:bg-[#B89872] transition-all"
             >
-              Crear Tu Primer Referido
+              {t('empty.button')}
             </a>
           </div>
         </div>

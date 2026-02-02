@@ -1,9 +1,12 @@
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 
 export default async function DashboardPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
+  const t = await getTranslations('dashboard');
 
   if (!user) {
     return null;
@@ -41,10 +44,10 @@ export default async function DashboardPage() {
       {/* Welcome Section */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-8">
         <h1 className="text-3xl font-serif font-light text-gray-900 mb-3">
-          Bienvenido de vuelta, {owner?.first_name || 'Propietario'}
+          {t('welcome', { name: owner?.first_name || 'Owner' })}
         </h1>
         <p className="text-gray-600 font-light">
-          Aquí puedes gestionar tus referidos y ver tus recompensas.
+          {t('welcomeSubtitle')}
         </p>
       </div>
 
@@ -52,7 +55,7 @@ export default async function DashboardPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
           <div className="text-sm font-light text-gray-500 uppercase tracking-wider mb-3">
-            Total de Referidos
+            {t('stats.totalReferrals')}
           </div>
           <div className="text-4xl font-serif font-light text-[#1A2332] mb-2">
             {totalReferrals}
@@ -62,7 +65,7 @@ export default async function DashboardPage() {
 
         <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
           <div className="text-sm font-light text-gray-500 uppercase tracking-wider mb-3">
-            Referidos Exitosos
+            {t('stats.successfulReferrals')}
           </div>
           <div className="text-4xl font-serif font-light text-[#1A2332] mb-2">
             {successfulReferrals}
@@ -72,12 +75,12 @@ export default async function DashboardPage() {
 
         <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
           <div className="text-sm font-light text-gray-500 uppercase tracking-wider mb-3">
-            Recompensas Ganadas
+            {t('stats.rewardsEarned')}
           </div>
           <div className="text-4xl font-serif font-light text-[#1A2332] mb-2">
             ${totalRewards.toFixed(2)}
           </div>
-          <div className="text-xs font-light text-gray-500 mt-1">USD en crédito F&B</div>
+          <div className="text-xs font-light text-gray-500 mt-1">{t('stats.rewardsCurrency')}</div>
         </div>
       </div>
 
@@ -85,15 +88,15 @@ export default async function DashboardPage() {
       <div className="bg-gradient-to-br from-[#1A2332] to-[#2A3342] rounded-lg shadow-lg p-8 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/pueblobonito-hero-01-658c8621d460f.jpg')] opacity-10 bg-cover bg-center"></div>
         <div className="relative z-10">
-          <h2 className="text-3xl font-serif font-light mb-4">¿Listo para referir?</h2>
+          <h2 className="text-3xl font-serif font-light mb-4">{t('quickActions.title')}</h2>
           <p className="mb-8 text-white/80 font-light leading-relaxed max-w-2xl">
-            Comparte Pueblo Bonito con tus amigos y familiares y gana $200 USD en crédito F&B por cada referido exitoso.
+            {t('quickActions.description')}
           </p>
           <a
             href="/dashboard/referrals/new"
             className="inline-block px-8 py-3 bg-[#C8A882] text-white font-light rounded-lg hover:bg-[#B89872] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
           >
-            Crear Nuevo Referido
+            {t('quickActions.button')}
           </a>
         </div>
       </div>

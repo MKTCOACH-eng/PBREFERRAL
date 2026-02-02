@@ -1,9 +1,11 @@
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { getTranslations } from 'next-intl/server';
 
 export default async function RewardsPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
+  const t = await getTranslations('rewards');
 
   if (!user) {
     return null;
@@ -34,10 +36,10 @@ export default async function RewardsPage() {
     <div className="space-y-6">
       <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-8">
         <h1 className="text-3xl font-serif font-light text-gray-900 mb-2">
-          Mis Recompensas
+          {t('title')}
         </h1>
         <p className="text-gray-600 font-light">
-          Consulta tus recompensas y créditos F&B ganados.
+          {t('subtitle')}
         </p>
       </div>
 
@@ -45,25 +47,25 @@ export default async function RewardsPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-gradient-to-br from-[#C8A882] to-[#B89872] rounded-lg shadow-lg p-8 text-white">
           <div className="text-sm font-light uppercase tracking-wider mb-3 text-white/80">
-            Total Ganado
+            {t('summary.totalEarned')}
           </div>
           <div className="text-5xl font-serif font-light mb-2">
             ${totalEarned.toFixed(2)}
           </div>
           <div className="text-sm font-light text-white/80">
-            USD en crédito F&B
+            {t('summary.currency')}
           </div>
         </div>
 
         <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-8">
           <div className="text-sm font-light text-gray-500 uppercase tracking-wider mb-3">
-            Recompensas Pendientes
+            {t('summary.pendingRewards')}
           </div>
           <div className="text-5xl font-serif font-light text-[#1A2332] mb-2">
             {pendingRewards}
           </div>
           <div className="text-sm font-light text-gray-500">
-            En proceso de aprobación
+            {t('summary.inApproval')}
           </div>
         </div>
       </div>
@@ -73,7 +75,7 @@ export default async function RewardsPage() {
         <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
             <h2 className="text-lg font-serif font-light text-gray-900">
-              Historial de Recompensas
+              {t('history.title')}
             </h2>
           </div>
           <div className="divide-y divide-gray-200">
@@ -82,7 +84,7 @@ export default async function RewardsPage() {
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <div className="font-light text-gray-900 mb-1">
-                      {reward.description || 'Bono por Referido Exitoso'}
+                      {reward.description || t('history.defaultDescription')}
                     </div>
                     <div className="text-sm font-light text-gray-500">
                       {new Date(reward.created_at).toLocaleDateString('es-MX', {
@@ -108,9 +110,9 @@ export default async function RewardsPage() {
                         ? 'bg-yellow-100 text-yellow-800'
                         : 'bg-blue-100 text-blue-800'
                     }`}>
-                      {reward.status === 'pending' ? 'Pendiente' : 
-                       reward.status === 'paid' ? 'Pagado' : 
-                       reward.status === 'approved' ? 'Aprobado' : reward.status}
+                      {reward.status === 'pending' ? t('history.statusPending') : 
+                       reward.status === 'paid' ? t('history.statusPaid') : 
+                       reward.status === 'approved' ? t('history.statusApproved') : reward.status}
                     </span>
                   </div>
                 </div>
@@ -127,16 +129,16 @@ export default async function RewardsPage() {
               </svg>
             </div>
             <h3 className="text-xl font-serif font-light text-gray-900 mb-2">
-              Aún no tienes recompensas
+              {t('empty.title')}
             </h3>
             <p className="text-gray-600 font-light mb-6">
-              Cuando tus referidos se conviertan en propietarios, aparecerán aquí tus recompensas.
+              {t('empty.description')}
             </p>
             <a
               href="/dashboard/referrals/new"
               className="inline-block px-6 py-3 bg-[#C8A882] text-white font-light rounded-lg hover:bg-[#B89872] transition-all"
             >
-              Crear Primer Referido
+              {t('empty.button')}
             </a>
           </div>
         </div>
