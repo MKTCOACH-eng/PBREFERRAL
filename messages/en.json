@@ -381,23 +381,25 @@
       "consent": "I agree to receive communications from Pueblo Bonito"
     },
     "benefits": {
+      "subtitle": "Excellence Defines Us",
       "title": "Why Pueblo Bonito?",
       "luxury": {
-        "title": "Authentic Luxury",
-        "description": "Experience true Mexican luxury with world-class services"
+        "title": "Award-Winning Resorts",
+        "description": "Recognized by Condé Nast Traveler and Travel + Leisure as Mexico's finest resorts"
       },
       "locations": {
-        "title": "Prime Locations",
-        "description": "The best beach destinations in Mexico"
+        "title": "Exceptional Destinations",
+        "description": "Oceanfront properties in Los Cabos and Mazatlán, the most coveted destinations on Mexico's Pacific Coast"
       },
       "service": {
-        "title": "Exceptional Service",
-        "description": "Personalized attention that exceeds expectations"
+        "title": "AAA Four Diamond Service",
+        "description": "Personalized attention that has earned the highest standards in the hospitality industry"
       },
       "value": {
-        "title": "Unmatched Value",
-        "description": "The best value for money in luxury resorts"
-      }
+        "title": "Luxury All-Inclusive",
+        "description": "Access to world-class spas, golf at Quivira Golf Club, and gourmet dining included"
+      },
+      "awards": "Recognized by Condé Nast Traveler as Top Resorts in Mexico"
     }
   },
   "shareLink": {
