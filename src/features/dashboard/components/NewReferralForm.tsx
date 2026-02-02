@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { createReferral } from '@/features/auth/actions/authActions';
 
 export default function NewReferralForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,14 +17,25 @@ export default function NewReferralForm() {
 
     const formData = new FormData(e.currentTarget);
     
-    // TODO: Implement create referral action
-    console.log('Form data:', Object.fromEntries(formData));
-    
-    setTimeout(() => {
+    const data = {
+      guestFirstName: formData.get('guestFirstName') as string,
+      guestLastName: formData.get('guestLastName') as string,
+      guestEmail: formData.get('guestEmail') as string,
+      guestPhone: formData.get('guestPhone') as string,
+      destination: formData.get('destination') as string,
+      specialRequests: formData.get('specialRequests') as string,
+    };
+
+    const result = await createReferral(data);
+
+    if (result.error) {
+      setError(result.error);
+      setIsLoading(false);
+    } else {
       setSuccess(true);
       setIsLoading(false);
       setTimeout(() => router.push('/dashboard/referrals'), 2000);
-    }, 1000);
+    }
   }
 
   if (success) {
@@ -58,7 +70,7 @@ export default function NewReferralForm() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-light text-gray-700 mb-2">
-              Nombre del Invitado
+              Nombre del Invitado <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
@@ -71,7 +83,7 @@ export default function NewReferralForm() {
 
           <div>
             <label className="block text-sm font-light text-gray-700 mb-2">
-              Apellido del Invitado
+              Apellido del Invitado <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
@@ -85,7 +97,7 @@ export default function NewReferralForm() {
 
         <div>
           <label className="block text-sm font-light text-gray-700 mb-2">
-            Correo Electrónico
+            Correo Electrónico <span className="text-red-500">*</span>
           </label>
           <input
             type="email"
@@ -98,7 +110,7 @@ export default function NewReferralForm() {
 
         <div>
           <label className="block text-sm font-light text-gray-700 mb-2">
-            Teléfono
+            Teléfono <span className="text-red-500">*</span>
           </label>
           <input
             type="tel"
@@ -111,7 +123,7 @@ export default function NewReferralForm() {
 
         <div>
           <label className="block text-sm font-light text-gray-700 mb-2">
-            Destino Preferido
+            Destino Preferido <span className="text-red-500">*</span>
           </label>
           <select
             name="destination"

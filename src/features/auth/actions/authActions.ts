@@ -174,3 +174,59 @@ export async function completeOwnerProfile(formData: FormData) {
   revalidatePath('/dashboard');
   return { success: true };
 }
+
+export async function createReferral(data: {
+  guestFirstName: string;
+  guestLastName: string;
+  guestEmail: string;
+  guestPhone: string;
+  destination: string;
+  specialRequests?: string;
+}) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { error: 'No autenticado' };
+  }
+
+  try {
+    // Get owner profile
+    const adminClient = createAdminClient();
+    const { data: owner } = await adminClient
+      .from('owners')
+      .select('id')
+      .eq('user_id', user.id)
+      .single();
+
+    if (!owner) {
+      return { error: 'Perfil de propietario no encontrado' };
+    }
+
+    // Create referral
+    const { error: referralError } = await adminClient
+      .from('referrals')
+      .insert({
+        owner_id: owner.id,
+        guest_first_name: data.guestFirstName,
+        guest_last_name: data.guestLastName,
+        guest_email: data.guestEmail,
+        guest_phone: data.guestPhone,
+        destination: data.destination,
+        special_requests: data.specialRequests || null,
+        status: 'pending',
+      });
+
+    if (referralError) {
+      console.error('Error creating referral:', referralError);
+      return { error: `Error al crear referido: ${referralError.message}` };
+    }
+
+    revalidatePath('/dashboard/referrals');
+    return { success: true };
+    
+  } catch (error: any) {
+    console.error('Unexpected error creating referral:', error);
+    return { error: `Error inesperado: ${error.message}` };
+  }
+}
