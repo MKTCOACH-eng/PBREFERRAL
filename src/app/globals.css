@@ -1,26 +1,46 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Pueblo Bonito Brand Colors */
+  --pb-gold: #C8A882;
+  --pb-gold-dark: #A88B5F;
+  --pb-gold-light: #E5D4B8;
+  --pb-navy: #1A2332;
+  --pb-navy-light: #2C3E50;
+  --pb-cream: #F8F6F3;
+  --pb-white: #FFFFFF;
+  --pb-gray: #6B7280;
+  --pb-gray-light: #E5E7EB;
+  
+  --background: var(--pb-cream);
+  --foreground: var(--pb-navy);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-pb-gold: var(--pb-gold);
+  --color-pb-gold-dark: var(--pb-gold-dark);
+  --color-pb-gold-light: var(--pb-gold-light);
+  --color-pb-navy: var(--pb-navy);
+  --color-pb-navy-light: var(--pb-navy-light);
+  --color-pb-cream: var(--pb-cream);
+  --color-pb-white: var(--pb-white);
+  --color-pb-gray: var(--pb-gray);
+  --color-pb-gray-light: var(--pb-gray-light);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }

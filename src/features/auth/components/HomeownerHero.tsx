@@ -14,38 +14,54 @@ export default function HomeownerHero() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-amber-600 via-amber-500 to-orange-500 text-white">
-      <div className="absolute inset-0 bg-black/10"></div>
+    <section className="relative overflow-hidden bg-gradient-to-br from-[#1A2332] via-[#2C3E50] to-[#1A2332] text-white">
+      {/* Elegant overlay pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+        }}></div>
+      </div>
       
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
         <div className="text-center">
-          {/* Logo or Brand */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-light tracking-wider">PUEBLO BONITO</h2>
-            <div className="w-24 h-1 bg-white/50 mx-auto mt-2"></div>
+          {/* Elegant Brand Mark */}
+          <div className="mb-10">
+            <h2 className="text-xl sm:text-2xl font-light tracking-[0.3em] text-[#C8A882] uppercase">
+              Pueblo Bonito
+            </h2>
+            <div className="flex items-center justify-center gap-3 mt-4">
+              <div className="w-12 h-px bg-[#C8A882]"></div>
+              <div className="w-2 h-2 bg-[#C8A882] rotate-45"></div>
+              <div className="w-12 h-px bg-[#C8A882]"></div>
+            </div>
           </div>
 
-          {/* Hero Title */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+          {/* Hero Title - Playfair Display */}
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-serif font-semibold mb-6 leading-tight tracking-wide">
             {t('title')}
           </h1>
 
-          {/* Subtitle */}
-          <p className="text-xl sm:text-2xl mb-12 max-w-3xl mx-auto font-light leading-relaxed">
+          {/* Subtitle - Montserrat */}
+          <p className="text-lg sm:text-xl lg:text-2xl mb-14 max-w-4xl mx-auto font-light leading-relaxed text-white/90">
             {t('subtitle')}
           </p>
 
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          {/* Elegant CTAs */}
+          <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
             <button
               onClick={scrollToLogin}
-              className="px-8 py-4 bg-white text-amber-600 font-semibold rounded-lg hover:bg-amber-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+              className="group px-10 py-4 bg-[#C8A882] text-[#1A2332] font-medium rounded-none hover:bg-[#A88B5F] transition-all duration-500 shadow-2xl hover:shadow-[#C8A882]/50 transform hover:scale-105 uppercase tracking-wider text-sm"
             >
-              {t('ctaPrimary')}
+              <span className="flex items-center gap-2">
+                {t('ctaPrimary')}
+                <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </span>
             </button>
             <button
               onClick={scrollToRequirements}
-              className="px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-all duration-300"
+              className="px-10 py-4 bg-transparent border-2 border-[#C8A882] text-[#C8A882] font-medium rounded-none hover:bg-[#C8A882] hover:text-[#1A2332] transition-all duration-500 uppercase tracking-wider text-sm"
             >
               {t('ctaSecondary')}
             </button>
@@ -53,15 +69,8 @@ export default function HomeownerHero() {
         </div>
       </div>
 
-      {/* Decorative wave */}
-      <div className="absolute bottom-0 left-0 right-0">
-        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z"
-            fill="white"
-          />
-        </svg>
-      </div>
+      {/* Elegant bottom border */}
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#C8A882] to-transparent"></div>
     </section>
   );
 }

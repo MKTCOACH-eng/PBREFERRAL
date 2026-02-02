@@ -6,46 +6,61 @@ export default function RequirementsSection() {
   const t = useTranslations('homeowner.requirements');
 
   return (
-    <section id="requirements-section" className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
-      <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-200">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4 text-center">
+    <section id="requirements-section" className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+      <div className="max-w-5xl mx-auto">
+        {/* Elegant Header */}
+        <div className="text-center mb-16">
+          <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-[#1A2332] mb-4">
             {t('title')}
           </h2>
-          <p className="text-gray-600 text-center mb-8">
+          <div className="flex items-center justify-center gap-2 mb-6">
+            <div className="w-12 h-px bg-[#C8A882]"></div>
+            <div className="w-1.5 h-1.5 bg-[#C8A882] rotate-45"></div>
+            <div className="w-12 h-px bg-[#C8A882]"></div>
+          </div>
+          <p className="text-[#6B7280] text-lg max-w-2xl mx-auto">
             {t('subtitle')}
           </p>
+        </div>
 
-          <div className="space-y-4 mb-8">
+        <div className="bg-[#F8F6F3] shadow-xl p-10 sm:p-12 border-t-4 border-[#C8A882]">
+          {/* Requirements Grid */}
+          <div className="grid md:grid-cols-2 gap-6 mb-10">
             <RequirementItem icon="✓" text={t('ageRequirement')} />
             <RequirementItem icon="✓" text={t('marriedRequirement')} />
             <RequirementItem icon="✓" text={t('presentationRequirement')} />
             <RequirementItem icon="✓" text={t('idRequirement')} />
           </div>
 
-          <div className="border-t border-gray-200 pt-6 mb-6">
-            <h3 className="font-semibold text-gray-900 mb-3">{t('validForTitle')}</h3>
-            <p className="text-gray-700">{t('validFor')}</p>
+          {/* Valid For Section */}
+          <div className="border-t-2 border-[#C8A882] pt-8 mb-8">
+            <h3 className="text-xl font-serif font-semibold text-[#1A2332] mb-4 uppercase tracking-wider">
+              {t('validForTitle')}
+            </h3>
+            <p className="text-[#2C3E50] leading-relaxed">{t('validFor')}</p>
           </div>
 
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-6">
-            <h3 className="font-semibold text-amber-900 mb-3">{t('notValidTitle')}</h3>
-            <ul className="space-y-2 text-amber-800">
+          {/* Important Notes */}
+          <div className="bg-white border-l-4 border-[#C8A882] p-8 shadow-md">
+            <h3 className="text-xl font-serif font-semibold text-[#1A2332] mb-5 uppercase tracking-wider">
+              {t('notValidTitle')}
+            </h3>
+            <ul className="space-y-3 text-[#2C3E50]">
               <li className="flex items-start">
-                <span className="mr-2">•</span>
-                <span>{t('notValidSingleMen')}</span>
+                <span className="text-[#C8A882] mr-3 text-xl">•</span>
+                <span className="leading-relaxed">{t('notValidSingleMen')}</span>
               </li>
               <li className="flex items-start">
-                <span className="mr-2">•</span>
-                <span>{t('offerValidity')}</span>
+                <span className="text-[#C8A882] mr-3 text-xl">•</span>
+                <span className="leading-relaxed">{t('offerValidity')}</span>
               </li>
               <li className="flex items-start">
-                <span className="mr-2">•</span>
-                <span>{t('reservations')}</span>
+                <span className="text-[#C8A882] mr-3 text-xl">•</span>
+                <span className="leading-relaxed">{t('reservations')}</span>
               </li>
               <li className="flex items-start">
-                <span className="mr-2">•</span>
-                <span>{t('bookEarly')}</span>
+                <span className="text-[#C8A882] mr-3 text-xl">•</span>
+                <span className="leading-relaxed">{t('bookEarly')}</span>
               </li>
             </ul>
           </div>
@@ -57,11 +72,11 @@ export default function RequirementsSection() {
 
 function RequirementItem({ icon, text }: { icon: string; text: string }) {
   return (
-    <div className="flex items-start">
-      <span className="flex-shrink-0 w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm font-bold mr-3">
+    <div className="flex items-start bg-white p-5 shadow-sm border-l-4 border-[#C8A882]">
+      <span className="flex-shrink-0 w-8 h-8 bg-[#C8A882] text-white rounded-full flex items-center justify-center text-sm font-bold mr-4">
         {icon}
       </span>
-      <p className="text-gray-700 flex-1">{text}</p>
+      <p className="text-[#2C3E50] flex-1 leading-relaxed pt-1">{text}</p>
     </div>
   );
 }
