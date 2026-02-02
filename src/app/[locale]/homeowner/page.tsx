@@ -18,9 +18,9 @@ export default async function HomeownerPage({
       <Header />
       <main className="min-h-screen bg-[#F8F6F3]">
         <HomeownerHero />
+        <AuthForm />
         <RewardHighlight />
         <GuestBenefits />
-        <AuthForm />
         <RequirementsSection />
       </main>
       <Footer />
