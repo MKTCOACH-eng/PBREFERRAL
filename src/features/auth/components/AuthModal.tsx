@@ -100,15 +100,15 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 overflow-y-auto">
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-[#1A2332]/90 backdrop-blur-sm"
+        className="fixed inset-0 bg-[#1A2332]/90 backdrop-blur-sm"
         onClick={onClose}
       />
       
       {/* Modal */}
-      <div className="relative w-full max-w-md mx-4 bg-white rounded-2xl shadow-2xl overflow-hidden animate-fadeIn">
+      <div className="relative w-full max-w-md my-8 bg-white rounded-2xl shadow-2xl overflow-hidden animate-fadeIn max-h-[90vh] flex flex-col">
         {/* Close button */}
         <button
           onClick={onClose}
@@ -120,7 +120,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
         </button>
 
         {/* Header with tabs */}
-        <div className="bg-gradient-to-r from-[#1A2332] to-[#2A3442] px-6 pt-6 pb-4">
+        <div className="bg-gradient-to-r from-[#1A2332] to-[#2A3442] px-6 pt-6 pb-4 flex-shrink-0">
           <div className="flex gap-2 mb-4">
             <button
               onClick={() => setActiveTab('signup')}
@@ -146,7 +146,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
         </div>
 
         {/* Content */}
-        <div className="p-6">
+        <div className="p-6 overflow-y-auto flex-1">
           {error && (
             <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
               {error}
