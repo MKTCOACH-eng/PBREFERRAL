@@ -13,47 +13,77 @@ export async function signUpWithEmail(data: {
 }) {
   const supabase = await createClient();
   
-  const { data: authData, error: authError } = await supabase.auth.signUp({
-    email: data.email,
-    password: data.password,
-    options: {
-      data: {
-        first_name: data.firstName,
-        last_name: data.lastName,
-        phone: data.phone,
-        destination: data.destination,
+  try {
+    // Step 1: Create auth user
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+      email: data.email,
+      password: data.password,
+      options: {
+        data: {
+          first_name: data.firstName,
+          last_name: data.lastName,
+          phone: data.phone,
+          destination: data.destination,
+        }
+      }
+    });
+
+    if (authError) {
+      console.error('Error signing up:', authError);
+      return { error: `Error al crear cuenta: ${authError.message}` };
+    }
+
+    if (!authData.user) {
+      return { error: 'No se pudo crear el usuario' };
+    }
+
+    // Step 2: Wait a bit for auth to propagate
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    // Step 3: Create owner profile using service role
+    // First check if profile already exists
+    const { data: existingOwner } = await supabase
+      .from('owners')
+      .select('id')
+      .eq('user_id', authData.user.id)
+      .single();
+
+    if (!existingOwner) {
+      const { error: profileError } = await supabase
+        .from('owners')
+        .insert({
+          user_id: authData.user.id,
+          email: data.email,
+          first_name: data.firstName,
+          last_name: data.lastName,
+          phone: data.phone,
+          preferred_destination: data.destination,
+          status: 'active',
+        });
+
+      if (profileError) {
+        console.error('Error creating owner profile:', profileError);
+        
+        // Provide helpful error messages
+        if (profileError.code === '42501') {
+          return { error: 'Error de permisos. Por favor contacta al administrador.' };
+        } else if (profileError.code === '23505') {
+          return { error: 'Este email ya está registrado.' };
+        } else if (profileError.message.includes('relation') || profileError.message.includes('does not exist')) {
+          return { error: 'La base de datos no está configurada correctamente. Por favor ejecuta el script supabase-setup.sql' };
+        } else {
+          return { error: `Error al crear perfil: ${profileError.message} (Código: ${profileError.code})` };
+        }
       }
     }
-  });
 
-  if (authError) {
-    console.error('Error signing up:', authError);
-    return { error: authError.message };
+    revalidatePath('/dashboard');
+    return { success: true };
+    
+  } catch (error: any) {
+    console.error('Unexpected error during signup:', error);
+    return { error: `Error inesperado: ${error.message || 'Por favor intenta de nuevo'}` };
   }
-
-  if (authData.user) {
-    // Create owner profile
-    const { error: profileError } = await supabase
-      .from('owners')
-      .insert({
-        user_id: authData.user.id,
-        email: data.email,
-        first_name: data.firstName,
-        last_name: data.lastName,
-        phone: data.phone,
-        preferred_destination: data.destination,
-        status: 'active',
-      });
-
-    if (profileError) {
-      console.error('Error creating owner profile:', profileError);
-      // Return more detailed error information
-      return { error: `Failed to create profile: ${profileError.message}` };
-    }
-  }
-
-  revalidatePath('/dashboard');
-  return { success: true };
 }
 
 export async function signInWithEmail(email: string, password: string) {
