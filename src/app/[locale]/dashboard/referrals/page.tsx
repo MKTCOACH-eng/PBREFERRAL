@@ -7,11 +7,12 @@ import ReferralFilters from '@/features/dashboard/components/ReferralFilters';
 export default async function ReferralsPage({
   searchParams,
 }: {
-  searchParams: { status?: string; destination?: string; sortBy?: string };
+  searchParams: Promise<{ status?: string; destination?: string; sortBy?: string }>;
 }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const t = await getTranslations('referrals.list');
+  const params = await searchParams;
 
   if (!user) {
     return null;
@@ -32,16 +33,16 @@ export default async function ReferralsPage({
     .eq('owner_id', owner?.id || '');
 
   // Apply filters
-  if (searchParams.status && searchParams.status !== 'all') {
-    query = query.eq('status', searchParams.status);
+  if (params.status && params.status !== 'all') {
+    query = query.eq('status', params.status);
   }
   
-  if (searchParams.destination && searchParams.destination !== 'all') {
-    query = query.eq('destination', searchParams.destination);
+  if (params.destination && params.destination !== 'all') {
+    query = query.eq('destination', params.destination);
   }
 
   // Apply sorting
-  const sortBy = searchParams.sortBy || 'newest';
+  const sortBy = params.sortBy || 'newest';
   if (sortBy === 'newest') {
     query = query.order('created_at', { ascending: false });
   } else if (sortBy === 'oldest') {
