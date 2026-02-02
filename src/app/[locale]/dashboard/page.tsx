@@ -2,8 +2,13 @@ import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
+import Link from 'next/link';
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  params,
+}: {
+  params: { locale: string };
+}) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const t = await getTranslations('dashboard');
@@ -92,12 +97,12 @@ export default async function DashboardPage() {
           <p className="mb-8 text-white/80 font-light leading-relaxed max-w-2xl">
             {t('quickActions.description')}
           </p>
-          <a
-            href="/dashboard/referrals/new"
+          <Link
+            href={`/${params.locale}/dashboard/referrals/new`}
             className="inline-block px-8 py-3 bg-[#C8A882] text-white font-light rounded-lg hover:bg-[#B89872] transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
           >
             {t('quickActions.button')}
-          </a>
+          </Link>
         </div>
       </div>
     </div>

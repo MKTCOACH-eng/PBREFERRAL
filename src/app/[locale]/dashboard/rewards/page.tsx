@@ -1,8 +1,13 @@
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { getTranslations } from 'next-intl/server';
+import Link from 'next/link';
 
-export default async function RewardsPage() {
+export default async function RewardsPage({
+  params,
+}: {
+  params: { locale: string };
+}) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const t = await getTranslations('rewards');
@@ -134,12 +139,12 @@ export default async function RewardsPage() {
             <p className="text-gray-600 font-light mb-6">
               {t('empty.description')}
             </p>
-            <a
-              href="/dashboard/referrals/new"
+            <Link
+              href={`/${params.locale}/dashboard/referrals/new`}
               className="inline-block px-6 py-3 bg-[#C8A882] text-white font-light rounded-lg hover:bg-[#B89872] transition-all"
             >
               {t('empty.button')}
-            </a>
+            </Link>
           </div>
         </div>
       )}

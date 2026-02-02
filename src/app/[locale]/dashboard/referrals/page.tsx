@@ -3,10 +3,13 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { getTranslations } from 'next-intl/server';
 import ReferralRow from '@/features/dashboard/components/ReferralRow';
 import ReferralFilters from '@/features/dashboard/components/ReferralFilters';
+import Link from 'next/link';
 
 export default async function ReferralsPage({
+  params,
   searchParams,
 }: {
+  params: { locale: string };
   searchParams: Promise<{ status?: string; destination?: string; sortBy?: string }>;
 }) {
   const supabase = await createClient();
@@ -111,12 +114,12 @@ export default async function ReferralsPage({
             <p className="text-gray-600 font-light mb-6">
               {t('empty.description')}
             </p>
-            <a
-              href="/dashboard/referrals/new"
+            <Link
+              href={`/${params.locale}/dashboard/referrals/new`}
               className="inline-block px-6 py-3 bg-[#C8A882] text-white font-light rounded-lg hover:bg-[#B89872] transition-all"
             >
               {t('empty.button')}
-            </a>
+            </Link>
           </div>
         </div>
       )}

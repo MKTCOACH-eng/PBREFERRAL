@@ -12,19 +12,22 @@ export default function DashboardNav() {
   const t = useTranslations('dashboard.nav');
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
+  // Extract locale from pathname
+  const locale = pathname?.split('/')[1] || 'es';
+
   const navItems = [
-    { href: '/dashboard', label: t('overview') },
-    { href: '/dashboard/referrals/new', label: t('newReferral') },
-    { href: '/dashboard/referrals', label: t('myReferrals') },
-    { href: '/dashboard/rewards', label: t('myRewards') },
-    { href: '/dashboard/account', label: t('myAccount') },
+    { href: `/${locale}/dashboard`, label: t('overview') },
+    { href: `/${locale}/dashboard/referrals/new`, label: t('newReferral') },
+    { href: `/${locale}/dashboard/referrals`, label: t('myReferrals') },
+    { href: `/${locale}/dashboard/rewards`, label: t('myRewards') },
+    { href: `/${locale}/dashboard/account`, label: t('myAccount') },
   ];
 
   const handleLogout = async () => {
     setIsLoggingOut(true);
     const result = await signOut();
     if (result.success) {
-      router.push('/homeowner');
+      router.push(`/${locale}/homeowner`);
     } else {
       setIsLoggingOut(false);
       alert('Error al cerrar sesión');

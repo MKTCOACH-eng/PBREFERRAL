@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
 interface DashboardOverviewProps {
@@ -19,6 +20,8 @@ export default function DashboardOverview({
   recentReferrals,
 }: DashboardOverviewProps) {
   const t = useTranslations('dashboard');
+  const pathname = usePathname();
+  const locale = pathname?.split('/')[1] || 'es';
 
   return (
     <div className="space-y-8">
@@ -99,7 +102,7 @@ export default function DashboardOverview({
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Link
-            href="/dashboard/referrals/new"
+            href={`/${locale}/dashboard/referrals/new`}
             className="flex items-center gap-4 p-4 border border-[#C8A882]/30 rounded-lg hover:bg-[#C8A882]/5 transition-all"
           >
             <div className="w-10 h-10 bg-[#C8A882] rounded-lg flex items-center justify-center">
@@ -114,7 +117,7 @@ export default function DashboardOverview({
           </Link>
 
           <Link
-            href="/dashboard/referrals"
+            href={`/${locale}/dashboard/referrals`}
             className="flex items-center gap-4 p-4 border border-[#C8A882]/30 rounded-lg hover:bg-[#C8A882]/5 transition-all"
           >
             <div className="w-10 h-10 bg-[#1A2332] rounded-lg flex items-center justify-center">

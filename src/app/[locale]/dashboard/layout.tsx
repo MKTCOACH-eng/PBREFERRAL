@@ -6,15 +6,17 @@ import Footer from '@/shared/components/Footer';
 
 export default async function DashboardLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: { locale: string };
 }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   // Redirect to homeowner if not authenticated
   if (!user) {
-    redirect('/homeowner');
+    redirect(`/${params.locale}/homeowner`);
   }
 
   return (

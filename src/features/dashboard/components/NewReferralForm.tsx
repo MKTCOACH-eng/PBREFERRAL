@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { createReferral } from '@/features/auth/actions/authActions';
 
@@ -11,6 +11,7 @@ export default function NewReferralForm() {
   const [success, setSuccess] = useState(false);
   const [countryCode, setCountryCode] = useState('+52');
   const router = useRouter();
+  const pathname = usePathname();
   const t = useTranslations('referrals.form');
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -40,7 +41,8 @@ export default function NewReferralForm() {
     } else {
       setSuccess(true);
       setIsLoading(false);
-      setTimeout(() => router.push('/dashboard/referrals'), 2000);
+      const locale = pathname?.split('/')[1] || 'es';
+      setTimeout(() => router.push(`/${locale}/dashboard/referrals`), 2000);
     }
   }
 

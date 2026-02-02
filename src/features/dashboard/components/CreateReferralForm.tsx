@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { createReferral } from '../actions/referralActions';
 
 export default function CreateReferralForm() {
   const t = useTranslations('referrals.create');
   const router = useRouter();
+  const pathname = usePathname();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -26,8 +27,9 @@ export default function CreateReferralForm() {
         setError(result.error);
       } else {
         setSuccess(true);
+        const locale = pathname?.split('/')[1] || 'es';
         setTimeout(() => {
-          router.push('/dashboard/referrals');
+          router.push(`/${locale}/dashboard/referrals`);
         }, 2000);
       }
     } catch (err) {

@@ -424,9 +424,13 @@ export async function updateReferralStatus(
       details: { status, notes },
     });
 
-    revalidatePath('/admin/dashboard/referrals');
-    revalidatePath('/admin/dashboard/vouchers');
-    revalidatePath('/admin/dashboard');
+    // Revalidate for both locales
+    revalidatePath('/es/admin/dashboard/referrals');
+    revalidatePath('/es/admin/dashboard/vouchers');
+    revalidatePath('/es/admin/dashboard');
+    revalidatePath('/en/admin/dashboard/referrals');
+    revalidatePath('/en/admin/dashboard/vouchers');
+    revalidatePath('/en/admin/dashboard');
     return { success: true, referral };
   } catch (error: any) {
     console.error('Unexpected error updating referral:', error);
@@ -522,8 +526,11 @@ export async function generateVoucher(referralId: string) {
       details: { referralId, voucherCode, amount: 200 },
     });
 
-    revalidatePath('/admin/dashboard/vouchers');
-    revalidatePath('/admin/dashboard/referrals');
+    // Revalidate for both locales
+    revalidatePath('/es/admin/dashboard/vouchers');
+    revalidatePath('/es/admin/dashboard/referrals');
+    revalidatePath('/en/admin/dashboard/vouchers');
+    revalidatePath('/en/admin/dashboard/referrals');
     return { success: true, voucher };
   } catch (error: any) {
     console.error('Unexpected error generating voucher:', error);
@@ -633,7 +640,9 @@ export async function redeemVoucher(voucherId: string) {
       details: { voucherCode: voucher.voucher_code },
     });
 
-    revalidatePath('/admin/dashboard/vouchers');
+    // Revalidate for both locales
+    revalidatePath('/es/admin/dashboard/vouchers');
+    revalidatePath('/en/admin/dashboard/vouchers');
     return { success: true, voucher };
   } catch (error: any) {
     console.error('Unexpected error redeeming voucher:', error);

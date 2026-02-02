@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { completeOwnerProfile } from '../actions/authActions';
 import { createClient } from '@/lib/supabase/client';
 
 export default function CompleteProfileForm() {
   const t = useTranslations('homeowner.enrollment');
   const router = useRouter();
+  const pathname = usePathname();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
@@ -48,8 +49,9 @@ export default function CompleteProfileForm() {
       if (result.error) {
         setError(result.error);
       } else {
-        // Redirect to dashboard
-        router.push('/dashboard');
+        // Redirect to dashboard with locale
+        const locale = pathname?.split('/')[1] || 'es';
+        router.push(`/${locale}/dashboard`);
       }
     } catch (err) {
       setError('An error occurred. Please try again.');
