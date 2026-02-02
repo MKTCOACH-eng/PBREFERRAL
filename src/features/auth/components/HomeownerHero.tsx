@@ -18,7 +18,7 @@ export default function HomeownerHero() {
             backgroundImage: "url('/pueblobonito-hero-01-658c8621d460f.jpg')",
           }}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-[#1A2332]/95 via-[#1A2332]/85 to-[#1A2332]/75"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#1A2332]/70 via-[#1A2332]/60 to-[#1A2332]/50"></div>
         </div>
 
         {/* Content */}
