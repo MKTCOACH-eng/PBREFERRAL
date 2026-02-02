@@ -17,6 +17,25 @@ export default async function DashboardPage() {
     .eq('user_id', user.id)
     .single();
 
+  // Get actual counts from referrals table
+  const { data: referrals } = await adminClient
+    .from('referrals')
+    .select('*')
+    .eq('owner_id', owner?.id || '');
+
+  const totalReferrals = referrals?.length || 0;
+  const successfulReferrals = referrals?.filter(r => r.status === 'completed').length || 0;
+
+  // Get rewards
+  const { data: rewards } = await adminClient
+    .from('rewards')
+    .select('amount, status')
+    .eq('owner_id', owner?.id || '');
+
+  const totalRewards = rewards?.reduce((sum, r) => 
+    r.status === 'paid' ? sum + Number(r.amount) : sum, 0
+  ) || 0;
+
   return (
     <div className="space-y-8">
       {/* Welcome Section */}
@@ -36,7 +55,7 @@ export default async function DashboardPage() {
             Total de Referidos
           </div>
           <div className="text-4xl font-serif font-light text-[#1A2332] mb-2">
-            {owner?.total_referrals || 0}
+            {totalReferrals}
           </div>
           <div className="h-1 w-12 bg-[#C8A882] rounded-full"></div>
         </div>
@@ -46,7 +65,7 @@ export default async function DashboardPage() {
             Referidos Exitosos
           </div>
           <div className="text-4xl font-serif font-light text-[#1A2332] mb-2">
-            {owner?.successful_referrals || 0}
+            {successfulReferrals}
           </div>
           <div className="h-1 w-12 bg-[#C8A882] rounded-full"></div>
         </div>
@@ -56,7 +75,7 @@ export default async function DashboardPage() {
             Recompensas Ganadas
           </div>
           <div className="text-4xl font-serif font-light text-[#1A2332] mb-2">
-            ${owner?.total_rewards_earned?.toFixed(2) || '0.00'}
+            ${totalRewards.toFixed(2)}
           </div>
           <div className="text-xs font-light text-gray-500 mt-1">USD en crédito F&B</div>
         </div>
