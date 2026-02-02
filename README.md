@@ -1,279 +1,464 @@
-# 🏖️ Pueblo Bonito Referral Platform
+# 🏖️ Pueblo Bonito - Plataforma de Referidos MVP
 
-Plataforma de referidos para propietarios de Pueblo Bonito Resort.
-
-## 🚀 Quick Start
-
-### 1. Instalar Dependencias
-```bash
-npm install
-```
-
-### 2. Configurar Variables de Entorno
-Crea un archivo `.env.local` con:
-```env
-NEXT_PUBLIC_SUPABASE_URL=https://npbbllufwjhbcqsexrsc.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_anon_key
-SUPABASE_SERVICE_ROLE_KEY=tu_service_role_key
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-```
-
-### 3. Configurar Supabase
-
-#### Opción A: Instrucciones Rápidas (5-10 min)
-📖 Lee: **[INSTRUCCIONES-RAPIDAS.md](./INSTRUCCIONES-RAPIDAS.md)**
-
-#### Opción B: Documentación Completa
-📚 Lee: **[SUPABASE-CONFIG.md](./SUPABASE-CONFIG.md)**
-
-#### Paso Principal: Ejecutar Script SQL
-1. Ve a [Supabase SQL Editor](https://npbbllufwjhbcqsexrsc.supabase.co/project/npbbllufwjhbcqsexrsc/sql)
-2. Copia y pega el contenido de [`supabase-setup.sql`](./supabase-setup.sql)
-3. Click en "Run"
-
-### 4. Iniciar Servidor
-```bash
-npm run dev
-```
-
-Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
+Plataforma web para gestión de referidos de propietarios de Pueblo Bonito Golf & Spa Resorts.
 
 ---
 
-## 📁 Estructura del Proyecto
+## 🎯 DESCRIPCIÓN DEL PROYECTO
+
+Sistema completo de gestión de referidos que permite a los propietarios de Pueblo Bonito referir a amigos y familiares, con tracking completo del proceso y sistema de recompensas.
+
+### **Usuarios del sistema:**
+1. **Homeowners (Propietarios)** - Crean y gestionan referidos
+2. **Guests (Referidos)** - Reciben ofertas personalizadas vía link único
+3. **Admin Teams (2 equipos)** - Gestionan el programa por destino (Los Cabos / Mazatlán)
+
+---
+
+## 🚀 TECNOLOGÍAS
+
+- **Frontend**: Next.js 16 (App Router) + React 19
+- **Styling**: Tailwind CSS
+- **Internacionalización**: next-intl (ES/EN)
+- **Backend**: Supabase (Auth + Database + RLS)
+- **QR Codes**: qrcode (generación de vouchers)
+- **TypeScript**: Full type safety
+
+---
+
+## 📁 ESTRUCTURA DEL PROYECTO
 
 ```
 pb-referral/
 ├── src/
-│   ├── app/                    # Next.js App Router
-│   │   ├── [locale]/           # Rutas internacionalizadas
-│   │   │   ├── homeowner/      # Landing page para propietarios
-│   │   │   ├── dashboard/      # Dashboard del propietario
-│   │   │   └── layout.tsx      # Layout principal
-│   │   └── auth/
-│   │       └── callback/       # OAuth callback
+│   ├── app/[locale]/
+│   │   ├── homeowner/          # Landing page para owners
+│   │   ├── dashboard/          # Portal del owner
+│   │   ├── guest/              # Landing page para guests
+│   │   ├── test-email/         # Visualizar emails simulados
+│   │   └── admin/
+│   │       ├── login/          # Login admin
+│   │       └── dashboard/      # Portal admin
 │   ├── features/
 │   │   ├── auth/               # Autenticación
-│   │   │   ├── components/     # AuthModal, HomeownerHero, etc.
-│   │   │   └── actions/        # Server actions (signUp, signIn)
-│   │   └── dashboard/          # Features del dashboard
+│   │   ├── homeowner/          # Componentes homeowner
+│   │   ├── dashboard/          # Componentes owner dashboard
+│   │   ├── guest/              # Componentes guest
+│   │   ├── admin/              # Componentes admin portal
+│   │   └── test/               # Test utilities
 │   ├── shared/
-│   │   └── components/         # Componentes compartidos
-│   │       ├── Header.tsx
-│   │       ├── Footer.tsx
-│   │       └── LanguageSwitcher.tsx
+│   │   └── components/         # Header, Footer, etc.
 │   ├── lib/
-│   │   └── supabase/           # Cliente de Supabase
-│   └── i18n/                   # Configuración de internacionalización
+│   │   ├── supabase/           # Supabase clients
+│   │   └── email/              # Email templates
+│   └── i18n/                   # Configuración i18n
 ├── messages/
-│   ├── en.json                 # Traducciones inglés
-│   └── es.json                 # Traducciones español
+│   ├── es.json                 # Traducciones español
+│   └── en.json                 # Traducciones inglés
 ├── public/                     # Assets estáticos
-├── supabase-setup.sql          # Script de setup de base de datos
-├── CHECKLIST.md                # Checklist de configuración
-├── INSTRUCCIONES-RAPIDAS.md    # Guía rápida de setup
-└── SUPABASE-CONFIG.md          # Documentación completa
+├── SETUP-RAPIDO.sql           # Setup inicial DB
+├── ADMIN-SETUP.sql            # Setup admin portal
+├── ADMIN-INSTRUCCIONES.md     # Guía setup admin
+└── SUPABASE-CONFIG.md         # Configuración Supabase
 ```
 
 ---
 
-## 🎯 Funcionalidades Implementadas
+## 🔧 SETUP INICIAL
 
-### ✅ Autenticación
-- ✅ Registro con Email/Password
-- ✅ Login con Email/Password
-- ✅ Login con Google OAuth
-- ✅ Login con Facebook OAuth
-- ✅ Selector de país con código de área para teléfono
-- ✅ Toggle para ver/ocultar contraseña
-- ✅ Modal elegante y responsivo
+### **1. Clonar y configurar entorno:**
 
-### ✅ UI/UX
-- ✅ Header con logo Pueblo Bonito (blanco)
-- ✅ Hero section con imagen de marca
-- ✅ Footer con información de contacto (Los Cabos y Mazatlán)
-- ✅ Diseño responsive (mobile, tablet, desktop)
-- ✅ Animaciones y transiciones suaves
-- ✅ Look & feel de Pueblo Bonito
+```bash
+cd /Users/lourdesalcarazmartinez/Documents/REFERRAL\ PB/pb-referral
+npm install
+```
 
-### ✅ Internacionalización
-- ✅ Soporte para Español e Inglés
-- ✅ Selector de idioma en header
-- ✅ Traducciones completas
+### **2. Configurar variables de entorno:**
 
-### ✅ Base de Datos
-- ✅ Tabla `owners` - Perfiles de propietarios
-- ✅ Tabla `referrals` - Referidos
-- ✅ Tabla `opportunities` - Pipeline interno
-- ✅ Tabla `rewards` - Recompensas
-- ✅ Tabla `activity_log` - Historial
-- ✅ Row Level Security (RLS) configurado
-- ✅ Triggers y funciones automáticas
+Crea `.env.local` con:
 
----
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://tu-proyecto.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_anon_key
+SUPABASE_SERVICE_ROLE_KEY=tu_service_role_key
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+```
 
-## 🚧 Próximas Funcionalidades
+### **3. Setup Supabase Database:**
 
-### Owner Dashboard
-- [ ] Navegación principal del dashboard
-- [ ] Formulario para crear nuevos referidos
-- [ ] Lista de referidos con filtros
-- [ ] Página de recompensas y bonos
-- [ ] Perfil del propietario
+1. Ejecuta `SETUP-RAPIDO.sql` en Supabase SQL Editor
+2. (Opcional) Ejecuta `ADMIN-SETUP.sql` para Admin Portal
+3. Lee `ADMIN-INSTRUCCIONES.md` para crear usuarios admin
 
-### Guest Landing Page
-- [ ] Página para invitados referidos
-- [ ] Información de ofertas especiales
-- [ ] Formulario de registro de invitado
+### **4. Ejecutar servidor de desarrollo:**
 
-### Internal Team Portal
-- [ ] Pipeline de oportunidades por destino
-- [ ] Gestión de referidos
-- [ ] Asignación a miembros del equipo
-- [ ] Seguimiento y notas
+```bash
+npm run dev
+```
 
-### Admin Portals
-- [ ] Dashboard de administrador
-- [ ] Gestión de usuarios
-- [ ] Reportes y analytics
-- [ ] Configuración del sistema
-
-### Notificaciones
-- [ ] Email notifications
-- [ ] In-app notifications
-- [ ] Templates de email
-
-### Concierge Bot
-- [ ] Chat bot para owners
-- [ ] Respuestas automáticas
-- [ ] Integración con sistema
+Abre `http://localhost:3000` (IMPORTANTE: debe ser puerto 3000 por Supabase)
 
 ---
 
-## 🛠️ Tecnologías
+## 🌐 RUTAS PRINCIPALES
 
-- **Framework:** Next.js 16 (App Router)
-- **UI:** React 19, Tailwind CSS 4
-- **Backend:** Supabase (PostgreSQL + Auth)
-- **Autenticación:** Supabase Auth (Email, Google, Facebook)
-- **Internacionalización:** next-intl
-- **TypeScript:** Tipado completo
-- **Forms:** React Hook Form + Zod
+### **Para Propietarios:**
+- `/es/homeowner` - Landing page (español)
+- `/en/homeowner` - Landing page (inglés)
+- `/dashboard` - Panel de control del owner
+- `/dashboard/referrals/new` - Crear nuevo referido
+- `/dashboard/referrals` - Ver mis referidos
+- `/dashboard/rewards` - Ver mis recompensas
 
----
+### **Para Guests:**
+- `/guest?ref=TOKEN_UNICO` - Landing page personalizada
+- El guest recibe un link único por email
 
-## 📊 Base de Datos
+### **Para Admins:**
+- `/admin/login` - Login admin
+- `/admin/dashboard` - Overview general
+- `/admin/dashboard/owners` - Gestión de propietarios
+- `/admin/dashboard/referrals` - Gestión de referidos
+- `/admin/dashboard/vouchers` - Vouchers QR ($200 bonus)
+- `/admin/dashboard/reports` - Reportes y exportación
 
-### Tablas Principales
-
-#### `owners`
-Perfiles de propietarios registrados
-- `id`, `user_id`, `email`, `first_name`, `last_name`
-- `phone`, `preferred_destination`
-- `total_referrals`, `successful_referrals`, `total_rewards_earned`
-- `status`, `created_at`, `updated_at`
-
-#### `referrals`
-Referidos creados por propietarios
-- `id`, `owner_id`, `guest_first_name`, `guest_last_name`
-- `guest_email`, `guest_phone`, `destination`
-- `preferred_dates`, `number_of_guests`
-- `status`, `special_requests`, `notes`
-- `created_at`, `updated_at`
-
-#### `opportunities`
-Pipeline para equipo interno
-- `id`, `referral_id`, `assigned_to`
-- `pipeline_stage`, `priority`, `estimated_value`
-- `probability`, `expected_close_date`
-- `last_contact_date`, `next_follow_up`, `notes`
-
-#### `rewards`
-Recompensas y bonos
-- `id`, `owner_id`, `referral_id`
-- `reward_type`, `amount`, `currency`
-- `status`, `description`
-- `approved_by`, `approved_at`, `paid_at`
-
-#### `activity_log`
-Historial de actividades
-- `id`, `entity_type`, `entity_id`
-- `action`, `actor_id`, `actor_email`
-- `details`, `created_at`
+### **Para Testing:**
+- `/test-email` - Ver links de guest generados
 
 ---
 
-## 🔐 Seguridad
+## 🎨 DISEÑO Y BRANDING
 
-- ✅ Row Level Security (RLS) habilitado en todas las tablas
-- ✅ Políticas de acceso por usuario
-- ✅ Service role para operaciones de servidor
-- ✅ OAuth seguro (Google, Facebook)
-- ✅ Passwords hasheados por Supabase
-- ✅ HTTPS en producción
+**Paleta de colores:**
+- Primary Navy: `#1A2332`
+- Gold/Tan: `#C8A882`
+- Hover Gold: `#B89872`
+- Background: `#F8F6F3`
 
----
+**Tipografía:**
+- Headings: Font Serif (elegante)
+- Body: Font Sans (legible)
+- Tracking elevado en subtítulos
 
-## 🌐 URLs Importantes
-
-### Desarrollo
-- App: http://localhost:3000
-- Homeowner: http://localhost:3000/homeowner
-- Dashboard: http://localhost:3000/dashboard
-
-### Supabase
-- Dashboard: https://npbbllufwjhbcqsexrsc.supabase.co
-- SQL Editor: https://npbbllufwjhbcqsexrsc.supabase.co/project/npbbllufwjhbcqsexrsc/sql
-- Authentication: https://npbbllufwjhbcqsexrsc.supabase.co/project/npbbllufwjhbcqsexrsc/auth
+**Look & Feel:**
+- Minimalista y elegante
+- Inspirado en https://www.pueblobonito.com.mx/
+- Espacios amplios
+- Transiciones suaves
+- Responsive design
 
 ---
 
-## 📝 Checklist de Setup
+## 📧 SISTEMA DE EMAILS
 
-Usa el checklist interactivo: **[CHECKLIST.md](./CHECKLIST.md)**
+### **Emails automáticos (actualmente simulados):**
 
----
+1. **Al Owner** - Confirmación de referido creado
+2. **Al Guest** - Bienvenida con link único personalizado
 
-## 🐛 Troubleshooting
+**Para ver emails:**
+- Ve a `/test-email` después de crear un referido
+- Copia el link del guest y ábrelo
 
-### Error: "Failed to create profile"
-**Solución:** Ejecuta `supabase-setup.sql` en Supabase SQL Editor
-
-### Error: "Invalid OAuth configuration"
-**Solución:** Verifica Client ID y Secret en Google/Facebook
-
-### Error: "Redirect URI mismatch"
-**Solución:** Verifica que las Redirect URIs estén correctamente configuradas
-
-### Puerto incorrecto (no 3000)
-**Solución:** Mata procesos: `killall -9 node` y reinicia: `npm run dev`
-
-Ver más en: [SUPABASE-CONFIG.md](./SUPABASE-CONFIG.md)
+**TODO**: Integrar Resend o SendGrid para envíos reales
 
 ---
 
-## 📞 Contacto
+## 🔐 AUTENTICACIÓN
 
-Para más información sobre Pueblo Bonito:
-- **Sitio Web:** https://www.pueblobonito.com.mx/
-- **Los Cabos:** +52 (624) 142-9898
-- **Mazatlán:** +52 (669) 989-8900
+### **Método actual:**
+- Email/Password (signup/login)
+- Supabase Auth
+- Profile completion automático
+
+### **Flujo:**
+1. User hace signup con email/password
+2. Completa perfil (nombre, teléfono, destino)
+3. Auto-crea owner profile en DB
+4. Redirige a dashboard
 
 ---
 
-## 📄 Licencia
+## 🎟️ SISTEMA DE VOUCHERS
 
-Privado - Pueblo Bonito Resorts
+### **Características:**
+- Auto-generación cuando referral status = "won"
+- Código único alfanumérico
+- QR code con diseño elegante Pueblo Bonito
+- Expiración en 90 días
+- Estados: pending, redeemed, expired, cancelled
+- Descarga en PNG de alta calidad
+- Admin puede marcar como canjeado
+
+### **Información en el QR:**
+```json
+{
+  "code": "PB1A2B3C4D5E",
+  "guest": "John Doe",
+  "amount": 200,
+  "currency": "USD",
+  "destination": "Los Cabos",
+  "expires": "2026-05-15T00:00:00Z"
+}
+```
 
 ---
 
-## 🎉 ¡Listo para Empezar!
+## 👥 EQUIPOS ADMIN
 
-1. ✅ Lee [INSTRUCCIONES-RAPIDAS.md](./INSTRUCCIONES-RAPIDAS.md)
-2. ✅ Ejecuta `supabase-setup.sql` en Supabase
-3. ✅ Configura OAuth (opcional)
-4. ✅ Ejecuta `npm run dev`
-5. ✅ Abre http://localhost:3000/homeowner
-6. ✅ Crea tu primera cuenta
+### **Los Cabos Team:**
+- Ve solo owners con `preferred_destination = 'Los Cabos'`
+- Ve solo referrals con `destination = 'Los Cabos'`
+- Ve solo vouchers de Los Cabos
 
-**¡Bienvenido a la Plataforma de Referidos de Pueblo Bonito!** 🏖️
+### **Mazatlán Team:**
+- Ve solo owners con `preferred_destination = 'Mazatlán'`
+- Ve solo referrals con `destination = 'Mazatlán'`
+- Ve solo vouchers de Mazatlán
+
+### **Both (Super Admin):**
+- Ve todo sin restricciones
+- Puede exportar datos de ambos destinos
+- Acceso completo a reportes
+
+---
+
+## 📊 MÉTRICAS Y REPORTES
+
+### **KPIs principales:**
+- Total owners registrados
+- Total referrals creados
+- Referrals ganados
+- Tasa de conversión (%)
+- Vouchers pendientes/canjeados/expirados
+
+### **Exportación:**
+- CSV de owners (email, nombre, destino, stats)
+- CSV de referrals (guest, owner, estado, fechas)
+- CSV de vouchers (código, guest, monto, estado)
+
+### **Gráficas:**
+- Rendimiento por destino
+- Distribución por estado
+- Tasas de conversión
+
+---
+
+## 🛡️ SEGURIDAD Y PERMISOS
+
+### **Row Level Security (RLS):**
+Todas las tablas tienen RLS habilitado con políticas específicas:
+
+**Owners:**
+- Solo ven su propio perfil
+- Admins ven según su equipo
+
+**Referrals:**
+- Owners ven sus propios referrals
+- Guests acceden por token único
+- Admins ven según su equipo
+
+**Vouchers:**
+- Solo admins tienen acceso
+- Filtrado por equipo
+
+**Activity Logs:**
+- Solo admins pueden ver
+- No se pueden modificar
+
+---
+
+## 📝 COMANDOS ÚTILES
+
+```bash
+# Desarrollo
+npm run dev              # Servidor dev en localhost:3000
+
+# Build
+npm run build            # Build de producción
+
+# Producción
+npm run start            # Servidor producción
+
+# Linting
+npm run lint             # Verificar código
+```
+
+---
+
+## 🔄 FLUJO COMPLETO DEL SISTEMA
+
+### **1. Owner crea referido:**
+```
+Owner login → Dashboard → Crear referido → 
+Llena formulario (guest info) → Submit → 
+Email a owner (confirmación) + Email a guest (link único)
+```
+
+### **2. Guest recibe y acepta oferta:**
+```
+Guest recibe email → Click en link único → 
+Landing page personalizada → Ve oferta exclusiva → 
+"Acepto Oferta" o "Más Información" → 
+Referral status actualizado
+```
+
+### **3. Admin gestiona y cierra:**
+```
+Admin login → Dashboard → Referrals → 
+Ve nuevo referral "Interesado" → 
+Contacta al guest → Marca como "Contactado" → 
+Guest confirma → Admin marca como "Ganado" → 
+Sistema auto-genera voucher QR → 
+Admin descarga QR → Envía a guest → 
+Guest presenta en resort → Admin canjea voucher
+```
+
+---
+
+## 🎁 PROGRAMA DE RECOMPENSAS
+
+### **Para Owners:**
+- **$200 USD F&B Credit** por cada referido exitoso
+- Tracking en dashboard
+- Historial completo de recompensas
+
+### **Para Guests:**
+- **7 NOCHES por $630 USD** (All-Inclusive opcional)
+- **3 NOCHES por $270 USD** (All-Inclusive opcional)
+- Acceso a resorts galardonados
+- Experiencia Pueblo Bonito completa
+
+---
+
+## 📱 RESPONSIVE DESIGN
+
+El sistema es **100% responsive**:
+- ✅ Desktop (1920px+)
+- ✅ Laptop (1024px - 1920px)
+- ✅ Tablet (768px - 1024px)
+- ✅ Mobile (320px - 768px)
+
+---
+
+## 🌍 INTERNACIONALIZACIÓN
+
+### **Idiomas soportados:**
+- 🇪🇸 Español (default)
+- 🇬🇧 English
+
+### **Cambio de idioma:**
+- Selector en header
+- URL structure: `/es/...` o `/en/...`
+- Persiste en toda la navegación
+
+### **Traducciones:**
+- `messages/es.json` - Español
+- `messages/en.json` - English
+- Todas las páginas y componentes traducidos
+
+---
+
+## 📦 DEPENDENCIAS PRINCIPALES
+
+```json
+{
+  "next": "^16.1.6",
+  "react": "^19.0.0",
+  "next-intl": "^3.29.1",
+  "@supabase/ssr": "^0.6.2",
+  "@supabase/supabase-js": "^2.48.1",
+  "tailwindcss": "^3.4.17",
+  "qrcode": "^1.5.4",
+  "typescript": "^5.7.3"
+}
+```
+
+---
+
+## 🎨 ASSETS
+
+### **Imágenes incluidas:**
+- Hero images de Los Cabos y Mazatlán
+- Property photos (Sunset Beach, Emerald Bay, etc.)
+- Gallery carousel images
+- Logo SVG (blanco y original)
+
+### **Íconos:**
+- SVG icons personalizados
+- Heroicons para UI
+- Font Awesome social media
+
+---
+
+## 📄 DOCUMENTACIÓN ADICIONAL
+
+- **`SETUP-RAPIDO.sql`** - Script SQL para setup inicial de owners/referrals
+- **`ADMIN-SETUP.sql`** - Script SQL para setup del admin portal
+- **`ADMIN-INSTRUCCIONES.md`** - Guía paso a paso para configurar admin portal
+- **`SUPABASE-CONFIG.md`** - Configuración detallada de Supabase
+
+---
+
+## ✅ ESTADO DEL MVP
+
+### **COMPLETADO:**
+- ✅ Homeowner Landing Page
+- ✅ Owner Dashboard completo
+- ✅ Guest Landing Page con link único
+- ✅ Admin Portal (2 equipos)
+- ✅ Sistema de Vouchers QR
+- ✅ Autenticación Email/Password
+- ✅ Sistema de emails (simulado)
+- ✅ Traducciones completas ES/EN
+- ✅ Responsive design
+- ✅ Chatbot inteligente para guests
+
+### **PENDIENTE:**
+- ⏳ Integrar email service real (Resend/SendGrid)
+- ⏳ Editar/Eliminar referidos (owner dashboard)
+- ⏳ Notificaciones push en tiempo real
+- ⏳ Deploy a producción (Vercel)
+
+---
+
+## 🏗️ PRÓXIMOS PASOS
+
+1. **Ejecutar `ADMIN-SETUP.sql`** en Supabase
+2. **Crear primer admin** siguiendo `ADMIN-INSTRUCCIONES.md`
+3. **Probar flujo completo**:
+   - Owner crea referido
+   - Guest recibe link y acepta oferta
+   - Admin marca como ganado
+   - Voucher QR se genera automáticamente
+   - Admin descarga y envía QR a guest
+4. **Integrar email service real**
+5. **Deploy a producción**
+
+---
+
+## 📞 CONTACTO
+
+**Pueblo Bonito Golf & Spa Resorts**
+
+**Los Cabos:**
+- Tel: +52 (624) 142 9898
+
+**Mazatlán:**
+- Tel: +52 (669) 989 8900
+
+**Email:**
+- referrals@pueblobonito.com
+
+**Sitio oficial:**
+- https://www.pueblobonito.com.mx/
+
+---
+
+## 📜 LICENCIA
+
+© 2026 Pueblo Bonito Resorts. Todos los derechos reservados.
+
+---
+
+**Desarrollado con ❤️ para Pueblo Bonito Golf & Spa Resorts**
