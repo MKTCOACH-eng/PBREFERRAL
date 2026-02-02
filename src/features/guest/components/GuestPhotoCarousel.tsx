@@ -29,7 +29,7 @@ export default function GuestPhotoCarousel() {
     <section className="py-12 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4">
         {/* Carousel Container */}
-        <div className="relative h-64 rounded-lg overflow-hidden shadow-xl">
+        <div className="relative h-80 md:h-96 rounded-lg overflow-hidden shadow-xl">
           {images.map((src, index) => (
             <div
               key={index}
