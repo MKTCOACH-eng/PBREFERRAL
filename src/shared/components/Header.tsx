@@ -2,13 +2,11 @@
 
 import { useState, useEffect, useRef } from 'react';
 import LanguageSwitcher from './LanguageSwitcher';
-import AuthModal from '@/features/auth/components/AuthModal';
 import { useTranslations } from 'next-intl';
 
 export default function Header() {
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const contactRef = useRef<HTMLDivElement>(null);
   const t = useTranslations('common');
 
@@ -39,15 +37,7 @@ export default function Header() {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-3 lg:space-x-6">
-            {/* Access Button */}
-            <button
-              onClick={() => setIsAuthModalOpen(true)}
-              className="px-3 py-2 text-sm lg:px-4 lg:text-base bg-[#C8A882] text-white font-medium rounded-lg hover:bg-[#B89872] transition-all duration-200 shadow-md hover:shadow-lg whitespace-nowrap"
-            >
-              {t('access')}
-            </button>
-
+          <div className="hidden md:flex items-center space-x-6">
             {/* Contact Dropdown */}
             <div className="relative" ref={contactRef}>
               <button
@@ -135,12 +125,6 @@ export default function Header() {
         {isMobileMenuOpen && (
           <div className="md:hidden py-4 border-t border-white/10">
             <div className="space-y-4">
-              <button
-                onClick={() => setIsAuthModalOpen(true)}
-                className="w-full px-4 py-2 bg-[#C8A882] text-white font-medium rounded-lg hover:bg-[#B89872] transition-all"
-              >
-                {t('access')}
-              </button>
               <div className="text-white">
                 <p className="font-serif text-sm mb-2">Los Cabos</p>
                 <p className="text-sm text-white/70">+52 (624) 142 9898</p>
@@ -158,9 +142,6 @@ export default function Header() {
           </div>
         )}
       </div>
-
-      {/* Auth Modal */}
-      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
     </header>
   );
 }
