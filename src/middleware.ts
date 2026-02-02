@@ -1,13 +1,18 @@
 import { updateSession } from '@/shared/lib/supabase/middleware'
 import createMiddleware from 'next-intl/middleware'
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { routing } from './i18n/routing'
 
 const intlMiddleware = createMiddleware(routing)
 
 export async function middleware(request: NextRequest) {
-  // First, handle i18n
-  const response = intlMiddleware(request)
+  // First, handle i18n routing
+  const intlResponse = intlMiddleware(request)
+  
+  // If i18n middleware returns a redirect, return it
+  if (intlResponse.status === 307 || intlResponse.status === 308) {
+    return intlResponse
+  }
   
   // Then, update Supabase session
   return await updateSession(request)
