@@ -11,18 +11,22 @@ export default async function ReferralsPage() {
 
   // Get owner profile
   const adminClient = createAdminClient();
-  const { data: owner } = await adminClient
+  const { data: owner, error: ownerError } = await adminClient
     .from('owners')
     .select('id')
     .eq('user_id', user.id)
     .single();
 
+  console.log('Owner data:', owner, 'Owner error:', ownerError);
+
   // Get referrals
-  const { data: referrals } = await adminClient
+  const { data: referrals, error: referralsError } = await adminClient
     .from('referrals')
     .select('*')
     .eq('owner_id', owner?.id || '')
     .order('created_at', { ascending: false });
+
+  console.log('Referrals data:', referrals, 'Referrals error:', referralsError);
 
   return (
     <div className="space-y-6">

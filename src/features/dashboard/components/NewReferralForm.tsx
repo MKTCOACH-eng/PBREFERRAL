@@ -8,6 +8,7 @@ export default function NewReferralForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [countryCode, setCountryCode] = useState('+52');
   const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -17,11 +18,14 @@ export default function NewReferralForm() {
 
     const formData = new FormData(e.currentTarget);
     
+    const phoneNumber = formData.get('guestPhone') as string;
+    const fullPhone = `${countryCode}${phoneNumber}`;
+    
     const data = {
       guestFirstName: formData.get('guestFirstName') as string,
       guestLastName: formData.get('guestLastName') as string,
       guestEmail: formData.get('guestEmail') as string,
-      guestPhone: formData.get('guestPhone') as string,
+      guestPhone: fullPhone,
       destination: formData.get('destination') as string,
       specialRequests: formData.get('specialRequests') as string,
     };
@@ -112,13 +116,29 @@ export default function NewReferralForm() {
           <label className="block text-sm font-light text-gray-700 mb-2">
             Teléfono <span className="text-red-500">*</span>
           </label>
-          <input
-            type="tel"
-            name="guestPhone"
-            required
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C8A882] focus:border-transparent font-light"
-            placeholder="+52 123 456 7890"
-          />
+          <div className="flex gap-2">
+            <select
+              value={countryCode}
+              onChange={(e) => setCountryCode(e.target.value)}
+              className="w-32 px-2 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C8A882] focus:border-transparent text-sm font-light"
+            >
+              <option value="+1">🇺🇸 +1</option>
+              <option value="+52">🇲🇽 +52</option>
+              <option value="+1">🇨🇦 +1</option>
+              <option value="+44">🇬🇧 +44</option>
+              <option value="+34">🇪🇸 +34</option>
+              <option value="+33">🇫🇷 +33</option>
+              <option value="+49">🇩🇪 +49</option>
+              <option value="+39">🇮🇹 +39</option>
+            </select>
+            <input
+              type="tel"
+              name="guestPhone"
+              required
+              placeholder="123 456 7890"
+              className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C8A882] focus:border-transparent font-light"
+            />
+          </div>
         </div>
 
         <div>
