@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import PuebloBonitoLogo from './PuebloBonitoLogo';
+import Image from 'next/image';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useTranslations } from 'next-intl';
 
@@ -10,31 +10,20 @@ export default function Header() {
   const t = useTranslations('common');
 
   return (
-    <header className="bg-[#1A2332] text-white sticky top-0 z-50 shadow-lg">
+    <header className="bg-[#1A2332]/95 backdrop-blur-sm text-white sticky top-0 z-50 shadow-lg border-b border-[#C8A882]/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <div className="flex-shrink-0">
             <a href="/" className="block">
-              <div className="flex items-center gap-3">
-                <div className="relative w-6 h-6">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-1.5 h-1.5 bg-[#C8A882] rounded-full"></div>
-                  </div>
-                  {[...Array(8)].map((_, i) => (
-                    <div
-                      key={i}
-                      className="absolute w-0.5 h-2 bg-[#C8A882] top-0 left-1/2 origin-bottom"
-                      style={{
-                        transform: `translateX(-50%) rotate(${i * 45}deg)`,
-                      }}
-                    ></div>
-                  ))}
-                </div>
-                <span className="text-base font-light tracking-[0.2em] uppercase">
-                  Pueblo Bonito
-                </span>
-              </div>
+              <Image
+                src="/Pueblo_Bonito_Beyond_Hospitality_RGB.png"
+                alt="Pueblo Bonito"
+                width={180}
+                height={60}
+                className="h-12 w-auto"
+                priority
+              />
             </a>
           </div>
 

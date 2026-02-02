@@ -19,6 +19,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Pueblo Bonito Referral Program",
   description: "Refer friends and family to Pueblo Bonito and earn exclusive rewards",
+  icons: {
+    icon: '/favicon.webp',
+    apple: '/favicon.webp',
+  },
 };
 
 export function generateStaticParams() {
