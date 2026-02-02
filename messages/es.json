@@ -382,23 +382,25 @@
       "consent": "Acepto recibir comunicaciones de Pueblo Bonito"
     },
     "benefits": {
+      "subtitle": "La Excelencia Nos Define",
       "title": "¿Por Qué Pueblo Bonito?",
       "luxury": {
-        "title": "Lujo Auténtico",
-        "description": "Experimenta el verdadero lujo mexicano con servicios de primera clase"
+        "title": "Resorts Galardonados",
+        "description": "Reconocidos por Condé Nast Traveler y Travel + Leisure como los mejores resorts de México"
       },
       "locations": {
-        "title": "Ubicaciones Privilegiadas",
-        "description": "Los mejores destinos de playa en México"
+        "title": "Destinos Excepcionales",
+        "description": "Propiedades frente al mar en Los Cabos y Mazatlán, los destinos más codiciados del Pacífico Mexicano"
       },
       "service": {
-        "title": "Servicio Excepcional",
-        "description": "Atención personalizada que supera expectativas"
+        "title": "Servicio AAA Four Diamond",
+        "description": "Atención personalizada que ha conquistado los más altos estándares de la industria hotelera"
       },
       "value": {
-        "title": "Valor Incomparable",
-        "description": "La mejor relación calidad-precio en resorts de lujo"
-      }
+        "title": "All-Inclusive de Lujo",
+        "description": "Acceso a spas de clase mundial, golf en Quivira Golf Club y gastronomía gourmet incluidos"
+      },
+      "awards": "Reconocidos por Condé Nast Traveler como Top Resorts de México"
     }
   },
   "shareLink": {
