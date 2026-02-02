@@ -4,6 +4,7 @@ import HomeownerHero from '@/features/auth/components/HomeownerHero';
 import RewardHighlight from '@/shared/components/RewardHighlight';
 import GuestBenefits from '@/shared/components/GuestBenefits';
 import RequirementsSection from '@/shared/components/RequirementsSection';
+import GalleryCarousel from '@/shared/components/GalleryCarousel';
 
 export default async function HomeownerPage({
   params,
@@ -20,6 +21,7 @@ export default async function HomeownerPage({
         <RewardHighlight />
         <GuestBenefits />
         <RequirementsSection />
+        <GalleryCarousel />
       </main>
       <Footer />
     </>
