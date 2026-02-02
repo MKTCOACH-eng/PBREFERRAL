@@ -97,7 +97,8 @@ export function generateReferralConfirmationEmail(
 export function generateGuestWelcomeEmail(
   guestName: string,
   ownerName: string,
-  destination: string
+  destination: string,
+  guestLink: string
 ): string {
   return `
     <!DOCTYPE html>
@@ -149,17 +150,19 @@ export function generateGuestWelcomeEmail(
           
           <h3>Tu destino: ${destination}</h3>
           
-          <p>Nuestro equipo de concierge se pondrá en contacto contigo en las próximas 24-48 horas para:</p>
+          <p>Haz clic en el botón de abajo para ver todos los detalles de tu oferta exclusiva:</p>
+          
+          <a href="${guestLink}" class="button">
+            Ver Mi Oferta Exclusiva
+          </a>
+          
+          <p>Nuestro equipo de concierge se pondrá en contacto contigo para:</p>
           <ul>
             <li>Confirmar las fechas de tu estadía</li>
             <li>Explicarte los detalles de la oferta</li>
             <li>Responder todas tus preguntas</li>
             <li>Ayudarte con tu reservación</li>
           </ul>
-          
-          <a href="${process.env.NEXT_PUBLIC_APP_URL}/homeguest" class="button">
-            Conoce Más Sobre Pueblo Bonito
-          </a>
           
           <p style="margin-top: 30px; color: #666; font-size: 14px;">
             Si tienes alguna pregunta inmediata, no dudes en contactarnos.

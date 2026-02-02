@@ -345,6 +345,13 @@ export async function createReferral(data: {
       return { error: 'Perfil de propietario no encontrado' };
     }
 
+    // Generate unique guest token (URL-safe)
+    const guestToken = btoa(Math.random().toString(36).substring(2) + Date.now().toString(36)).replace(/[^a-zA-Z0-9]/g, '').substring(0, 32);
+    
+    // Token expires in 90 days
+    const tokenExpiresAt = new Date();
+    tokenExpiresAt.setDate(tokenExpiresAt.getDate() + 90);
+
     // Create referral
     const referralData = {
       owner_id: owner.id,
@@ -355,6 +362,8 @@ export async function createReferral(data: {
       destination: data.destination,
       special_requests: data.specialRequests || null,
       status: 'pending',
+      guest_token: guestToken,
+      guest_token_expires_at: tokenExpiresAt.toISOString(),
     };
 
     const { data: newReferral, error: referralError } = await adminClient
@@ -380,11 +389,12 @@ export async function createReferral(data: {
         html: generateReferralConfirmationEmail(ownerFullName, guestFullName, data.destination),
       });
 
-      // Email to guest
+      // Email to guest with unique link
+      const guestLink = `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/es/guest?ref=${guestToken}`;
       await sendEmail({
         to: data.guestEmail,
         subject: '🏖️ ¡Bienvenido a Pueblo Bonito! Oferta Exclusiva',
-        html: generateGuestWelcomeEmail(guestFullName, ownerFullName, data.destination),
+        html: generateGuestWelcomeEmail(guestFullName, ownerFullName, data.destination, guestLink),
       });
     } catch (emailError: any) {
       console.error('Error sending emails (non-critical):', emailError);

@@ -3,45 +3,120 @@
 import { createAdminClient } from '@/lib/supabase/admin';
 import { revalidatePath } from 'next/cache';
 
-export async function submitGuestInquiry(data: {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  destination: string;
-  preferredDates?: string;
-  comments?: string;
-}) {
+export async function getReferralByToken(token: string) {
   try {
     const adminClient = createAdminClient();
 
-    // Insert inquiry into opportunities table
-    const { error: insertError } = await adminClient
-      .from('opportunities')
-      .insert({
-        guest_first_name: data.firstName,
-        guest_last_name: data.lastName,
-        guest_email: data.email,
-        guest_phone: data.phone,
-        destination: data.destination,
-        preferred_dates: data.preferredDates || null,
-        comments: data.comments || null,
-        source: 'guest_landing',
-        status: 'new',
-      });
+    // Get referral by token
+    const { data: referral, error } = await adminClient
+      .from('referrals')
+      .select(`
+        id,
+        guest_first_name,
+        guest_last_name,
+        guest_email,
+        guest_phone,
+        destination,
+        guest_token,
+        guest_token_expires_at,
+        guest_viewed_at,
+        guest_accepted_at,
+        status,
+        owner_id,
+        owners:owner_id (
+          first_name,
+          last_name,
+          email
+        )
+      `)
+      .eq('guest_token', token)
+      .single();
 
-    if (insertError) {
-      console.error('Error inserting guest inquiry:', insertError);
-      return { error: 'Error al enviar la solicitud. Por favor intenta de nuevo.' };
+    if (error || !referral) {
+      return { error: 'Token inválido o expirado' };
     }
 
-    // TODO: Send email notification to sales team
-    console.log('📧 Guest inquiry received:', data);
+    // Check if token is expired
+    if (referral.guest_token_expires_at) {
+      const expiresAt = new Date(referral.guest_token_expires_at);
+      if (expiresAt < new Date()) {
+        return { error: 'Este enlace ha expirado' };
+      }
+    }
+
+    // Mark as viewed if not already viewed
+    if (!referral.guest_viewed_at) {
+      await adminClient
+        .from('referrals')
+        .update({ guest_viewed_at: new Date().toISOString() })
+        .eq('id', referral.id);
+    }
+
+    return { success: true, referral };
+  } catch (error: any) {
+    console.error('Error getting referral by token:', error);
+    return { error: 'Error al cargar la información' };
+  }
+}
+
+export async function acceptReferralOffer(token: string) {
+  try {
+    const adminClient = createAdminClient();
+
+    // Update referral as accepted
+    const { data, error } = await adminClient
+      .from('referrals')
+      .update({
+        guest_accepted_at: new Date().toISOString(),
+        status: 'interested'
+      })
+      .eq('guest_token', token)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error accepting offer:', error);
+      return { error: 'Error al aceptar la oferta' };
+    }
+
+    // TODO: Send notification to sales team
+    console.log('✅ Guest accepted offer:', data);
 
     revalidatePath('/guest');
     return { success: true };
   } catch (error: any) {
-    console.error('Unexpected error submitting guest inquiry:', error);
-    return { error: 'Error inesperado. Por favor intenta de nuevo.' };
+    console.error('Unexpected error accepting offer:', error);
+    return { error: 'Error inesperado' };
+  }
+}
+
+export async function requestMoreInfo(token: string, message?: string) {
+  try {
+    const adminClient = createAdminClient();
+
+    // Update referral with request for more info
+    const { data, error } = await adminClient
+      .from('referrals')
+      .update({
+        special_requests: message || 'Solicita más información',
+        status: 'contacted'
+      })
+      .eq('guest_token', token)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error requesting more info:', error);
+      return { error: 'Error al enviar solicitud' };
+    }
+
+    // TODO: Send notification to sales team
+    console.log('📧 Guest requested more info:', data);
+
+    revalidatePath('/guest');
+    return { success: true };
+  } catch (error: any) {
+    console.error('Unexpected error requesting info:', error);
+    return { error: 'Error inesperado' };
   }
 }
