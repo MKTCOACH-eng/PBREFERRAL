@@ -37,7 +37,7 @@ export default function Header() {
                 alt="Pueblo Bonito"
                 width={240}
                 height={80}
-                className="h-16 w-auto sm:h-20"
+                className="h-16 w-auto sm:h-20 brightness-0 invert"
                 priority
               />
             </a>

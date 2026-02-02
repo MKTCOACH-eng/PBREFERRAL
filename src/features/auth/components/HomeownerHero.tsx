@@ -1,7 +1,6 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import PuebloBonitoLogo from '@/shared/components/PuebloBonitoLogo';
 
 export default function HomeownerHero() {
   const t = useTranslations('homeowner.hero');
@@ -30,10 +29,9 @@ export default function HomeownerHero() {
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 w-full">
         <div className="text-center">
-          {/* Logo */}
+          {/* Decorative element */}
           <div className="mb-12">
-            <PuebloBonitoLogo />
-            <div className="flex items-center justify-center gap-3 mt-6">
+            <div className="flex items-center justify-center gap-3">
               <div className="w-12 h-px bg-[#C8A882]"></div>
               <div className="w-2 h-2 bg-[#C8A882] rotate-45"></div>
               <div className="w-12 h-px bg-[#C8A882]"></div>
