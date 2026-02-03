@@ -314,7 +314,13 @@ export async function getAllReferrals(filters?: {
       return { error: error.message };
     }
 
-    return { success: true, referrals: referrals || [] };
+    // Transform owners from array to object (Supabase returns array for foreign key)
+    const transformedReferrals = referrals?.map(ref => ({
+      ...ref,
+      owners: Array.isArray(ref.owners) ? ref.owners[0] || null : ref.owners
+    })) || [];
+
+    return { success: true, referrals: transformedReferrals };
   } catch (error: any) {
     console.error('Unexpected error fetching referrals:', error);
     return { error: error.message || 'Error al obtener referidos' };
