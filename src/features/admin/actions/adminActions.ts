@@ -604,7 +604,14 @@ export async function getAllVouchers(filters?: {
       return { error: error.message };
     }
 
-    return { success: true, vouchers: vouchers || [] };
+    // Transform referrals and owners from arrays to objects
+    const transformedVouchers = vouchers?.map(voucher => ({
+      ...voucher,
+      referrals: Array.isArray(voucher.referrals) ? voucher.referrals[0] || null : voucher.referrals,
+      owners: Array.isArray(voucher.owners) ? voucher.owners[0] || null : voucher.owners
+    })) || [];
+
+    return { success: true, vouchers: transformedVouchers };
   } catch (error: any) {
     console.error('Unexpected error fetching vouchers:', error);
     return { error: error.message || 'Error al obtener vouchers' };

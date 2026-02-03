@@ -140,25 +140,30 @@ export async function getAllProspects(filters?: {
     }
 
     // Transform referrals to prospects format
-    const prospects = referrals?.map(ref => ({
-      id: ref.id,
-      first_name: ref.guest_first_name,
-      last_name: ref.guest_last_name,
-      email: ref.guest_email,
-      phone: ref.guest_phone,
-      destination: ref.destination,
-      status: ref.status || 'new',
-      source: 'referral',
-      pipedrive_id: ref.pipedrive_id,
-      pipedrive_synced_at: ref.pipedrive_synced_at,
-      created_at: ref.created_at,
-      last_contact_at: ref.guest_viewed_at,
-      referral_id: ref.id,
-      owner: ref.owners ? {
-        first_name: ref.owners.first_name,
-        last_name: ref.owners.last_name,
-      } : undefined,
-    })) || [];
+    const prospects = referrals?.map(ref => {
+      // Transform owners from array to object
+      const owner = Array.isArray(ref.owners) ? ref.owners[0] : ref.owners;
+      
+      return {
+        id: ref.id,
+        first_name: ref.guest_first_name,
+        last_name: ref.guest_last_name,
+        email: ref.guest_email,
+        phone: ref.guest_phone,
+        destination: ref.destination,
+        status: ref.status || 'new',
+        source: 'referral',
+        pipedrive_id: ref.pipedrive_id,
+        pipedrive_synced_at: ref.pipedrive_synced_at,
+        created_at: ref.created_at,
+        last_contact_at: ref.guest_viewed_at,
+        referral_id: ref.id,
+        owner: owner ? {
+          first_name: owner.first_name,
+          last_name: owner.last_name,
+        } : undefined,
+      };
+    }) || [];
 
     return { success: true, prospects };
   } catch (error: any) {
