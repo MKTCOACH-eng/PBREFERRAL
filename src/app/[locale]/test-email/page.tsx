@@ -5,7 +5,7 @@ import EmailList from '@/features/test/components/EmailList';
 export default async function TestEmailPage() {
   // Get the most recent referral with token
   const adminClient = createAdminClient();
-  const { data: referrals } = await adminClient
+  const { data: rawReferrals } = await adminClient
     .from('referrals')
     .select(`
       id,
@@ -23,6 +23,12 @@ export default async function TestEmailPage() {
     `)
     .order('created_at', { ascending: false })
     .limit(5);
+
+  // Transform owners from array to object
+  const referrals = rawReferrals?.map(ref => ({
+    ...ref,
+    owners: Array.isArray(ref.owners) ? ref.owners[0] || null : ref.owners
+  })) || [];
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
