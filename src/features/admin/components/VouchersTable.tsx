@@ -17,6 +17,10 @@ type Voucher = {
   redeemed_at: string | null;
   redeemed_by: string | null;
   created_at: string;
+  referrals?: {
+    guest_first_name: string;
+    guest_last_name: string;
+  } | null;
   owners: {
     first_name: string;
     last_name: string;
