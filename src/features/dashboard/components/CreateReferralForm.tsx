@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter, usePathname } from 'next/navigation';
-import { createReferral } from '../actions/referralActions';
+import { createReferral } from '@/features/auth/actions/authActions';
 
 export default function CreateReferralForm() {
   const t = useTranslations('referrals.create');
