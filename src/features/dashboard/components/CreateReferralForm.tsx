@@ -20,8 +20,18 @@ export default function CreateReferralForm() {
 
     const formData = new FormData(e.currentTarget);
     
+    // Convert FormData to object
+    const referralData = {
+      guestFirstName: formData.get('guestFirstName') as string,
+      guestLastName: formData.get('guestLastName') as string,
+      guestEmail: formData.get('guestEmail') as string,
+      guestPhone: formData.get('guestPhone') as string,
+      destination: formData.get('destination') as string,
+      specialRequests: formData.get('specialRequests') as string || undefined,
+    };
+    
     try {
-      const result = await createReferral(formData);
+      const result = await createReferral(referralData);
       
       if (result.error) {
         setError(result.error);
