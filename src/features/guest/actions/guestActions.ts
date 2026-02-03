@@ -52,7 +52,13 @@ export async function getReferralByToken(token: string) {
         .eq('id', referral.id);
     }
 
-    return { success: true, referral };
+    // Transform owners from array to object
+    const transformedReferral = {
+      ...referral,
+      owners: Array.isArray(referral.owners) ? referral.owners[0] || null : referral.owners
+    };
+
+    return { success: true, referral: transformedReferral };
   } catch (error: any) {
     console.error('Error getting referral by token:', error);
     return { error: 'Error al cargar la información' };
