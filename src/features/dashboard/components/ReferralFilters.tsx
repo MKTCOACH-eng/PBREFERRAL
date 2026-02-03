@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 export default function ReferralFilters() {
+  const t = useTranslations('referrals.filters');
   const router = useRouter();
   const searchParams = useSearchParams();
   
@@ -36,31 +38,31 @@ export default function ReferralFilters() {
       <div className="flex flex-wrap items-center gap-4">
         <div className="flex-1 min-w-[200px]">
           <label className="block text-sm font-light text-gray-700 mb-2">
-            Estado
+            {t('status')}
           </label>
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C8A882] focus:border-transparent font-light"
           >
-            <option value="all">Todos los estados</option>
-            <option value="pending">Pendiente</option>
-            <option value="contacted">Contactado</option>
-            <option value="completed">Completado</option>
-            <option value="cancelled">Cancelado</option>
+            <option value="all">{t('allStatuses')}</option>
+            <option value="pending">{t('pending')}</option>
+            <option value="contacted">{t('contacted')}</option>
+            <option value="completed">{t('completed')}</option>
+            <option value="cancelled">{t('cancelled')}</option>
           </select>
         </div>
 
         <div className="flex-1 min-w-[200px]">
           <label className="block text-sm font-light text-gray-700 mb-2">
-            Destino
+            {t('destination')}
           </label>
           <select
             value={destination}
             onChange={(e) => setDestination(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C8A882] focus:border-transparent font-light"
           >
-            <option value="all">Todos los destinos</option>
+            <option value="all">{t('allDestinations')}</option>
             <option value="Los Cabos">Los Cabos</option>
             <option value="Mazatlán">Mazatlán</option>
           </select>
@@ -68,16 +70,16 @@ export default function ReferralFilters() {
 
         <div className="flex-1 min-w-[200px]">
           <label className="block text-sm font-light text-gray-700 mb-2">
-            Ordenar por
+            {t('sortBy')}
           </label>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C8A882] focus:border-transparent font-light"
           >
-            <option value="newest">Más recientes</option>
-            <option value="oldest">Más antiguos</option>
-            <option value="name">Nombre (A-Z)</option>
+            <option value="newest">{t('newest')}</option>
+            <option value="oldest">{t('oldest')}</option>
+            <option value="name">{t('nameAZ')}</option>
           </select>
         </div>
 
@@ -87,7 +89,7 @@ export default function ReferralFilters() {
               onClick={handleReset}
               className="px-4 py-2 text-sm text-[#C8A882] hover:text-[#B89872] font-light transition-colors"
             >
-              Limpiar filtros
+              {t('clearFilters')}
             </button>
           </div>
         )}
@@ -96,20 +98,20 @@ export default function ReferralFilters() {
       {hasActiveFilters && (
         <div className="mt-4 pt-4 border-t border-gray-100">
           <div className="flex items-center gap-2 text-sm text-gray-600 font-light">
-            <span>Filtros activos:</span>
+            <span>{t('activeFilters')}:</span>
             {status !== 'all' && (
               <span className="px-3 py-1 bg-[#C8A882] bg-opacity-10 text-[#C8A882] rounded-full">
-                Estado: {status}
+                {t('status')}: {status}
               </span>
             )}
             {destination !== 'all' && (
               <span className="px-3 py-1 bg-[#C8A882] bg-opacity-10 text-[#C8A882] rounded-full">
-                Destino: {destination}
+                {t('destination')}: {destination}
               </span>
             )}
             {sortBy !== 'newest' && (
               <span className="px-3 py-1 bg-[#C8A882] bg-opacity-10 text-[#C8A882] rounded-full">
-                Orden: {sortBy === 'oldest' ? 'Más antiguos' : 'Nombre'}
+                {t('order')}: {sortBy === 'oldest' ? t('oldest') : t('nameAZ')}
               </span>
             )}
           </div>

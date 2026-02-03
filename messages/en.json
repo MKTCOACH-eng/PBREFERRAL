@@ -227,6 +227,23 @@
         "button": "Create Your First Referral"
       }
     },
+    "filters": {
+      "status": "Status",
+      "allStatuses": "All statuses",
+      "pending": "Pending",
+      "contacted": "Contacted",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "destination": "Destination",
+      "allDestinations": "All destinations",
+      "sortBy": "Sort by",
+      "newest": "Most recent",
+      "oldest": "Oldest",
+      "nameAZ": "Name (A-Z)",
+      "clearFilters": "Clear filters",
+      "activeFilters": "Active filters",
+      "order": "Order"
+    },
     "status": {
       "new": "New Referral",
       "contacted": "Contacted",

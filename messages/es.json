@@ -227,6 +227,23 @@
         "button": "Crear Tu Primer Referido"
       }
     },
+    "filters": {
+      "status": "Estado",
+      "allStatuses": "Todos los estados",
+      "pending": "Pendiente",
+      "contacted": "Contactado",
+      "completed": "Completado",
+      "cancelled": "Cancelado",
+      "destination": "Destino",
+      "allDestinations": "Todos los destinos",
+      "sortBy": "Ordenar por",
+      "newest": "Más recientes",
+      "oldest": "Más antiguos",
+      "nameAZ": "Nombre (A-Z)",
+      "clearFilters": "Limpiar filtros",
+      "activeFilters": "Filtros activos",
+      "order": "Orden"
+    },
     "status": {
       "new": "Nuevo Referido",
       "contacted": "Contactado",
