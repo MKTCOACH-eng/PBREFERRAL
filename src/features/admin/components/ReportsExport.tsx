@@ -168,14 +168,36 @@ export default function ReportsExport({
       guest_accepted_at: r.guest_accepted_at ? new Date(r.guest_accepted_at).toISOString() : '',
     }));
 
-    exportToCSV(
-      data,
-      'referrals-export',
-      ['guest_first_name', 'guest_last_name', 'guest_email', 'guest_phone', 'destination', 'status', 'owner_email', 'owner_name', 'created_at', 'guest_viewed_at', 'guest_accepted_at']
-    );
+    if (format === 'csv') {
+      exportToCSV(
+        data,
+        'referrals-export',
+        ['guest_first_name', 'guest_last_name', 'guest_email', 'guest_phone', 'destination', 'status', 'owner_email', 'owner_name', 'created_at', 'guest_viewed_at', 'guest_accepted_at']
+      );
+    } else if (format === 'excel') {
+      exportToExcel(data, 'referrals-export', 'Referidos');
+    } else if (format === 'pdf') {
+      exportToPDF(
+        data,
+        'referrals-export',
+        'Reporte de Referidos',
+        [
+          { header: 'Nombre', dataKey: 'guest_first_name' },
+          { header: 'Apellido', dataKey: 'guest_last_name' },
+          { header: 'Email', dataKey: 'guest_email' },
+          { header: 'Teléfono', dataKey: 'guest_phone' },
+          { header: 'Destino', dataKey: 'destination' },
+          { header: 'Estado', dataKey: 'status' },
+          { header: 'Propietario', dataKey: 'owner_name' },
+        ]
+      );
+    }
+    
+    setIsExporting(false);
   };
 
-  const handleExportVouchers = () => {
+  const handleExportVouchers = (format: ExportFormat = 'csv') => {
+    setIsExporting(true);
     const data = vouchers.map((v: any) => ({
       voucher_code: v.voucher_code,
       guest_name: v.guest_name,
