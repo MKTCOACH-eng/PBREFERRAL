@@ -23,7 +23,7 @@ export default function RequirementsSection() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <span className="text-[#1A2332] font-light">
-                Guests must be between <strong className="font-medium">30 and 69 years old</strong>
+                {t('ageRequirement')}
               </span>
             </li>
             <li className="flex items-start gap-3">
@@ -31,7 +31,7 @@ export default function RequirementsSection() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <span className="text-[#1A2332] font-light">
-                If married, <strong className="font-medium">both spouses must attend</strong> together
+                {t('marriedRequirement')}
               </span>
             </li>
             <li className="flex items-start gap-3">
@@ -39,7 +39,7 @@ export default function RequirementsSection() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <span className="text-[#1A2332] font-light">
-                Attend a <strong className="font-medium">90-minute breakfast presentation</strong> the morning after arrival
+                {t('presentationRequirement')}
               </span>
             </li>
             <li className="flex items-start gap-3">
@@ -47,7 +47,7 @@ export default function RequirementsSection() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <span className="text-[#1A2332] font-light">
-                Present a <strong className="font-medium">valid government ID</strong> and at least <strong className="font-medium">one active Visa or Mastercard</strong>
+                {t('idRequirement')}
               </span>
             </li>
             <li className="flex items-start gap-3">
@@ -55,7 +55,7 @@ export default function RequirementsSection() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <span className="text-[#1A2332] font-light">
-                Valid for <strong className="font-medium">married couples, cohabiting couples, and single women</strong>
+                {t('validFor')}
               </span>
             </li>
           </ul>
@@ -63,7 +63,7 @@ export default function RequirementsSection() {
           {/* Important Notes */}
           <div className="border-t border-[#C8A882]/20 pt-8">
             <h3 className="text-xl font-serif font-light text-[#1A2332] mb-4">
-              Important Notes:
+              {t('notValidTitle')}
             </h3>
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
@@ -71,7 +71,7 @@ export default function RequirementsSection() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
                 <span className="text-[#1A2332]/80 font-light text-sm">
-                  Not valid for single men.
+                  {t('notValidSingleMen')}
                 </span>
               </li>
               <li className="flex items-start gap-3">
@@ -79,7 +79,7 @@ export default function RequirementsSection() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <span className="text-[#1A2332]/80 font-light text-sm">
-                  Offer must be used within <strong className="font-medium">18 months of your purchase date</strong>.
+                  {t('offerValidity')}
                 </span>
               </li>
               <li className="flex items-start gap-3">
@@ -87,7 +87,7 @@ export default function RequirementsSection() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
                 <span className="text-[#1A2332]/80 font-light text-sm">
-                  Reservations are subject to <strong className="font-medium">availability</strong> and <strong className="font-medium">holiday blackout dates</strong> apply.
+                  {t('reservations')}
                 </span>
               </li>
               <li className="flex items-start gap-3">
@@ -95,7 +95,7 @@ export default function RequirementsSection() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <span className="text-[#1A2332]/80 font-light text-sm">
-                  Encourage your guests to <strong className="font-medium">book early</strong> to secure their preferred dates.
+                  {t('bookEarly')}
                 </span>
               </li>
             </ul>
