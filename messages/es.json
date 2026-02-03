@@ -724,5 +724,17 @@
     "unauthorized": "No estás autorizado para realizar esta acción.",
     "notFound": "El recurso solicitado no fue encontrado.",
     "validation": "Por favor verifica tu información e intenta de nuevo."
+  },
+  "admin": {
+    "login": {
+      "title": "Acceso Administrativo",
+      "subtitle": "Ingresa tus credenciales para continuar",
+      "email": "Email",
+      "password": "Contraseña",
+      "showPassword": "Mostrar contraseña",
+      "button": "Ingresar al Portal",
+      "loading": "Ingresando...",
+      "footer": "Solo personal autorizado de Pueblo Bonito"
+    }
   }
 }

@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { signInAsAdmin } from '@/features/admin/actions/adminActions';
 
 export default function AdminLoginForm() {
+  const t = useTranslations('admin.login');
   const router = useRouter();
   const pathname = usePathname();
   const [email, setEmail] = useState('');
@@ -43,10 +45,10 @@ export default function AdminLoginForm() {
     <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8">
       <div className="mb-6">
         <h2 className="text-2xl font-serif font-light text-[#1A2332] mb-2">
-          Acceso Administrativo
+          {t('title')}
         </h2>
         <p className="text-sm text-gray-600">
-          Ingresa tus credenciales para continuar
+          {t('subtitle')}
         </p>
       </div>
 
@@ -60,7 +62,7 @@ export default function AdminLoginForm() {
         {/* Email */}
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-            Email
+            {t('email')}
           </label>
           <input
             id="email"
@@ -76,7 +78,7 @@ export default function AdminLoginForm() {
         {/* Password */}
         <div>
           <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-            Contraseña
+            {t('password')}
           </label>
           <div className="relative">
             <input
@@ -113,14 +115,14 @@ export default function AdminLoginForm() {
           disabled={isLoading}
           className="w-full py-3 bg-[#C8A882] text-white font-medium rounded-lg hover:bg-[#B89872] transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isLoading ? 'Ingresando...' : 'Ingresar al Portal'}
+          {isLoading ? t('loading') : t('button')}
         </button>
       </form>
 
       {/* Help Text */}
       <div className="mt-6 text-center">
         <p className="text-xs text-gray-500">
-          Solo personal autorizado de Pueblo Bonito
+          {t('footer')}
         </p>
       </div>
     </div>
