@@ -1,7 +1,6 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
-import { usePathname } from 'next/navigation';
+import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
 
 interface DashboardOverviewProps {
@@ -14,14 +13,22 @@ interface DashboardOverviewProps {
   recentReferrals: any[];
 }
 
+const statusLabels: Record<string, { en: string; es: string; color: string }> = {
+  new: { en: 'New', es: 'Nuevo', color: 'bg-blue-100 text-blue-700' },
+  contacted: { en: 'Contacted', es: 'Contactado', color: 'bg-yellow-100 text-yellow-700' },
+  qualified: { en: 'Qualified', es: 'Calificado', color: 'bg-indigo-100 text-indigo-700' },
+  visit_scheduled: { en: 'Visit Scheduled', es: 'Visita Programada', color: 'bg-purple-100 text-purple-700' },
+  closed_won: { en: 'Closed Won', es: 'Cerrado Exitoso', color: 'bg-green-100 text-green-700' },
+  closed_lost: { en: 'Closed Lost', es: 'Cerrado Perdido', color: 'bg-red-100 text-red-700' },
+};
+
 export default function DashboardOverview({
   ownerName,
   stats,
   recentReferrals,
 }: DashboardOverviewProps) {
   const t = useTranslations('dashboard');
-  const pathname = usePathname();
-  const locale = pathname?.split('/')[1] || 'es';
+  const locale = useLocale();
 
   return (
     <div className="space-y-8">
@@ -31,13 +38,12 @@ export default function DashboardOverview({
           {t('welcome', { name: ownerName })}
         </h1>
         <p className="text-[#1A2332]/70 font-light">
-          Track your referrals and rewards all in one place
+          {t('welcomeSubtitle')}
         </p>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Total Referrals */}
         <div className="bg-white rounded-lg shadow-sm border border-[#C8A882]/20 p-6">
           <div className="flex items-center justify-between">
             <div>
@@ -50,13 +56,12 @@ export default function DashboardOverview({
             </div>
             <div className="w-12 h-12 bg-[#C8A882]/10 rounded-lg flex items-center justify-center">
               <svg className="w-6 h-6 text-[#C8A882]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
             </div>
           </div>
         </div>
 
-        {/* Successful Referrals */}
         <div className="bg-white rounded-lg shadow-sm border border-[#C8A882]/20 p-6">
           <div className="flex items-center justify-between">
             <div>
@@ -75,7 +80,6 @@ export default function DashboardOverview({
           </div>
         </div>
 
-        {/* Rewards Earned */}
         <div className="bg-white rounded-lg shadow-sm border border-[#C8A882]/20 p-6">
           <div className="flex items-center justify-between">
             <div>
@@ -98,7 +102,7 @@ export default function DashboardOverview({
       {/* Quick Actions */}
       <div className="bg-white rounded-lg shadow-sm border border-[#C8A882]/20 p-6">
         <h2 className="text-xl font-serif font-light text-[#1A2332] mb-4">
-          Quick Actions
+          {t('quickActions.title')}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Link
@@ -112,7 +116,7 @@ export default function DashboardOverview({
             </div>
             <div>
               <p className="font-medium text-[#1A2332]">{t('createReferral')}</p>
-              <p className="text-sm text-[#1A2332]/60 font-light">Submit a new guest referral</p>
+              <p className="text-sm text-[#1A2332]/60 font-light">{t('quickActions.description')}</p>
             </div>
           </Link>
 
@@ -126,8 +130,8 @@ export default function DashboardOverview({
               </svg>
             </div>
             <div>
-              <p className="font-medium text-[#1A2332]">View All Referrals</p>
-              <p className="text-sm text-[#1A2332]/60 font-light">Track status and progress</p>
+              <p className="font-medium text-[#1A2332]">{t('viewAllReferrals')}</p>
+              <p className="text-sm text-[#1A2332]/60 font-light">{t('trackProgress')}</p>
             </div>
           </Link>
         </div>
@@ -137,27 +141,30 @@ export default function DashboardOverview({
       {recentReferrals.length > 0 && (
         <div className="bg-white rounded-lg shadow-sm border border-[#C8A882]/20 p-6">
           <h2 className="text-xl font-serif font-light text-[#1A2332] mb-4">
-            Recent Referrals
+            {t('recentReferrals')}
           </h2>
           <div className="space-y-3">
-            {recentReferrals.map((referral) => (
-              <div
-                key={referral.id}
-                className="flex items-center justify-between p-4 border border-[#C8A882]/20 rounded-lg"
-              >
-                <div>
-                  <p className="font-medium text-[#1A2332]">
-                    {referral.guest_first_name} {referral.guest_last_name}
-                  </p>
-                  <p className="text-sm text-[#1A2332]/60 font-light">
-                    {referral.destination}
-                  </p>
+            {recentReferrals.map((referral) => {
+              const status = statusLabels[referral.status] || statusLabels['new'];
+              return (
+                <div
+                  key={referral.id}
+                  className="flex items-center justify-between p-4 border border-[#C8A882]/20 rounded-lg"
+                >
+                  <div>
+                    <p className="font-medium text-[#1A2332]">
+                      {referral.guest_first_name} {referral.guest_last_name}
+                    </p>
+                    <p className="text-sm text-[#1A2332]/60 font-light">
+                      {referral.destination_current === 'los_cabos' ? 'Los Cabos' : 'Mazatlán'}
+                    </p>
+                  </div>
+                  <span className={`px-3 py-1 text-xs font-medium rounded-full ${status.color}`}>
+                    {locale === 'es' ? status.es : status.en}
+                  </span>
                 </div>
-                <span className="px-3 py-1 bg-[#C8A882]/10 text-[#C8A882] text-xs font-medium rounded-full">
-                  {referral.stage}
-                </span>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}

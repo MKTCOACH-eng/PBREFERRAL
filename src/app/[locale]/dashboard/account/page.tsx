@@ -1,149 +1,86 @@
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { getTranslations } from 'next-intl/server';
+import ShareLinkSection from '@/features/dashboard/components/ShareLinkSection';
+import ProfileSection from '@/features/dashboard/components/ProfileSection';
 
-export default async function AccountPage() {
+export default async function AccountPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   const t = await getTranslations('account');
 
-  if (!user) {
-    return null;
-  }
+  if (!user) return null;
 
-  // Get owner profile
   const adminClient = createAdminClient();
-  const { data: owner } = await adminClient
-    .from('owners')
+
+  // Get user profile
+  const { data: userProfile } = await adminClient
+    .from('users')
     .select('*')
-    .eq('user_id', user.id)
+    .eq('id', user.id)
     .single();
 
+  // Get or create share link
+  let { data: shareLink } = await adminClient
+    .from('share_links')
+    .select('*')
+    .eq('owner_id', user.id)
+    .single();
+
+  if (!shareLink) {
+    const token = generateToken();
+    const { data: newLink } = await adminClient
+      .from('share_links')
+      .insert({
+        owner_id: user.id,
+        token,
+      })
+      .select()
+      .single();
+    shareLink = newLink;
+  }
+
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const shareLinkUrl = shareLink
+    ? `${baseUrl}/${locale}/homeguest?token=${shareLink.token}`
+    : null;
+
   return (
-    <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-8">
-        <h1 className="text-3xl font-serif font-light text-gray-900 mb-2">
-          {t('title')}
-        </h1>
-        <p className="text-gray-600 font-light">
-          {t('subtitle')}
-        </p>
-      </div>
+    <div className="space-y-8">
+      <h1 className="text-2xl font-serif font-light text-[#1A2332]">
+        {t('title')}
+      </h1>
 
-      {/* Profile Information */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-8">
-        <h2 className="text-xl font-serif font-light text-gray-900 mb-6 pb-4 border-b border-gray-200">
-          {t('personalInfo.title')}
-        </h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label className="block text-sm font-light text-gray-500 mb-2">
-              {t('personalInfo.firstName')}
-            </label>
-            <div className="font-light text-gray-900 text-lg">
-              {owner?.first_name}
-            </div>
-          </div>
+      <ProfileSection
+        user={{
+          email: user.email || '',
+          firstName: userProfile?.name_first || '',
+          lastName: userProfile?.name_last || '',
+          phone: userProfile?.phone || '',
+        }}
+      />
 
-          <div>
-            <label className="block text-sm font-light text-gray-500 mb-2">
-              {t('personalInfo.lastName')}
-            </label>
-            <div className="font-light text-gray-900 text-lg">
-              {owner?.last_name}
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-light text-gray-500 mb-2">
-              {t('personalInfo.email')}
-            </label>
-            <div className="font-light text-gray-900 text-lg">
-              {owner?.email}
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-light text-gray-500 mb-2">
-              {t('personalInfo.phone')}
-            </label>
-            <div className="font-light text-gray-900 text-lg">
-              {owner?.phone}
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-light text-gray-500 mb-2">
-              {t('personalInfo.destination')}
-            </label>
-            <div className="font-light text-gray-900 text-lg">
-              {owner?.preferred_destination}
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-light text-gray-500 mb-2">
-              {t('personalInfo.accountStatus')}
-            </label>
-            <span className="inline-flex px-3 py-1 rounded-full text-sm font-light bg-green-100 text-green-800">
-              {owner?.status === 'active' ? t('personalInfo.active') : owner?.status}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* Account Statistics */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-8">
-        <h2 className="text-xl font-serif font-light text-gray-900 mb-6 pb-4 border-b border-gray-200">
-          {t('stats.title')}
-        </h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="text-center p-6 bg-gray-50 rounded-lg">
-            <div className="text-4xl font-serif font-light text-[#1A2332] mb-2">
-              {owner?.total_referrals || 0}
-            </div>
-            <div className="text-sm font-light text-gray-600">
-              {t('stats.totalReferrals')}
-            </div>
-          </div>
-
-          <div className="text-center p-6 bg-gray-50 rounded-lg">
-            <div className="text-4xl font-serif font-light text-[#1A2332] mb-2">
-              {owner?.successful_referrals || 0}
-            </div>
-            <div className="text-sm font-light text-gray-600">
-              {t('stats.successfulReferrals')}
-            </div>
-          </div>
-
-          <div className="text-center p-6 bg-gray-50 rounded-lg">
-            <div className="text-4xl font-serif font-light text-[#1A2332] mb-2">
-              ${owner?.total_rewards_earned?.toFixed(2) || '0.00'}
-            </div>
-            <div className="text-sm font-light text-gray-600">
-              {t('stats.totalEarned')}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Member Since */}
-      <div className="bg-gradient-to-r from-[#1A2332] to-[#2A3342] rounded-lg shadow-lg p-8 text-white">
-        <div className="text-sm font-light text-white/80 mb-2">
-          {t('memberSince')}
-        </div>
-        <div className="text-2xl font-serif font-light">
-          {owner?.created_at 
-            ? new Date(owner.created_at).toLocaleDateString('es-MX', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })
-            : 'Fecha no disponible'}
-        </div>
-      </div>
+      {shareLinkUrl && (
+        <ShareLinkSection
+          shareUrl={shareLinkUrl}
+          clicks={shareLink?.clicks_count || 0}
+          referrals={shareLink?.referrals_count || 0}
+        />
+      )}
     </div>
   );
+}
+
+function generateToken(): string {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < 32; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
 }

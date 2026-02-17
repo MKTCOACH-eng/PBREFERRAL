@@ -49,12 +49,23 @@
     "errors": {
       "generic": "An error occurred. Please try again.",
       "socialAuth": "Failed to authenticate. Please try again."
+    },
+    "magicLink": {
+      "title": "Sign In to Your Account",
+      "subtitle": "We'll send you a secure sign-in link",
+      "emailPlaceholder": "your@email.com",
+      "sendButton": "Send Magic Link",
+      "noPassword": "No password needed. We'll email you a secure link to sign in.",
+      "sentTitle": "Check Your Email",
+      "sentMessage": "Check your email for a secure sign-in link.",
+      "checkSpam": "If you don't see it, check your spam folder.",
+      "tryAgain": "Send another link"
     }
   },
   "homeowner": {
     "hero": {
       "title": "Submit Your Referral. Earn Your Reward.",
-      "subtitle": "As a valued Pueblo Bonito Owner, you're just one step away from inviting your friends and family to discover the beauty of our resorts. Share their details today and unlock the exclusive rewards created especially for you — it's quick, simple, and designed to recognize your loyalty.",
+      "subtitle": "As a valued Pueblo Bonito Owner, you're one step away from inviting friends and family to discover our resorts. Share their details today and unlock exclusive rewards created especially for you.",
       "ctaPrimary": "Access My Referral Program",
       "ctaSecondary": "Learn Guest Requirements"
     },
@@ -94,9 +105,8 @@
       "marriedRequirement": "If married, both spouses must attend together",
       "presentationRequirement": "Attend a 90-minute breakfast presentation the morning after arrival",
       "idRequirement": "Present valid government ID + at least one active Visa or Mastercard",
-      "validForTitle": "Valid for:",
-      "validFor": "Married couples, cohabiting couples, and single women",
-      "notValidTitle": "Important Notes:",
+      "validFor": "Valid for married couples, cohabiting couples, and single women",
+      "notValidTitle": "Important Notes",
       "notValidSingleMen": "Not valid for single men",
       "offerValidity": "Offer must be used within 18 months of purchase date",
       "reservations": "Reservations subject to availability; holiday blackout dates apply",
@@ -107,7 +117,7 @@
     "hero": {
       "title": "You've Been Invited to Experience Pueblo Bonito",
       "subtitle": "You've been personally invited by a Pueblo Bonito Owner to enjoy an exclusive stay at our resorts. Complete the form below to begin your experience and unlock preferred guest benefits.",
-      "ctaPrimary": "Request Information"
+      "ctaPrimary": "Register My Visit"
     },
     "howItWorks": {
       "title": "How It Works",
@@ -131,7 +141,7 @@
       "consentTransactional": "I consent to receive transactional communications regarding my referral",
       "consentMarketing": "I consent to receive marketing and promotional communications from Pueblo Bonito",
       "submitButton": "Register My Visit",
-      "successMessage": "Thank you! We've received your information and will contact you shortly.",
+      "successMessage": "Thank you! We've received your information and our team will contact you shortly.",
       "errorMessage": "There was an error submitting your information. Please try again."
     }
   },
@@ -164,7 +174,10 @@
       "shareLink": "Share Link",
       "settings": "Settings",
       "logout": "Logout"
-    }
+    },
+    "viewAllReferrals": "View All Referrals",
+    "trackProgress": "Track status and progress",
+    "recentReferrals": "Recent Referrals"
   },
   "referrals": {
     "create": {
@@ -181,22 +194,16 @@
       "errorMessage": "There was an error submitting the referral. Please try again."
     },
     "form": {
+      "title": "Create a Referral",
       "guestFirstName": "Guest First Name",
       "guestLastName": "Guest Last Name",
-      "guestEmail": "Email Address",
-      "guestPhone": "Phone",
-      "destination": "Preferred Destination",
-      "specialRequests": "Special Notes (Optional)",
-      "firstNamePlaceholder": "John",
-      "lastNamePlaceholder": "Doe",
-      "emailPlaceholder": "john.doe@example.com",
-      "phonePlaceholder": "123 456 7890",
-      "selectDestination": "Select a destination...",
-      "specialRequestsPlaceholder": "Any additional information that will help us better serve your guest...",
+      "guestEmail": "Guest Email",
+      "guestPhone": "Guest Phone",
+      "destination": "Destination",
+      "consentMarketing": "Guest consents to receive promotional communications from Pueblo Bonito",
       "submitButton": "Submit Referral",
-      "submitting": "Submitting...",
       "successTitle": "Referral Submitted!",
-      "successMessage": "Our team will contact your guest soon."
+      "successMessage": "Your referral has been received. Our team will follow up shortly."
     },
     "row": {
       "statusPending": "Pending",
@@ -251,57 +258,39 @@
       "visit_scheduled": "Visit Scheduled",
       "closed_won": "Closed Won",
       "closed_lost": "Closed Lost"
-    }
+    },
+    "table": {
+      "guest": "Guest",
+      "destination": "Destination",
+      "status": "Status",
+      "submitted": "Submitted",
+      "lastUpdate": "Last Update"
+    },
+    "title": "My Referrals",
+    "noReferrals": "No referrals yet. Start by creating your first referral!"
   },
   "rewards": {
     "title": "My Rewards",
-    "referralGuest": "Referral Guest",
-    "amount": "Amount",
-    "status": "Status",
-    "issuedDate": "Issued Date",
-    "statusPending": "Pending",
-    "statusIssued": "Issued",
-    "noRewards": "You don't have any rewards yet.",
-    "totalEarned": "Total Earned",
-    "summary": {
-      "totalEarned": "Total Earned",
-      "currency": "USD F&B credit",
-      "pendingRewards": "Pending Rewards",
-      "inApproval": "In approval process"
-    },
-    "history": {
-      "title": "Rewards History",
-      "defaultDescription": "Successful Referral Bonus",
-      "statusPending": "Pending",
-      "statusPaid": "Paid",
-      "statusApproved": "Approved"
-    },
-    "empty": {
-      "title": "No rewards yet",
-      "description": "When your referrals become owners, your rewards will appear here.",
-      "button": "Create First Referral"
+    "pending": "Pending Rewards",
+    "issued": "Issued Rewards",
+    "noRewards": "No rewards yet",
+    "noRewardsHint": "Your rewards will appear here once a referral is successfully closed.",
+    "table": {
+      "guest": "Guest",
+      "amount": "Amount",
+      "type": "Type",
+      "status": "Status",
+      "date": "Date"
     }
   },
   "account": {
     "title": "My Account",
-    "subtitle": "Manage your personal information and preferences.",
-    "personalInfo": {
-      "title": "Personal Information",
-      "firstName": "First Name",
-      "lastName": "Last Name",
-      "email": "Email",
-      "phone": "Phone",
-      "destination": "Preferred Destination",
-      "accountStatus": "Account Status",
-      "active": "Active"
-    },
-    "stats": {
-      "title": "Your Account Statistics",
-      "totalReferrals": "Total Referrals",
-      "successfulReferrals": "Successful Referrals",
-      "totalEarned": "Total Earned (USD)"
-    },
-    "memberSince": "Referral Program Member since"
+    "profile": "Profile Information",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "phone": "Phone",
+    "signOut": "Sign Out"
   },
   "guest": {
     "hero": {
@@ -549,190 +538,43 @@
       "subtitle": "Enter your credentials to continue",
       "email": "Email",
       "password": "Password",
-      "submit": "Enter Portal",
+      "showPassword": "Show password",
+      "button": "Sign In to Portal",
       "loading": "Signing in...",
-      "footer": "Authorized Pueblo Bonito personnel only"
-    },
-    "nav": {
-      "overview": "Overview",
-      "owners": "Owners",
-      "referrals": "Referrals",
-      "vouchers": "Vouchers (QR)",
-      "reports": "Reports"
-    },
-    "overview": {
-      "title": "Dashboard Overview",
-      "subtitle": "General view of the referral program",
-      "stats": {
-        "totalOwners": "Total Owners",
-        "totalReferrals": "Total Referrals",
-        "wonReferrals": "Won Referrals",
-        "conversionRate": "Conversion Rate"
-      },
-      "referralsByStatus": "Referral Status",
-      "vouchersByStatus": "Voucher Status ($200 Bonus)",
-      "statuses": {
-        "pending": "Pending",
-        "contacted": "Contacted",
-        "interested": "Interested",
-        "won": "Won",
-        "lost": "Lost",
-        "redeemed": "Redeemed",
-        "expired": "Expired"
-      },
-      "activity": "Recent Activity",
-      "noActivity": "No recent activity"
-    },
-    "owners": {
-      "title": "Owners",
-      "registered": "owner registered",
-      "registered_other": "owners registered",
-      "filters": {
-        "search": "Search",
-        "searchPlaceholder": "Name, email...",
-        "destination": "Destination",
-        "status": "Status",
-        "all": "All",
-        "active": "Active",
-        "inactive": "Inactive",
-        "clearFilters": "Clear filters"
-      },
-      "table": {
-        "owner": "Owner",
-        "destination": "Destination",
-        "referrals": "Referrals",
-        "success": "Success",
-        "rewards": "Rewards",
-        "registered": "Registered",
-        "status": "Status",
-        "actions": "Actions",
-        "viewDetail": "View detail",
-        "noResults": "No owners found"
-      },
-      "detail": {
-        "title": "Owner Detail",
-        "personalInfo": "Personal Information",
-        "name": "Name",
-        "email": "Email",
-        "phone": "Phone",
-        "preferredDestination": "Preferred Destination",
-        "registeredDate": "Registration Date",
-        "totalReferrals": "Total Referrals",
-        "wonReferrals": "Won Referrals",
-        "totalRewards": "Rewards USD",
-        "referralsHistory": "Referrals History",
-        "rewardsHistory": "Rewards History",
-        "noReferrals": "No referrals created",
-        "noRewards": "No rewards registered"
-      }
-    },
-    "referrals": {
-      "title": "Referrals",
-      "total": "referral total",
-      "total_other": "referrals total",
-      "filters": {
-        "searchGuest": "Search Guest",
-        "dateFrom": "From",
-        "dateTo": "To"
-      },
-      "table": {
-        "guest": "Guest",
-        "owner": "Owner",
-        "destination": "Destination",
-        "status": "Status",
-        "created": "Created",
-        "viewed": "Viewed",
-        "actions": "Actions",
-        "viewDetail": "View detail",
-        "notViewed": "Not viewed",
-        "viewedBadge": "Viewed",
-        "noResults": "No referrals found"
-      },
-      "detail": {
-        "title": "Update Referral Status",
-        "selectStatus": "Select new status:",
-        "update": "Update Status",
-        "updating": "Updating...",
-        "cancel": "Cancel",
-        "successMessage": "Status updated successfully"
-      }
-    },
-    "vouchers": {
-      "title": "Vouchers ($200 F&B Bonus)",
-      "generated": "voucher generated",
-      "generated_other": "vouchers generated",
-      "infoBanner": {
-        "title": "Generate Vouchers for Won Referrals",
-        "description": "QR vouchers are automatically generated when you mark a referral as \"Won\". Each voucher has a unique code and expires in 90 days."
-      },
-      "table": {
-        "code": "Code",
-        "guest": "Guest",
-        "owner": "Owner",
-        "amount": "Amount",
-        "destination": "Destination",
-        "status": "Status",
-        "expires": "Expires",
-        "actions": "Actions",
-        "viewQR": "View QR",
-        "redeem": "Redeem",
-        "redeeming": "Redeeming...",
-        "noResults": "No vouchers found"
-      },
-      "qr": {
-        "title": "Voucher QR Code",
-        "download": "Download QR",
-        "close": "Close",
-        "instructions": "Usage instructions:",
-        "step1": "Download the QR in PNG format",
-        "step2": "Send to guest via email or WhatsApp",
-        "step3": "Guest presents QR at the resort",
-        "step4": "Scan QR and mark as \"Redeemed\"",
-        "code": "Code",
-        "guest": "Guest",
-        "destination": "Destination",
-        "validUntil": "Valid until",
-        "status": "Status",
-        "confirmRedeem": "Confirm that this voucher was redeemed?",
-        "redeemed": "Voucher marked as redeemed"
-      }
-    },
-    "reports": {
-      "title": "Reports and Export",
-      "subtitle": "Download data and view program metrics",
-      "export": {
-        "title": "Export Data",
-        "owners": "Owners",
-        "referrals": "Referrals",
-        "vouchers": "Vouchers",
-        "records": "records",
-        "footer": "Files will be downloaded in CSV format compatible with Excel and Google Sheets"
-      },
-      "charts": {
-        "byDestination": "Performance by Destination",
-        "byStatus": "Distribution by Status",
-        "totalReferrals": "Total Referrals",
-        "won": "Won",
-        "conversionRate": "Conversion Rate"
-      }
+      "footer": "Authorized Pueblo Bonito staff only"
     }
   },
   "notifications": {
-    "guestConfirmation": {
-      "subject": "Thank you for your interest in Pueblo Bonito",
-      "body": "Hello {guestName}, Thank you for your interest in Pueblo Bonito. We've received your information and our team will contact you shortly. Warm regards, Pueblo Bonito Team"
-    },
-    "ownerConfirmation": {
-      "subject": "Your referral has been received",
-      "body": "Hello {ownerName}, We've received your referral for {guestName} ({destination}). Our team has been notified and will follow up. You will receive updates as it progresses. Pueblo Bonito Referral Program"
-    },
-    "ownerStageUpdate": {
-      "subject": "Update on your referral",
-      "body": "Hello {ownerName}, Your referral {guestName} is now in stage: {stage}. Thank you for being part of Pueblo Bonito."
-    },
-    "ownerClosedWon": {
-      "subject": "Your referral was successful — $200 F&B credit",
-      "body": "Congratulations {ownerName}, Your referral {guestName} was successfully completed. You have earned a $200 Food & Beverage credit. Our team will contact you with the next steps."
+    "templates": {
+      "guestConfirmation": {
+        "subject": "Thank you for your interest in Pueblo Bonito",
+        "greeting": "Hello {{guest_name}},",
+        "body": "Thank you for your interest in Pueblo Bonito. We've received your information and our team will contact you shortly.",
+        "closing": "Warm regards,",
+        "team": "Pueblo Bonito Team"
+      },
+      "ownerConfirmation": {
+        "subject": "Your referral has been received",
+        "greeting": "Hello {{owner_name}},",
+        "body": "We've received your referral for {{guest_name}} ({{destination}}). Our team has been notified and will follow up. You will receive updates as it progresses.",
+        "closing": "Pueblo Bonito Referral Program"
+      },
+      "ownerStageUpdate": {
+        "subject": "Update on your referral",
+        "greeting": "Hello {{owner_name}},",
+        "body": "Your referral {{guest_name}} is now in stage: {{stage}}.",
+        "closing": "Thank you for being part of Pueblo Bonito."
+      },
+      "ownerClosedWon": {
+        "subject": "Your referral was successful — $200 F&B credit",
+        "greeting": "Congratulations {{owner_name}},",
+        "body": "Your referral {{guest_name}} was successfully completed. You have earned a $200 Food & Beverage credit. Our team will contact you with the next steps.",
+        "closing": ""
+      },
+      "internalNewReferral": {
+        "subject": "New Referral Assigned – {{destination}}",
+        "body": "New referral received.\nGuest: {{guest_name}}\nEmail: {{guest_email}}\nPhone: {{guest_phone}}\nReferred by: {{owner_email}}\nDestination: {{destination}}\nPlease follow up according to the referral process."
+      }
     }
   },
   "errors": {
@@ -740,17 +582,5 @@
     "unauthorized": "You are not authorized to perform this action.",
     "notFound": "The requested resource was not found.",
     "validation": "Please check your input and try again."
-  },
-  "admin": {
-    "login": {
-      "title": "Administrative Access",
-      "subtitle": "Enter your credentials to continue",
-      "email": "Email",
-      "password": "Password",
-      "showPassword": "Show password",
-      "button": "Sign In to Portal",
-      "loading": "Signing in...",
-      "footer": "Authorized Pueblo Bonito staff only"
-    }
   }
 }

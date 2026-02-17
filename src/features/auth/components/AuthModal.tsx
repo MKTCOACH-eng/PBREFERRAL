@@ -1,9 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useTranslations } from 'next-intl';
-import { usePathname } from 'next/navigation';
-import { signUpWithEmail, signInWithEmail, signInWithGoogle, signInWithFacebook } from '@/features/auth/actions/authActions';
+import { useTranslations, useLocale } from 'next-intl';
+import { sendMagicLink } from '@/features/auth/actions/authActions';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -11,13 +10,11 @@ interface AuthModalProps {
 }
 
 export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
-  const [activeTab, setActiveTab] = useState<'signup' | 'signin'>('signup');
+  const [step, setStep] = useState<'email' | 'sent'>('email');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const pathname = usePathname();
-  const locale = pathname?.split('/')[1] || 'es';
-  const [showPassword, setShowPassword] = useState(false);
-  const [countryCode, setCountryCode] = useState('+52');
+  const [email, setEmail] = useState('');
+  const locale = useLocale();
   const t = useTranslations('auth');
 
   // Prevent body scroll when modal is open
@@ -37,74 +34,36 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
-    if (isOpen) {
-      window.addEventListener('keydown', handleEsc);
-    }
+    if (isOpen) window.addEventListener('keydown', handleEsc);
     return () => window.removeEventListener('keydown', handleEsc);
   }, [isOpen, onClose]);
 
+  // Reset state when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      setStep('email');
+      setError(null);
+      setEmail('');
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
-  const handleSocialAuth = async (provider: 'google' | 'facebook') => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const result = provider === 'google' 
-        ? await signInWithGoogle()
-        : await signInWithFacebook();
-      
-      if (result.error) {
-        setError(result.error);
-        setIsLoading(false);
-      } else if (result.url) {
-        // Redirect to OAuth provider
-        window.location.href = result.url;
-      }
-    } catch (err: any) {
-      setError(err.message || t('errors.socialAuth'));
-      setIsLoading(false);
-    }
-  };
-
-  const handleEmailAuth = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSendMagicLink = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
 
-    const formData = new FormData(e.currentTarget);
-    
     try {
-      let result;
-      if (activeTab === 'signup') {
-        const phoneNumber = formData.get('phone') as string;
-        const fullPhone = `${countryCode}${phoneNumber}`;
-        const data = {
-          email: formData.get('email') as string,
-          password: formData.get('password') as string,
-          firstName: formData.get('firstName') as string,
-          lastName: formData.get('lastName') as string,
-          phone: fullPhone,
-          destination: formData.get('ownerDestination') as string,
-        };
-        result = await signUpWithEmail(data);
-      } else {
-        const email = formData.get('email') as string;
-        const password = formData.get('password') as string;
-        result = await signInWithEmail(email, password);
-      }
-
+      const result = await sendMagicLink(email, locale);
       if (result?.error) {
         setError(result.error);
-        setIsLoading(false);
-      } else if (result?.success) {
-        // Success - redirect to dashboard with locale
-        window.location.href = `/${locale}/dashboard`;
       } else {
-        setError('Unexpected response from server');
-        setIsLoading(false);
+        setStep('sent');
       }
     } catch (err: any) {
       setError(err.message || t('errors.generic'));
+    } finally {
       setIsLoading(false);
     }
   };
@@ -112,199 +71,100 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 overflow-y-auto">
       {/* Backdrop */}
-      <div 
+      <div
         className="fixed inset-0 bg-[#1A2332]/90 backdrop-blur-sm"
         onClick={onClose}
       />
-      
+
       {/* Modal */}
       <div className="relative w-full max-w-md my-8 bg-white rounded-2xl shadow-2xl overflow-hidden animate-fadeIn max-h-[90vh] flex flex-col">
         {/* Close button */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors z-10"
+          aria-label="Close"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
 
-        {/* Header with tabs */}
-        <div className="bg-gradient-to-r from-[#1A2332] to-[#2A3442] px-6 pt-6 pb-4 flex-shrink-0">
-          <div className="flex gap-2 mb-4">
-            <button
-              onClick={() => setActiveTab('signup')}
-              className={`flex-1 py-2.5 px-4 rounded-lg font-medium transition-all ${
-                activeTab === 'signup'
-                  ? 'bg-[#C8A882] text-white shadow-lg'
-                  : 'bg-white/10 text-white/70 hover:bg-white/20'
-              }`}
-            >
-              {t('tabs.signup')}
-            </button>
-            <button
-              onClick={() => setActiveTab('signin')}
-              className={`flex-1 py-2.5 px-4 rounded-lg font-medium transition-all ${
-                activeTab === 'signin'
-                  ? 'bg-[#C8A882] text-white shadow-lg'
-                  : 'bg-white/10 text-white/70 hover:bg-white/20'
-              }`}
-            >
-              {t('tabs.signin')}
-            </button>
+        {/* Header */}
+        <div className="bg-gradient-to-r from-[#1A2332] to-[#2A3442] px-6 pt-8 pb-6 text-center flex-shrink-0">
+          <div className="w-16 h-16 mx-auto mb-4 bg-[#C8A882]/20 rounded-full flex items-center justify-center">
+            <svg className="w-8 h-8 text-[#C8A882]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
           </div>
+          <h2 className="text-2xl font-serif text-white mb-1">
+            {t('magicLink.title')}
+          </h2>
+          <p className="text-white/70 text-sm font-light">
+            {t('magicLink.subtitle')}
+          </p>
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-y-auto flex-1">
+        <div className="p-6 flex-1">
           {error && (
             <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
               {error}
             </div>
           )}
 
-
-          {/* Email Form */}
-          <form onSubmit={handleEmailAuth} className="space-y-4">
-            {activeTab === 'signup' && (
-              <>
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      {t('fields.firstName')}
-                    </label>
-                    <input
-                      type="text"
-                      name="firstName"
-                      required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C8A882] focus:border-transparent"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      {t('fields.lastName')}
-                    </label>
-                    <input
-                      type="text"
-                      name="lastName"
-                      required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C8A882] focus:border-transparent"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    {t('fields.phone')}
-                  </label>
-                  <div className="flex gap-2">
-                    <select
-                      value={countryCode}
-                      onChange={(e) => setCountryCode(e.target.value)}
-                      className="w-32 px-2 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C8A882] focus:border-transparent text-sm"
-                    >
-                      <option value="+1">🇺🇸 +1</option>
-                      <option value="+52">🇲🇽 +52</option>
-                      <option value="+1">🇨🇦 +1</option>
-                      <option value="+44">🇬🇧 +44</option>
-                      <option value="+34">🇪🇸 +34</option>
-                      <option value="+33">🇫🇷 +33</option>
-                      <option value="+49">🇩🇪 +49</option>
-                      <option value="+39">🇮🇹 +39</option>
-                      <option value="+81">🇯🇵 +81</option>
-                      <option value="+86">🇨🇳 +86</option>
-                    </select>
-                    <input
-                      type="tel"
-                      name="phone"
-                      required
-                      placeholder="123 456 7890"
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C8A882] focus:border-transparent"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    {t('fields.destination')}
-                  </label>
-                  <select
-                    name="ownerDestination"
-                    required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C8A882] focus:border-transparent"
-                  >
-                    <option value="">{t('fields.selectDestination')}</option>
-                    <option value="Los Cabos">Los Cabos</option>
-                    <option value="Mazatlán">Mazatlán</option>
-                  </select>
-                </div>
-              </>
-            )}
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                {t('fields.email')}
-              </label>
-              <input
-                type="email"
-                name="email"
-                required
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C8A882] focus:border-transparent"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                {t('fields.password')}
-              </label>
-              <div className="relative">
+          {step === 'email' ? (
+            <form onSubmit={handleSendMagicLink} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {t('fields.email')}
+                </label>
                 <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
-                  minLength={6}
-                  className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C8A882] focus:border-transparent"
+                  placeholder={t('magicLink.emailPlaceholder')}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#C8A882] focus:border-transparent text-lg"
+                  autoFocus
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
-                >
-                  {showPassword ? (
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
-                    </svg>
-                  ) : (
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                  )}
-                </button>
               </div>
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full py-3 bg-[#C8A882] text-white font-medium rounded-lg hover:bg-[#B89872] transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+              >
+                {isLoading ? t('loading') : t('magicLink.sendButton')}
+              </button>
+
+              <p className="text-center text-xs text-gray-500 mt-3">
+                {t('magicLink.noPassword')}
+              </p>
+            </form>
+          ) : (
+            <div className="text-center py-4">
+              <div className="w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
+                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-serif text-[#1A2332] mb-2">
+                {t('magicLink.sentTitle')}
+              </h3>
+              <p className="text-gray-600 font-light mb-4">
+                {t('magicLink.sentMessage')}
+              </p>
+              <p className="text-sm text-gray-500 font-light">
+                {t('magicLink.checkSpam')}
+              </p>
+              <button
+                onClick={() => setStep('email')}
+                className="mt-6 text-[#C8A882] hover:text-[#B89872] text-sm font-medium transition-colors"
+              >
+                {t('magicLink.tryAgain')}
+              </button>
             </div>
-
-            {activeTab === 'signup' && (
-              <div className="space-y-2 text-sm">
-                <label className="flex items-start gap-2">
-                  <input type="checkbox" name="consent" required className="mt-1" />
-                  <span className="text-gray-600">{t('consent.dataProcessing')}</span>
-                </label>
-                <label className="flex items-start gap-2">
-                  <input type="checkbox" name="newsletter" className="mt-1" />
-                  <span className="text-gray-600">{t('consent.newsletter')}</span>
-                </label>
-              </div>
-            )}
-
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full py-3 bg-[#C8A882] text-white font-medium rounded-lg hover:bg-[#B89872] transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
-            >
-              {isLoading ? t('loading') : (activeTab === 'signup' ? t('buttons.signup') : t('buttons.signin'))}
-            </button>
-          </form>
+          )}
         </div>
       </div>
     </div>

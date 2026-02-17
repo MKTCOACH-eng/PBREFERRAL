@@ -1,4 +1,4 @@
-// Email utility functions (NOT server actions)
+// Email utility functions
 
 interface EmailData {
   to: string;
@@ -7,22 +7,19 @@ interface EmailData {
 }
 
 export async function sendEmail({ to, subject, html }: EmailData) {
-  'use server';
-  
   try {
-    // Using Supabase Edge Function or external email service
-    // For now, we'll log it (you can integrate with SendGrid, Resend, etc.)
-    console.log('📧 Email to send:', { to, subject });
-    
-    // TODO: Integrate with actual email service
-    // Example with Resend:
-    // const { data, error } = await resend.emails.send({
-    //   from: 'noreply@pueblobonito.com',
-    //   to,
-    //   subject,
-    //   html,
+    // TODO: Integrate with actual email service (Resend, SendGrid, etc.)
+    // For now, log the email
+    console.log('📧 Email queued:', { to, subject, timestamp: new Date().toISOString() });
+
+    // Example integration with Resend:
+    // import { Resend } from 'resend';
+    // const resend = new Resend(process.env.RESEND_API_KEY);
+    // await resend.emails.send({
+    //   from: 'Pueblo Bonito Referrals <noreply@pueblobonito.com>',
+    //   to, subject, html,
     // });
-    
+
     return { success: true };
   } catch (error: any) {
     console.error('Error sending email:', error);
@@ -30,150 +27,199 @@ export async function sendEmail({ to, subject, html }: EmailData) {
   }
 }
 
-// Helper function to generate email HTML (NOT a server action)
+// ===== EMAIL TEMPLATES (Spec-compliant EN/ES) =====
+
+const baseStyle = `
+  body { font-family: 'Georgia', serif; line-height: 1.8; color: #1A2332; margin: 0; padding: 0; background-color: #F8F6F3; }
+  .container { max-width: 600px; margin: 0 auto; background: #ffffff; }
+  .header { background: linear-gradient(135deg, #1A2332 0%, #2A3442 100%); padding: 40px 30px; text-align: center; }
+  .header h1 { color: #C8A882; font-size: 24px; font-weight: 300; margin: 0; letter-spacing: 1px; }
+  .header p { color: rgba(255,255,255,0.7); font-size: 14px; margin-top: 8px; }
+  .content { padding: 40px 30px; }
+  .content p { margin-bottom: 16px; font-size: 16px; }
+  .highlight { background: #C8A882; color: #ffffff; padding: 3px 10px; border-radius: 4px; font-weight: 600; }
+  .cta { display: inline-block; background: #C8A882; color: #ffffff; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: 500; margin: 20px 0; }
+  .footer { background: #1A2332; color: rgba(255,255,255,0.6); padding: 24px 30px; text-align: center; font-size: 12px; }
+  .footer a { color: #C8A882; text-decoration: none; }
+`;
+
+function wrapEmail(content: string): string {
+  return `<!DOCTYPE html><html><head><style>${baseStyle}</style></head><body><div class="container">${content}</div></body></html>`;
+}
+
+const footerHTML = (year: number) => `
+  <div class="footer">
+    <p>© ${year} Pueblo Bonito Golf & Spa Resorts</p>
+    <p>Los Cabos: +52 (624) 142 9898 | Mazatlán: +52 (669) 989 8900</p>
+    <p><a href="https://www.pueblobonito.com.mx/politica-de-privacidad">Privacy Policy</a> · <a href="https://www.pueblobonito.com.mx/terminos-y-condiciones">Terms</a></p>
+  </div>
+`;
+
+// 9.1 Guest Confirmation (EN)
+export function generateGuestConfirmationEN(guestName: string): string {
+  return wrapEmail(`
+    <div class="header">
+      <h1>PUEBLO BONITO</h1>
+      <p>Referral Program</p>
+    </div>
+    <div class="content">
+      <p>Hello ${guestName},</p>
+      <p>Thank you for your interest in Pueblo Bonito. We've received your information and our team will contact you shortly.</p>
+      <p>Warm regards,<br/>Pueblo Bonito Team</p>
+    </div>
+    ${footerHTML(new Date().getFullYear())}
+  `);
+}
+
+// 9.1 Guest Confirmation (ES)
+export function generateGuestConfirmationES(guestName: string): string {
+  return wrapEmail(`
+    <div class="header">
+      <h1>PUEBLO BONITO</h1>
+      <p>Programa de Referidos</p>
+    </div>
+    <div class="content">
+      <p>Hola ${guestName},</p>
+      <p>Gracias por tu interés en Pueblo Bonito. Hemos recibido tu información y nuestro equipo te contactará pronto.</p>
+      <p>Saludos cordiales,<br/>Equipo Pueblo Bonito</p>
+    </div>
+    ${footerHTML(new Date().getFullYear())}
+  `);
+}
+
+// 9.2 Owner Confirmation (EN)
+export function generateOwnerConfirmationEN(ownerName: string, guestName: string, destination: string): string {
+  return wrapEmail(`
+    <div class="header">
+      <h1>PUEBLO BONITO</h1>
+      <p>Referral Program</p>
+    </div>
+    <div class="content">
+      <p>Hello ${ownerName},</p>
+      <p>We've received your referral for ${guestName} (${destination}). Our team has been notified and will follow up. You will receive updates as it progresses.</p>
+      <p>Pueblo Bonito Referral Program</p>
+    </div>
+    ${footerHTML(new Date().getFullYear())}
+  `);
+}
+
+// 9.2 Owner Confirmation (ES)
+export function generateOwnerConfirmationES(ownerName: string, guestName: string, destination: string): string {
+  return wrapEmail(`
+    <div class="header">
+      <h1>PUEBLO BONITO</h1>
+      <p>Programa de Referidos</p>
+    </div>
+    <div class="content">
+      <p>Hola ${ownerName},</p>
+      <p>Hemos recibido tu referido ${guestName} (${destination}). Nuestro equipo ya fue notificado y te compartiremos actualizaciones conforme avance.</p>
+      <p>Programa de Referidos Pueblo Bonito</p>
+    </div>
+    ${footerHTML(new Date().getFullYear())}
+  `);
+}
+
+// 9.3 Internal Team Notification (EN)
+export function generateInternalNotificationEN(vars: {
+  guestName: string;
+  guestEmail: string;
+  guestPhone: string;
+  ownerEmail: string;
+  destination: string;
+}): string {
+  return wrapEmail(`
+    <div class="header">
+      <h1>New Referral Assigned – ${vars.destination}</h1>
+    </div>
+    <div class="content">
+      <p>New referral received.</p>
+      <p><strong>Guest:</strong> ${vars.guestName}<br/>
+      <strong>Email:</strong> ${vars.guestEmail}<br/>
+      <strong>Phone:</strong> ${vars.guestPhone}<br/>
+      <strong>Referred by:</strong> ${vars.ownerEmail}<br/>
+      <strong>Destination:</strong> ${vars.destination}</p>
+      <p>Please follow up according to the referral process.</p>
+    </div>
+    ${footerHTML(new Date().getFullYear())}
+  `);
+}
+
+// 9.4 Owner Stage Update (EN)
+export function generateOwnerStageUpdateEN(ownerName: string, guestName: string, stage: string): string {
+  return wrapEmail(`
+    <div class="header">
+      <h1>PUEBLO BONITO</h1>
+      <p>Referral Update</p>
+    </div>
+    <div class="content">
+      <p>Hello ${ownerName},</p>
+      <p>Your referral ${guestName} is now in stage: <span class="highlight">${stage}</span>.</p>
+      <p>Thank you for being part of Pueblo Bonito.</p>
+    </div>
+    ${footerHTML(new Date().getFullYear())}
+  `);
+}
+
+// 9.4 Owner Stage Update (ES)
+export function generateOwnerStageUpdateES(ownerName: string, guestName: string, stage: string): string {
+  return wrapEmail(`
+    <div class="header">
+      <h1>PUEBLO BONITO</h1>
+      <p>Actualización de Referido</p>
+    </div>
+    <div class="content">
+      <p>Hola ${ownerName},</p>
+      <p>Tu referido ${guestName} ahora está en la etapa: <span class="highlight">${stage}</span>.</p>
+      <p>Gracias por ser parte de Pueblo Bonito.</p>
+    </div>
+    ${footerHTML(new Date().getFullYear())}
+  `);
+}
+
+// 9.5 Owner Closed Won / Reward (EN)
+export function generateOwnerClosedWonEN(ownerName: string, guestName: string): string {
+  return wrapEmail(`
+    <div class="header">
+      <h1>🎉 Congratulations!</h1>
+      <p>Your referral was successful</p>
+    </div>
+    <div class="content">
+      <p>Congratulations ${ownerName},</p>
+      <p>Your referral ${guestName} was successfully completed. You have earned a <span class="highlight">$200 Food & Beverage credit</span>. Our team will contact you with the next steps.</p>
+    </div>
+    ${footerHTML(new Date().getFullYear())}
+  `);
+}
+
+// 9.5 Owner Closed Won / Reward (ES)
+export function generateOwnerClosedWonES(ownerName: string, guestName: string): string {
+  return wrapEmail(`
+    <div class="header">
+      <h1>🎉 ¡Felicidades!</h1>
+      <p>Tu referido fue exitoso</p>
+    </div>
+    <div class="content">
+      <p>¡Felicidades ${ownerName}!</p>
+      <p>Tu referido ${guestName} se completó con éxito. Has obtenido un <span class="highlight">crédito de $200 USD en Alimentos y Bebidas</span>. Nuestro equipo te contactará con los siguientes pasos.</p>
+    </div>
+    ${footerHTML(new Date().getFullYear())}
+  `);
+}
+
+// Legacy exports for backwards compatibility
 export function generateReferralConfirmationEmail(
   ownerName: string,
   guestName: string,
   destination: string
 ): string {
-  return `
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .header { background-color: #1A2332; color: white; padding: 30px; text-align: center; }
-        .content { background-color: #ffffff; padding: 30px; border: 1px solid #e0e0e0; }
-        .footer { background-color: #f5f5f5; padding: 20px; text-align: center; font-size: 12px; color: #666; }
-        .button { 
-          display: inline-block; 
-          background-color: #C8A882; 
-          color: white; 
-          padding: 12px 30px; 
-          text-decoration: none; 
-          border-radius: 5px; 
-          margin: 20px 0;
-        }
-        .highlight { background-color: #C8A882; color: white; padding: 2px 8px; border-radius: 3px; }
-      </style>
-    </head>
-    <body>
-      <div class="container">
-        <div class="header">
-          <h1>¡Referido Creado Exitosamente!</h1>
-        </div>
-        <div class="content">
-          <p>Hola <strong>${ownerName}</strong>,</p>
-          
-          <p>¡Gracias por referir a un nuevo invitado a Pueblo Bonito!</p>
-          
-          <h3>Detalles del Referido:</h3>
-          <ul>
-            <li><strong>Invitado:</strong> ${guestName}</li>
-            <li><strong>Destino:</strong> ${destination}</li>
-            <li><strong>Estado:</strong> <span class="highlight">Pendiente</span></li>
-          </ul>
-          
-          <p>Nuestro equipo se pondrá en contacto con tu invitado en las próximas 24-48 horas.</p>
-          
-          <p><strong>Recuerda:</strong> Recibirás tu bono de <span class="highlight">$200 USD en crédito F&B</span> una vez que tu invitado complete su estadía.</p>
-          
-          <a href="${process.env.NEXT_PUBLIC_APP_URL}/dashboard/referrals" class="button">
-            Ver Mis Referidos
-          </a>
-        </div>
-        <div class="footer">
-          <p>© ${new Date().getFullYear()} Pueblo Bonito Golf & Spa Resorts. Todos los derechos reservados.</p>
-          <p>Este es un correo automático, por favor no responder.</p>
-        </div>
-      </div>
-    </body>
-    </html>
-  `;
+  return generateOwnerConfirmationEN(ownerName, guestName, destination);
 }
 
-// Helper function to generate guest welcome email HTML (NOT a server action)
 export function generateGuestWelcomeEmail(
   guestName: string,
   ownerName: string,
   destination: string,
   guestLink: string
 ): string {
-  return `
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .header { background-color: #1A2332; color: white; padding: 30px; text-align: center; }
-        .content { background-color: #ffffff; padding: 30px; border: 1px solid #e0e0e0; }
-        .footer { background-color: #f5f5f5; padding: 20px; text-align: center; font-size: 12px; color: #666; }
-        .offer-box { 
-          background-color: #C8A882; 
-          color: white; 
-          padding: 20px; 
-          border-radius: 8px; 
-          text-align: center; 
-          margin: 20px 0;
-        }
-        .offer-box h2 { margin: 0 0 10px 0; font-size: 28px; }
-        .button { 
-          display: inline-block; 
-          background-color: #1A2332; 
-          color: white; 
-          padding: 12px 30px; 
-          text-decoration: none; 
-          border-radius: 5px; 
-          margin: 20px 0;
-        }
-      </style>
-    </head>
-    <body>
-      <div class="container">
-        <div class="header">
-          <h1>¡Bienvenido a Pueblo Bonito!</h1>
-        </div>
-        <div class="content">
-          <p>Hola <strong>${guestName}</strong>,</p>
-          
-          <p>${ownerName} te ha referido para disfrutar de una experiencia única en Pueblo Bonito Golf & Spa Resorts.</p>
-          
-          <div class="offer-box">
-            <h2>OFERTA EXCLUSIVA</h2>
-            <p><strong>7 NOCHES por solo $630 USD</strong></p>
-            <p>o</p>
-            <p><strong>3 NOCHES por solo $270 USD</strong></p>
-            <p style="font-size: 14px; margin-top: 10px;">*Opción all-inclusive disponible</p>
-          </div>
-          
-          <h3>Tu destino: ${destination}</h3>
-          
-          <p>Haz clic en el botón de abajo para ver todos los detalles de tu oferta exclusiva:</p>
-          
-          <a href="${guestLink}" class="button">
-            Ver Mi Oferta Exclusiva
-          </a>
-          
-          <p>Nuestro equipo de concierge se pondrá en contacto contigo para:</p>
-          <ul>
-            <li>Confirmar las fechas de tu estadía</li>
-            <li>Explicarte los detalles de la oferta</li>
-            <li>Responder todas tus preguntas</li>
-            <li>Ayudarte con tu reservación</li>
-          </ul>
-          
-          <p style="margin-top: 30px; color: #666; font-size: 14px;">
-            Si tienes alguna pregunta inmediata, no dudes en contactarnos.
-          </p>
-        </div>
-        <div class="footer">
-          <p>© ${new Date().getFullYear()} Pueblo Bonito Golf & Spa Resorts. Todos los derechos reservados.</p>
-          <p>Los Cabos: +52 624 142 9797 | Mazatlán: +52 669 989 8900</p>
-        </div>
-      </div>
-    </body>
-    </html>
-  `;
+  return generateGuestConfirmationEN(guestName);
 }

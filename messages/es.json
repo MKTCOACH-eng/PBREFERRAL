@@ -49,14 +49,25 @@
     "errors": {
       "generic": "Ocurrió un error. Por favor, inténtalo de nuevo.",
       "socialAuth": "Error al autenticar. Por favor, inténtalo de nuevo."
+    },
+    "magicLink": {
+      "title": "Iniciar Sesión",
+      "subtitle": "Te enviaremos un enlace seguro para acceder",
+      "emailPlaceholder": "tu@correo.com",
+      "sendButton": "Enviar Enlace Mágico",
+      "noPassword": "No necesitas contraseña. Te enviaremos un enlace seguro a tu correo.",
+      "sentTitle": "Revisa Tu Correo",
+      "sentMessage": "Revisa tu correo para acceder con un enlace seguro.",
+      "checkSpam": "Si no lo ves, revisa tu carpeta de spam.",
+      "tryAgain": "Enviar otro enlace"
     }
   },
   "homeowner": {
     "hero": {
-      "title": "Envía tu Referido. Gana tu Recompensa.",
-      "subtitle": "Como propietario valorado de Pueblo Bonito, estás a solo un paso de invitar a tus amigos y familiares a descubrir la belleza de nuestros resorts. Comparte sus datos hoy y desbloquea las recompensas exclusivas creadas especialmente para ti — es rápido, simple y diseñado para reconocer tu lealtad.",
-      "ctaPrimary": "Acceder a Mi Programa de Referidos",
-      "ctaSecondary": "Ver Requisitos para Invitados"
+      "title": "Envía tu referido. Obtén tu beneficio.",
+      "subtitle": "Como Propietario de Pueblo Bonito, estás a un paso de invitar a tus amigos y familiares a descubrir nuestros resorts. Comparte sus datos hoy y accede a beneficios exclusivos creados especialmente para ti.",
+      "ctaPrimary": "Acceder a mi Programa de Referidos",
+      "ctaSecondary": "Ver requisitos del invitado"
     },
     "guestBenefits": {
       "title": "Tus Invitados Referidos Pueden Disfrutar",
@@ -89,31 +100,30 @@
     },
     "requirements": {
       "title": "Requisitos para Invitados Referidos",
-      "subtitle": "Por favor asegúrate de que tus invitados cumplan con estos requisitos:",
-      "ageRequirement": "Los invitados deben tener entre 30 y 69 años",
+      "subtitle": "Por favor asegúrate de que tus invitados cumplan estos requisitos:",
+      "ageRequirement": "Los invitados deben tener entre 30 y 69 años de edad",
       "marriedRequirement": "Si están casados, ambos cónyuges deben asistir juntos",
-      "presentationRequirement": "Asistir a una presentación de 90 minutos la mañana después de su llegada",
-      "idRequirement": "Presentar identificación oficial válida + al menos una tarjeta Visa o Mastercard activa",
-      "validForTitle": "Válido para:",
-      "validFor": "Parejas casadas, parejas en unión libre y mujeres solteras",
-      "notValidTitle": "Notas Importantes:",
+      "presentationRequirement": "Asistir a una presentación de desayuno de 90 minutos la mañana siguiente a la llegada",
+      "idRequirement": "Presentar identificación oficial vigente + al menos una Visa o Mastercard activa",
+      "validFor": "Válido para parejas casadas, parejas en unión libre y mujeres solteras",
+      "notValidTitle": "Notas Importantes",
       "notValidSingleMen": "No válido para hombres solteros",
-      "offerValidity": "La oferta debe usarse dentro de los 18 meses posteriores a la fecha de compra",
-      "reservations": "Reservaciones sujetas a disponibilidad; aplican fechas de bloqueo en días festivos",
-      "bookEarly": "Anima a tus invitados a reservar con anticipación"
+      "offerValidity": "La oferta debe ser utilizada dentro de los 18 meses posteriores a la fecha de compra",
+      "reservations": "Reservaciones sujetas a disponibilidad; aplican fechas de restricción en días festivos",
+      "bookEarly": "Incentiva a tus invitados a reservar con anticipación"
     }
   },
   "homeguest": {
     "hero": {
-      "title": "Has Sido Invitado a Experimentar Pueblo Bonito",
-      "subtitle": "Has sido invitado personalmente por un propietario de Pueblo Bonito para disfrutar de una estadía exclusiva en nuestros resorts. Completa el formulario para comenzar tu experiencia y desbloquear beneficios preferenciales.",
-      "ctaPrimary": "Solicitar Información"
+      "title": "Has sido invitado a vivir Pueblo Bonito",
+      "subtitle": "Un Propietario de Pueblo Bonito te ha extendido una invitación personal para disfrutar una estancia exclusiva. Completa el formulario para comenzar y acceder a beneficios preferenciales.",
+      "ctaPrimary": "Registrar mi visita"
     },
     "howItWorks": {
       "title": "Cómo Funciona",
-      "step1": "Completa el formulario de registro",
+      "step1": "Completa el registro",
       "step2": "Nuestro equipo te contactará para confirmar disponibilidad y detalles",
-      "step3": "Disfruta de tarifas preferenciales"
+      "step3": "Disfruta tarifas preferenciales"
     },
     "form": {
       "title": "Registro de Invitado",
@@ -131,7 +141,7 @@
       "consentTransactional": "Acepto recibir comunicaciones transaccionales sobre mi referido",
       "consentMarketing": "Acepto recibir comunicaciones de marketing y promocionales de Pueblo Bonito",
       "submitButton": "Registrar Mi Visita",
-      "successMessage": "¡Gracias! Hemos recibido tu información y te contactaremos pronto.",
+      "successMessage": "¡Gracias! Hemos recibido tu información y nuestro equipo te contactará pronto.",
       "errorMessage": "Hubo un error al enviar tu información. Por favor intenta de nuevo."
     }
   },
@@ -164,7 +174,10 @@
       "shareLink": "Compartir Enlace",
       "settings": "Configuración",
       "logout": "Cerrar Sesión"
-    }
+    },
+    "viewAllReferrals": "Ver Todos los Referidos",
+    "trackProgress": "Seguimiento de estado y progreso",
+    "recentReferrals": "Referidos Recientes"
   },
   "referrals": {
     "create": {
@@ -181,22 +194,16 @@
       "errorMessage": "Hubo un error al enviar el referido. Por favor intenta de nuevo."
     },
     "form": {
+      "title": "Crear un Referido",
       "guestFirstName": "Nombre del Invitado",
       "guestLastName": "Apellido del Invitado",
-      "guestEmail": "Correo Electrónico",
-      "guestPhone": "Teléfono",
-      "destination": "Destino Preferido",
-      "specialRequests": "Notas Especiales (Opcional)",
-      "firstNamePlaceholder": "Juan",
-      "lastNamePlaceholder": "Pérez",
-      "emailPlaceholder": "juan.perez@ejemplo.com",
-      "phonePlaceholder": "123 456 7890",
-      "selectDestination": "Selecciona un destino...",
-      "specialRequestsPlaceholder": "Cualquier información adicional que nos ayude a atender mejor a tu invitado...",
+      "guestEmail": "Email del Invitado",
+      "guestPhone": "Teléfono del Invitado",
+      "destination": "Destino",
+      "consentMarketing": "El invitado acepta recibir comunicaciones promocionales de Pueblo Bonito",
       "submitButton": "Enviar Referido",
-      "submitting": "Enviando...",
       "successTitle": "¡Referido Enviado!",
-      "successMessage": "Nuestro equipo contactará a tu invitado pronto."
+      "successMessage": "Tu referido ha sido recibido. Nuestro equipo dará seguimiento pronto."
     },
     "row": {
       "statusPending": "Pendiente",
@@ -251,58 +258,39 @@
       "visit_scheduled": "Visita Programada",
       "closed_won": "Cerrado Ganado",
       "closed_lost": "Cerrado Perdido"
-    }
+    },
+    "table": {
+      "guest": "Invitado",
+      "destination": "Destino",
+      "status": "Estado",
+      "submitted": "Enviado",
+      "lastUpdate": "Última Actualización"
+    },
+    "title": "Mis Referidos",
+    "noReferrals": "Aún no tienes referidos. ¡Crea tu primer referido!"
   },
   "rewards": {
     "title": "Mis Recompensas",
-    "subtitle": "Consulta tus recompensas y créditos F&B ganados.",
-    "referralGuest": "Invitado Referido",
-    "amount": "Monto",
-    "status": "Estado",
-    "issuedDate": "Fecha de Emisión",
-    "statusPending": "Pendiente",
-    "statusIssued": "Emitido",
-    "noRewards": "Aún no tienes recompensas.",
-    "totalEarned": "Total Ganado",
-    "summary": {
-      "totalEarned": "Total Ganado",
-      "currency": "USD en crédito F&B",
-      "pendingRewards": "Recompensas Pendientes",
-      "inApproval": "En proceso de aprobación"
-    },
-    "history": {
-      "title": "Historial de Recompensas",
-      "defaultDescription": "Bono por Referido Exitoso",
-      "statusPending": "Pendiente",
-      "statusPaid": "Pagado",
-      "statusApproved": "Aprobado"
-    },
-    "empty": {
-      "title": "Aún no tienes recompensas",
-      "description": "Cuando tus referidos se conviertan en propietarios, aparecerán aquí tus recompensas.",
-      "button": "Crear Primer Referido"
+    "pending": "Recompensas Pendientes",
+    "issued": "Recompensas Emitidas",
+    "noRewards": "Aún no tienes recompensas",
+    "noRewardsHint": "Tus recompensas aparecerán aquí cuando un referido se cierre exitosamente.",
+    "table": {
+      "guest": "Invitado",
+      "amount": "Monto",
+      "type": "Tipo",
+      "status": "Estado",
+      "date": "Fecha"
     }
   },
   "account": {
     "title": "Mi Cuenta",
-    "subtitle": "Gestiona tu información personal y preferencias.",
-    "personalInfo": {
-      "title": "Información Personal",
-      "firstName": "Nombre",
-      "lastName": "Apellido",
-      "email": "Correo Electrónico",
-      "phone": "Teléfono",
-      "destination": "Destino Preferido",
-      "accountStatus": "Estado de la Cuenta",
-      "active": "Activa"
-    },
-    "stats": {
-      "title": "Estadísticas de Tu Cuenta",
-      "totalReferrals": "Referidos Totales",
-      "successfulReferrals": "Referidos Exitosos",
-      "totalEarned": "Total Ganado (USD)"
-    },
-    "memberSince": "Miembro del Programa de Referidos desde"
+    "profile": "Información del Perfil",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "email": "Email",
+    "phone": "Teléfono",
+    "signOut": "Cerrar Sesión"
   },
   "guest": {
     "hero": {
@@ -550,190 +538,43 @@
       "subtitle": "Ingresa tus credenciales para continuar",
       "email": "Email",
       "password": "Contraseña",
-      "submit": "Ingresar al Portal",
+      "showPassword": "Mostrar contraseña",
+      "button": "Ingresar al Portal",
       "loading": "Ingresando...",
       "footer": "Solo personal autorizado de Pueblo Bonito"
-    },
-    "nav": {
-      "overview": "Overview",
-      "owners": "Propietarios",
-      "referrals": "Referidos",
-      "vouchers": "Vouchers (QR)",
-      "reports": "Reportes"
-    },
-    "overview": {
-      "title": "Dashboard Overview",
-      "subtitle": "Vista general del programa de referidos",
-      "stats": {
-        "totalOwners": "Total Propietarios",
-        "totalReferrals": "Total Referidos",
-        "wonReferrals": "Referidos Ganados",
-        "conversionRate": "Tasa de Conversión"
-      },
-      "referralsByStatus": "Estado de Referidos",
-      "vouchersByStatus": "Estado de Vouchers ($200 Bonus)",
-      "statuses": {
-        "pending": "Pendientes",
-        "contacted": "Contactados",
-        "interested": "Interesados",
-        "won": "Ganados",
-        "lost": "Perdidos",
-        "redeemed": "Canjeados",
-        "expired": "Expirados"
-      },
-      "activity": "Actividad Reciente",
-      "noActivity": "No hay actividad reciente"
-    },
-    "owners": {
-      "title": "Propietarios",
-      "registered": "propietario registrado",
-      "registered_other": "propietarios registrados",
-      "filters": {
-        "search": "Buscar",
-        "searchPlaceholder": "Nombre, email...",
-        "destination": "Destino",
-        "status": "Estado",
-        "all": "Todos",
-        "active": "Activo",
-        "inactive": "Inactivo",
-        "clearFilters": "Limpiar filtros"
-      },
-      "table": {
-        "owner": "Propietario",
-        "destination": "Destino",
-        "referrals": "Referidos",
-        "success": "Éxito",
-        "rewards": "Recompensas",
-        "registered": "Registro",
-        "status": "Estado",
-        "actions": "Acciones",
-        "viewDetail": "Ver detalle",
-        "noResults": "No se encontraron propietarios"
-      },
-      "detail": {
-        "title": "Detalle del Propietario",
-        "personalInfo": "Información Personal",
-        "name": "Nombre",
-        "email": "Email",
-        "phone": "Teléfono",
-        "preferredDestination": "Destino Preferido",
-        "registeredDate": "Fecha de Registro",
-        "totalReferrals": "Referidos Totales",
-        "wonReferrals": "Referidos Ganados",
-        "totalRewards": "Recompensas USD",
-        "referralsHistory": "Historial de Referidos",
-        "rewardsHistory": "Historial de Recompensas",
-        "noReferrals": "No hay referidos creados",
-        "noRewards": "No hay recompensas registradas"
-      }
-    },
-    "referrals": {
-      "title": "Referidos",
-      "total": "referido en total",
-      "total_other": "referidos en total",
-      "filters": {
-        "searchGuest": "Buscar Guest",
-        "dateFrom": "Desde",
-        "dateTo": "Hasta"
-      },
-      "table": {
-        "guest": "Guest",
-        "owner": "Owner",
-        "destination": "Destino",
-        "status": "Estado",
-        "created": "Creado",
-        "viewed": "Visto",
-        "actions": "Acciones",
-        "viewDetail": "Ver detalle",
-        "notViewed": "No visto",
-        "viewedBadge": "Visto",
-        "noResults": "No se encontraron referidos"
-      },
-      "detail": {
-        "title": "Actualizar Estado del Referido",
-        "selectStatus": "Seleccionar nuevo estado:",
-        "update": "Actualizar Estado",
-        "updating": "Actualizando...",
-        "cancel": "Cancelar",
-        "successMessage": "Estado actualizado correctamente"
-      }
-    },
-    "vouchers": {
-      "title": "Vouchers ($200 F&B Bonus)",
-      "generated": "voucher generado",
-      "generated_other": "vouchers generados",
-      "infoBanner": {
-        "title": "Generar Vouchers para Referidos Ganados",
-        "description": "Los vouchers con QR se generan automáticamente cuando marcas un referido como \"Ganado\". Cada voucher tiene un código único y expira en 90 días."
-      },
-      "table": {
-        "code": "Código",
-        "guest": "Guest",
-        "owner": "Owner",
-        "amount": "Monto",
-        "destination": "Destino",
-        "status": "Estado",
-        "expires": "Expira",
-        "actions": "Acciones",
-        "viewQR": "Ver QR",
-        "redeem": "Canjear",
-        "redeeming": "Canjeando...",
-        "noResults": "No se encontraron vouchers"
-      },
-      "qr": {
-        "title": "Voucher QR Code",
-        "download": "Descargar QR",
-        "close": "Cerrar",
-        "instructions": "Instrucciones de uso:",
-        "step1": "Descarga el QR en formato PNG",
-        "step2": "Envía al guest por email o WhatsApp",
-        "step3": "El guest presenta el QR en el resort",
-        "step4": "Escanea el QR y marca como \"Canjeado\"",
-        "code": "Código",
-        "guest": "Guest",
-        "destination": "Destino",
-        "validUntil": "Válido hasta",
-        "status": "Estado",
-        "confirmRedeem": "¿Confirmar que este voucher fue canjeado?",
-        "redeemed": "Voucher marcado como canjeado"
-      }
-    },
-    "reports": {
-      "title": "Reportes y Exportación",
-      "subtitle": "Descarga datos y visualiza métricas del programa",
-      "export": {
-        "title": "Exportar Datos",
-        "owners": "Propietarios",
-        "referrals": "Referidos",
-        "vouchers": "Vouchers",
-        "records": "registros",
-        "footer": "Los archivos se descargarán en formato CSV compatible con Excel y Google Sheets"
-      },
-      "charts": {
-        "byDestination": "Rendimiento por Destino",
-        "byStatus": "Distribución por Estado",
-        "totalReferrals": "Total Referidos",
-        "won": "Ganados",
-        "conversionRate": "Tasa de Conversión"
-      }
     }
   },
   "notifications": {
-    "guestConfirmation": {
-      "subject": "Gracias por tu interés en Pueblo Bonito",
-      "body": "Hola {guestName}, Gracias por tu interés en Pueblo Bonito. Hemos recibido tu información y nuestro equipo te contactará pronto. Saludos cordiales, Equipo Pueblo Bonito"
-    },
-    "ownerConfirmation": {
-      "subject": "Tu referido ha sido recibido",
-      "body": "Hola {ownerName}, Hemos recibido tu referido para {guestName} ({destination}). Nuestro equipo ha sido notificado y dará seguimiento. Recibirás actualizaciones conforme progrese. Programa de Referidos Pueblo Bonito"
-    },
-    "ownerStageUpdate": {
-      "subject": "Actualización sobre tu referido",
-      "body": "Hola {ownerName}, Tu referido {guestName} ahora está en la etapa: {stage}. Gracias por ser parte de Pueblo Bonito."
-    },
-    "ownerClosedWon": {
-      "subject": "Tu referido fue exitoso — $200 crédito F&B",
-      "body": "Felicidades {ownerName}, Tu referido {guestName} se completó exitosamente. Has ganado un crédito de $200 en Alimentos y Bebidas. Nuestro equipo te contactará con los próximos pasos."
+    "templates": {
+      "guestConfirmation": {
+        "subject": "Gracias por tu interés en Pueblo Bonito",
+        "greeting": "Hola {{guest_name}},",
+        "body": "Gracias por tu interés en Pueblo Bonito. Hemos recibido tu información y nuestro equipo te contactará pronto.",
+        "closing": "Saludos cordiales,",
+        "team": "Equipo Pueblo Bonito"
+      },
+      "ownerConfirmation": {
+        "subject": "Hemos recibido tu referido",
+        "greeting": "Hola {{owner_name}},",
+        "body": "Hemos recibido tu referido {{guest_name}} ({{destination}}). Nuestro equipo ya fue notificado y te compartiremos actualizaciones conforme avance.",
+        "closing": "Programa de Referidos Pueblo Bonito"
+      },
+      "ownerStageUpdate": {
+        "subject": "Actualización de tu referido",
+        "greeting": "Hola {{owner_name}},",
+        "body": "Tu referido {{guest_name}} ahora está en la etapa: {{stage}}.",
+        "closing": "Gracias por ser parte de Pueblo Bonito."
+      },
+      "ownerClosedWon": {
+        "subject": "Tu referido fue exitoso — crédito de $200 en A&B",
+        "greeting": "¡Felicidades {{owner_name}}!",
+        "body": "Tu referido {{guest_name}} se completó con éxito. Has obtenido un crédito de $200 USD en Alimentos y Bebidas. Nuestro equipo te contactará con los siguientes pasos.",
+        "closing": ""
+      },
+      "internalNewReferral": {
+        "subject": "Nuevo referido asignado – {{destination}}",
+        "body": "Nuevo referido recibido.\nInvitado: {{guest_name}}\nEmail: {{guest_email}}\nTeléfono: {{guest_phone}}\nReferido por: {{owner_email}}\nDestino: {{destination}}\nFavor de dar seguimiento según el proceso."
+      }
     }
   },
   "errors": {
@@ -741,17 +582,5 @@
     "unauthorized": "No estás autorizado para realizar esta acción.",
     "notFound": "El recurso solicitado no fue encontrado.",
     "validation": "Por favor verifica tu información e intenta de nuevo."
-  },
-  "admin": {
-    "login": {
-      "title": "Acceso Administrativo",
-      "subtitle": "Ingresa tus credenciales para continuar",
-      "email": "Email",
-      "password": "Contraseña",
-      "showPassword": "Mostrar contraseña",
-      "button": "Ingresar al Portal",
-      "loading": "Ingresando...",
-      "footer": "Solo personal autorizado de Pueblo Bonito"
-    }
   }
 }
