@@ -10,13 +10,21 @@ export default async function RewardsPage({
   const { locale } = await params;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  const t = await getTranslations('rewards');
+  const t = await getTranslations({ locale, namespace: 'rewards' });
 
   if (!user) return null;
 
   const adminClient = createAdminClient();
 
+  // Get the owner's ID (rewards.owner_id may reference owners.id or users.id)
+  const { data: ownerProfile } = await adminClient
+    .from('owners')
+    .select('id')
+    .eq('user_id', user.id)
+    .single();
+
   // Get rewards with referral info
+  const ownerId = ownerProfile?.id || user.id;
   const { data: rewards } = await adminClient
     .from('rewards')
     .select(`
@@ -24,10 +32,10 @@ export default async function RewardsPage({
       referrals:referral_id (
         guest_first_name,
         guest_last_name,
-        destination_current
+        destination
       )
     `)
-    .eq('owner_id', user.id)
+    .eq('owner_id', ownerId)
     .order('created_at', { ascending: false });
 
   const totalPending = rewards?.filter(r => r.status === 'pending').reduce((sum, r) => sum + Number(r.amount_usd), 0) || 0;

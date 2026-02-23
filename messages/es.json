@@ -165,7 +165,10 @@
       "newReferral": "Nuevo Referido",
       "myReferrals": "Mis Referidos",
       "myRewards": "Mis Recompensas",
-      "myAccount": "Mi Cuenta"
+      "myAccount": "Mi Cuenta",
+      "panelTitle": "Panel de Control",
+      "logout": "Cerrar Sesión",
+      "loggingOut": "Cerrando sesión..."
     },
     "menu": {
       "home": "Inicio",
@@ -191,7 +194,10 @@
       "consentReminder": "Por favor asegúrate de que tu invitado esté al tanto de los requisitos del programa",
       "submitButton": "Enviar Referido",
       "successMessage": "¡Referido enviado exitosamente!",
-      "errorMessage": "Hubo un error al enviar el referido. Por favor intenta de nuevo."
+      "errorMessage": "Hubo un error al enviar el referido. Por favor intenta de nuevo.",
+      "selectDestination": "Seleccionar destino...",
+      "submitting": "Enviando...",
+      "redirecting": "Redirigiendo a tus referidos..."
     },
     "form": {
       "title": "Crear un Referido",
@@ -502,7 +508,10 @@
     "stats": {
       "clicks": "Clics",
       "referrals": "Referidos desde el Enlace"
-    }
+    },
+    "copied": "¡Copiado!",
+    "clicks": "Clics",
+    "referrals": "Referidos"
   },
   "internal": {
     "pipeline": {

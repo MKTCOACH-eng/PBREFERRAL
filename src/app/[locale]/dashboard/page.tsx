@@ -11,48 +11,80 @@ export default async function DashboardPage({
   const { locale } = await params;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  const t = await getTranslations('dashboard');
+  const t = await getTranslations({ locale, namespace: 'dashboard' });
 
   if (!user) return null;
 
   const adminClient = createAdminClient();
 
-  // Get user profile
+  // Get user profile from users table
   const { data: userProfile } = await adminClient
     .from('users')
     .select('*')
     .eq('id', user.id)
     .single();
 
-  // Get owner profile
+  // Get owner profile (actual DB uses user_id, NOT owner_user_id)
   const { data: ownerProfile } = await adminClient
     .from('owners')
     .select('*')
-    .eq('owner_user_id', user.id)
+    .eq('user_id', user.id)
     .single();
 
-  // Get referrals
-  const { data: referrals } = await adminClient
-    .from('referrals')
-    .select('*')
-    .eq('owner_id', user.id)
-    .order('submitted_at', { ascending: false });
+  // Get referrals (referrals.owner_id references owners.id, not users.id)
+  // So we need to use the owner's ID
+  const ownerId = ownerProfile?.id;
+  let referrals: any[] = [];
+  if (ownerId) {
+    const { data } = await adminClient
+      .from('referrals')
+      .select('*')
+      .eq('owner_id', ownerId)
+      .order('created_at', { ascending: false });
+    referrals = data || [];
+  }
 
-  const totalReferrals = referrals?.length || 0;
-  const successfulReferrals = referrals?.filter(r => r.status === 'closed_won').length || 0;
+  const totalReferrals = referrals.length;
+  // Actual DB statuses: pending, contacted, confirmed, completed, cancelled
+  const successfulReferrals = referrals.filter(r => 
+    r.status === 'completed' || r.status === 'closed_won'
+  ).length;
 
   // Get rewards
-  const { data: rewards } = await adminClient
-    .from('rewards')
-    .select('amount_usd, status')
-    .eq('owner_id', user.id);
+  let totalRewards = 0;
+  if (ownerId) {
+    const { data: rewards } = await adminClient
+      .from('rewards')
+      .select('amount_usd, status')
+      .eq('owner_id', ownerId);
 
-  const totalRewards = rewards?.reduce((sum, r) =>
-    r.status === 'issued' ? sum + Number(r.amount_usd) : sum, 0
-  ) || 0;
+    totalRewards = rewards?.reduce((sum, r) =>
+      r.status === 'issued' ? sum + Number(r.amount_usd) : sum, 0
+    ) || 0;
+  }
 
-  const ownerName = userProfile?.name_first || user.user_metadata?.first_name || user.email?.split('@')[0] || 'Owner';
-  const recentReferrals = (referrals || []).slice(0, 5);
+  // Also count from owners table as fallback
+  if (totalRewards === 0 && ownerProfile?.total_rewards_earned) {
+    totalRewards = Number(ownerProfile.total_rewards_earned);
+  }
+
+  const ownerName = ownerProfile?.first_name || userProfile?.name_first || 
+    user.user_metadata?.first_name || user.email?.split('@')[0] || 'Owner';
+  const recentReferrals = referrals.slice(0, 5);
+
+  // Status display config (supports both old and new status values)
+  const statusConfig: Record<string, { label: string; labelEs: string; color: string }> = {
+    pending: { label: 'Pending', labelEs: 'Pendiente', color: 'bg-blue-100 text-blue-700' },
+    new: { label: 'New', labelEs: 'Nuevo', color: 'bg-blue-100 text-blue-700' },
+    contacted: { label: 'Contacted', labelEs: 'Contactado', color: 'bg-yellow-100 text-yellow-700' },
+    confirmed: { label: 'Confirmed', labelEs: 'Confirmado', color: 'bg-indigo-100 text-indigo-700' },
+    qualified: { label: 'Qualified', labelEs: 'Calificado', color: 'bg-indigo-100 text-indigo-700' },
+    visit_scheduled: { label: 'Visit Scheduled', labelEs: 'Visita Programada', color: 'bg-purple-100 text-purple-700' },
+    completed: { label: 'Completed', labelEs: 'Completado', color: 'bg-green-100 text-green-700' },
+    closed_won: { label: 'Closed Won', labelEs: 'Cerrado Exitoso', color: 'bg-green-100 text-green-700' },
+    closed_lost: { label: 'Closed Lost', labelEs: 'Cerrado Perdido', color: 'bg-red-100 text-red-700' },
+    cancelled: { label: 'Cancelled', labelEs: 'Cancelado', color: 'bg-red-100 text-red-700' },
+  };
 
   return (
     <div className="space-y-8">
@@ -131,24 +163,27 @@ export default async function DashboardPage({
             </Link>
           </div>
           <div className="space-y-3">
-            {recentReferrals.map((referral: any) => (
-              <div
-                key={referral.id}
-                className="flex items-center justify-between p-4 border border-[#C8A882]/20 rounded-lg"
-              >
-                <div>
-                  <p className="font-medium text-[#1A2332]">
-                    {referral.guest_first_name} {referral.guest_last_name}
-                  </p>
-                  <p className="text-sm text-[#1A2332]/60 font-light">
-                    {referral.destination_current === 'los_cabos' ? 'Los Cabos' : 'Mazatlán'}
-                  </p>
+            {recentReferrals.map((referral: any) => {
+              const status = statusConfig[referral.status] || statusConfig['pending'];
+              return (
+                <div
+                  key={referral.id}
+                  className="flex items-center justify-between p-4 border border-[#C8A882]/20 rounded-lg"
+                >
+                  <div>
+                    <p className="font-medium text-[#1A2332]">
+                      {referral.guest_first_name} {referral.guest_last_name}
+                    </p>
+                    <p className="text-sm text-[#1A2332]/60 font-light">
+                      {referral.destination || 'Los Cabos'}
+                    </p>
+                  </div>
+                  <span className={`px-3 py-1 text-xs font-medium rounded-full ${status.color}`}>
+                    {locale === 'es' ? status.labelEs : status.label}
+                  </span>
                 </div>
-                <span className="px-3 py-1 bg-[#C8A882]/10 text-[#C8A882] text-xs font-medium rounded-full capitalize">
-                  {referral.status?.replace('_', ' ')}
-                </span>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}

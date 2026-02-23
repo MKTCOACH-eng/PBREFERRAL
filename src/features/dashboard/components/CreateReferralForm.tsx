@@ -7,11 +7,14 @@ import { createReferral } from '@/features/auth/actions/authActions';
 
 export default function CreateReferralForm() {
   const t = useTranslations('referrals.create');
+  const tCommon = useTranslations('common');
   const router = useRouter();
   const pathname = usePathname();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+
+  const locale = pathname?.split('/')[1] || 'en';
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,7 +23,7 @@ export default function CreateReferralForm() {
 
     const formData = new FormData(e.currentTarget);
     
-    // Convert FormData to object
+    // Read using the actual name attributes (camelCase - matching the input names below)
     const referralData = {
       guestFirstName: formData.get('guestFirstName') as string,
       guestLastName: formData.get('guestLastName') as string,
@@ -37,7 +40,6 @@ export default function CreateReferralForm() {
         setError(result.error);
       } else {
         setSuccess(true);
-        const locale = pathname?.split('/')[1] || 'es';
         setTimeout(() => {
           router.push(`/${locale}/dashboard/referrals`);
         }, 2000);
@@ -61,7 +63,7 @@ export default function CreateReferralForm() {
           {t('successMessage')}
         </h2>
         <p className="text-[#1A2332]/70 font-light">
-          Redirecting to your referrals...
+          {t('redirecting')}
         </p>
       </div>
     );
@@ -74,21 +76,21 @@ export default function CreateReferralForm() {
           {t('title')}
         </h1>
         <p className="text-[#1A2332]/70 font-light">
-          Share your guest's information to start the referral process
+          {t('subtitle')}
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Guest Information */}
+        {/* Guest Information - FIXED: name attributes match formData.get keys (camelCase) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label htmlFor="guest_first_name" className="block text-sm font-medium text-[#1A2332] mb-2">
+            <label htmlFor="guestFirstName" className="block text-sm font-medium text-[#1A2332] mb-2">
               {t('guestFirstName')} *
             </label>
             <input
               type="text"
-              id="guest_first_name"
-              name="guest_first_name"
+              id="guestFirstName"
+              name="guestFirstName"
               required
               className="w-full px-4 py-3 border border-[#C8A882]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C8A882] focus:border-transparent"
               placeholder="John"
@@ -96,13 +98,13 @@ export default function CreateReferralForm() {
           </div>
 
           <div>
-            <label htmlFor="guest_last_name" className="block text-sm font-medium text-[#1A2332] mb-2">
+            <label htmlFor="guestLastName" className="block text-sm font-medium text-[#1A2332] mb-2">
               {t('guestLastName')} *
             </label>
             <input
               type="text"
-              id="guest_last_name"
-              name="guest_last_name"
+              id="guestLastName"
+              name="guestLastName"
               required
               className="w-full px-4 py-3 border border-[#C8A882]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C8A882] focus:border-transparent"
               placeholder="Doe"
@@ -112,13 +114,13 @@ export default function CreateReferralForm() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label htmlFor="guest_email" className="block text-sm font-medium text-[#1A2332] mb-2">
+            <label htmlFor="guestEmail" className="block text-sm font-medium text-[#1A2332] mb-2">
               {t('guestEmail')} *
             </label>
             <input
               type="email"
-              id="guest_email"
-              name="guest_email"
+              id="guestEmail"
+              name="guestEmail"
               required
               className="w-full px-4 py-3 border border-[#C8A882]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C8A882] focus:border-transparent"
               placeholder="john.doe@example.com"
@@ -126,13 +128,13 @@ export default function CreateReferralForm() {
           </div>
 
           <div>
-            <label htmlFor="guest_phone" className="block text-sm font-medium text-[#1A2332] mb-2">
+            <label htmlFor="guestPhone" className="block text-sm font-medium text-[#1A2332] mb-2">
               {t('guestPhone')} *
             </label>
             <input
               type="tel"
-              id="guest_phone"
-              name="guest_phone"
+              id="guestPhone"
+              name="guestPhone"
               required
               className="w-full px-4 py-3 border border-[#C8A882]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C8A882] focus:border-transparent"
               placeholder="+1 (555) 123-4567"
@@ -150,7 +152,7 @@ export default function CreateReferralForm() {
             required
             className="w-full px-4 py-3 border border-[#C8A882]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C8A882] focus:border-transparent"
           >
-            <option value="">Select destination...</option>
+            <option value="">{t('selectDestination')}</option>
             <option value="Los Cabos">Los Cabos</option>
             <option value="Mazatlán">Mazatlán</option>
           </select>
@@ -182,14 +184,14 @@ export default function CreateReferralForm() {
             onClick={() => router.back()}
             className="px-6 py-3 border border-[#C8A882]/30 text-[#1A2332] rounded-lg hover:bg-[#C8A882]/5 transition-all font-light"
           >
-            Cancel
+            {tCommon('cancel')}
           </button>
           <button
             type="submit"
             disabled={isSubmitting}
             className="flex-1 px-6 py-3 bg-[#C8A882] text-white rounded-lg hover:bg-[#A88B5F] transition-all font-medium uppercase tracking-wider disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isSubmitting ? 'Submitting...' : t('submitButton')}
+            {isSubmitting ? t('submitting') : t('submitButton')}
           </button>
         </div>
       </form>

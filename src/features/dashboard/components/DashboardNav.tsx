@@ -13,7 +13,7 @@ export default function DashboardNav() {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   // Extract locale from pathname
-  const locale = pathname?.split('/')[1] || 'es';
+  const locale = pathname?.split('/')[1] || 'en';
 
   const navItems = [
     { href: `/${locale}/dashboard`, label: t('overview') },
@@ -30,14 +30,13 @@ export default function DashboardNav() {
       router.push(`/${locale}/homeowner`);
     } else {
       setIsLoggingOut(false);
-      alert('Error al cerrar sesión');
     }
   };
 
   return (
     <nav className="bg-white rounded-lg shadow-sm border border-gray-100">
       <div className="p-6 border-b border-gray-100">
-        <h2 className="text-lg font-serif text-gray-900">Panel de Control</h2>
+        <h2 className="text-lg font-serif text-gray-900">{t('panelTitle')}</h2>
       </div>
       <div className="p-4">
         <div className="space-y-1">
@@ -66,7 +65,7 @@ export default function DashboardNav() {
             disabled={isLoggingOut}
             className="w-full px-4 py-3 rounded-lg transition-all font-light text-red-600 hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoggingOut ? 'Cerrando sesión...' : 'Cerrar Sesión'}
+            {isLoggingOut ? t('loggingOut') : t('logout')}
           </button>
         </div>
       </div>

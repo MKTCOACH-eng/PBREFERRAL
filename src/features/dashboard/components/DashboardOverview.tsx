@@ -14,12 +14,16 @@ interface DashboardOverviewProps {
 }
 
 const statusLabels: Record<string, { en: string; es: string; color: string }> = {
+  pending: { en: 'Pending', es: 'Pendiente', color: 'bg-blue-100 text-blue-700' },
   new: { en: 'New', es: 'Nuevo', color: 'bg-blue-100 text-blue-700' },
   contacted: { en: 'Contacted', es: 'Contactado', color: 'bg-yellow-100 text-yellow-700' },
+  confirmed: { en: 'Confirmed', es: 'Confirmado', color: 'bg-indigo-100 text-indigo-700' },
   qualified: { en: 'Qualified', es: 'Calificado', color: 'bg-indigo-100 text-indigo-700' },
   visit_scheduled: { en: 'Visit Scheduled', es: 'Visita Programada', color: 'bg-purple-100 text-purple-700' },
+  completed: { en: 'Completed', es: 'Completado', color: 'bg-green-100 text-green-700' },
   closed_won: { en: 'Closed Won', es: 'Cerrado Exitoso', color: 'bg-green-100 text-green-700' },
   closed_lost: { en: 'Closed Lost', es: 'Cerrado Perdido', color: 'bg-red-100 text-red-700' },
+  cancelled: { en: 'Cancelled', es: 'Cancelado', color: 'bg-red-100 text-red-700' },
 };
 
 export default function DashboardOverview({
@@ -156,7 +160,7 @@ export default function DashboardOverview({
                       {referral.guest_first_name} {referral.guest_last_name}
                     </p>
                     <p className="text-sm text-[#1A2332]/60 font-light">
-                      {referral.destination_current === 'los_cabos' ? 'Los Cabos' : 'Mazatlán'}
+                      {referral.destination || 'Los Cabos'}
                     </p>
                   </div>
                   <span className={`px-3 py-1 text-xs font-medium rounded-full ${status.color}`}>

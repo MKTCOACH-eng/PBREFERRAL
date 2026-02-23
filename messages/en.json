@@ -165,7 +165,10 @@
       "newReferral": "New Referral",
       "myReferrals": "My Referrals",
       "myRewards": "My Rewards",
-      "myAccount": "My Account"
+      "myAccount": "My Account",
+      "panelTitle": "Control Panel",
+      "logout": "Sign Out",
+      "loggingOut": "Signing out..."
     },
     "menu": {
       "home": "Home",
@@ -191,7 +194,10 @@
       "consentReminder": "Please ensure your guest is aware of the program requirements",
       "submitButton": "Submit Referral",
       "successMessage": "Referral submitted successfully!",
-      "errorMessage": "There was an error submitting the referral. Please try again."
+      "errorMessage": "There was an error submitting the referral. Please try again.",
+      "selectDestination": "Select destination...",
+      "submitting": "Submitting...",
+      "redirecting": "Redirecting to your referrals..."
     },
     "form": {
       "title": "Create a Referral",
@@ -502,7 +508,10 @@
     "stats": {
       "clicks": "Clicks",
       "referrals": "Referrals from Link"
-    }
+    },
+    "copied": "Copied!",
+    "clicks": "Clicks",
+    "referrals": "Referrals"
   },
   "internal": {
     "pipeline": {

@@ -27,8 +27,6 @@ export default function NewReferralForm() {
         guestEmail: formData.get('guestEmail') as string,
         guestPhone: formData.get('guestPhone') as string,
         destination: formData.get('destination') as string,
-        consentTransactional: true,
-        consentMarketing: formData.get('consentMarketing') === 'on',
       });
 
       if (result.error) {

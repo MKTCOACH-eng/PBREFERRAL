@@ -11,25 +11,41 @@ export default async function ReferralsPage({
   const { locale } = await params;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  const t = await getTranslations('referrals');
+  const t = await getTranslations({ locale, namespace: 'referrals' });
 
   if (!user) return null;
 
   const adminClient = createAdminClient();
 
-  const { data: referrals } = await adminClient
-    .from('referrals')
-    .select('*')
-    .eq('owner_id', user.id)
-    .order('submitted_at', { ascending: false });
+  // Get owner profile to get owners.id (referrals.owner_id references owners.id)
+  const { data: ownerProfile } = await adminClient
+    .from('owners')
+    .select('id')
+    .eq('user_id', user.id)
+    .single();
 
+  let referrals: any[] = [];
+  if (ownerProfile?.id) {
+    const { data } = await adminClient
+      .from('referrals')
+      .select('*')
+      .eq('owner_id', ownerProfile.id)
+      .order('created_at', { ascending: false }); // actual column is created_at, not submitted_at
+    referrals = data || [];
+  }
+
+  // Status config supporting both old and new status values
   const statusConfig: Record<string, { label: string; labelEs: string; color: string }> = {
+    pending: { label: 'Pending', labelEs: 'Pendiente', color: 'bg-blue-100 text-blue-700' },
     new: { label: 'New', labelEs: 'Nuevo', color: 'bg-blue-100 text-blue-700' },
     contacted: { label: 'Contacted', labelEs: 'Contactado', color: 'bg-yellow-100 text-yellow-700' },
+    confirmed: { label: 'Confirmed', labelEs: 'Confirmado', color: 'bg-indigo-100 text-indigo-700' },
     qualified: { label: 'Qualified', labelEs: 'Calificado', color: 'bg-indigo-100 text-indigo-700' },
     visit_scheduled: { label: 'Visit Scheduled', labelEs: 'Visita Programada', color: 'bg-purple-100 text-purple-700' },
+    completed: { label: 'Completed', labelEs: 'Completado', color: 'bg-green-100 text-green-700' },
     closed_won: { label: 'Closed Won', labelEs: 'Cerrado Exitoso', color: 'bg-green-100 text-green-700' },
     closed_lost: { label: 'Closed Lost', labelEs: 'Cerrado Perdido', color: 'bg-red-100 text-red-700' },
+    cancelled: { label: 'Cancelled', labelEs: 'Cancelado', color: 'bg-red-100 text-red-700' },
   };
 
   return (
@@ -78,7 +94,7 @@ export default async function ReferralsPage({
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {referrals.map((referral: any) => {
-                  const status = statusConfig[referral.status] || statusConfig['new'];
+                  const status = statusConfig[referral.status] || statusConfig['pending'];
                   return (
                     <tr key={referral.id} className="hover:bg-[#F8F6F3]/50 transition-colors">
                       <td className="px-6 py-4">
@@ -88,7 +104,7 @@ export default async function ReferralsPage({
                         <div className="text-sm text-gray-500">{referral.guest_email}</div>
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-600">
-                        {referral.destination_current === 'los_cabos' ? 'Los Cabos' : 'Mazatlán'}
+                        {referral.destination || 'Los Cabos'}
                       </td>
                       <td className="px-6 py-4">
                         <span className={`px-3 py-1 text-xs font-medium rounded-full ${status.color}`}>
@@ -96,10 +112,14 @@ export default async function ReferralsPage({
                         </span>
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-500">
-                        {new Date(referral.submitted_at).toLocaleDateString(locale === 'es' ? 'es-MX' : 'en-US')}
+                        {referral.created_at
+                          ? new Date(referral.created_at).toLocaleDateString(locale === 'es' ? 'es-MX' : 'en-US')
+                          : '-'}
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-500">
-                        {new Date(referral.updated_at).toLocaleDateString(locale === 'es' ? 'es-MX' : 'en-US')}
+                        {referral.updated_at
+                          ? new Date(referral.updated_at).toLocaleDateString(locale === 'es' ? 'es-MX' : 'en-US')
+                          : '-'}
                       </td>
                     </tr>
                   );

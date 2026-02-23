@@ -3,6 +3,10 @@
 import { createAdminClient } from '@/lib/supabase/admin';
 import { revalidatePath } from 'next/cache';
 
+/**
+ * Get referral info by share link token.
+ * share_links.owner_id references users.id (or owners.id depending on creation).
+ */
 export async function getReferralByToken(token: string) {
   try {
     const adminClient = createAdminClient();
@@ -26,19 +30,30 @@ export async function getReferralByToken(token: string) {
       })
       .eq('token', token);
 
-    // Get owner info
+    // Get owner info from owners table
     const { data: owner } = await adminClient
-      .from('users')
-      .select('id, name_first, name_last, email')
+      .from('owners')
+      .select('id, first_name, last_name, email, user_id')
       .eq('id', shareLink.owner_id)
       .single();
+
+    // If not found by owners.id, try by user_id
+    let ownerInfo = owner;
+    if (!ownerInfo) {
+      const { data: ownerByUser } = await adminClient
+        .from('owners')
+        .select('id, first_name, last_name, email, user_id')
+        .eq('user_id', shareLink.owner_id)
+        .single();
+      ownerInfo = ownerByUser;
+    }
 
     return {
       success: true,
       referral: {
-        owner_id: shareLink.owner_id,
-        owners: owner
-          ? { first_name: owner.name_first, last_name: owner.name_last, email: owner.email }
+        owner_id: ownerInfo?.id || shareLink.owner_id,
+        owners: ownerInfo
+          ? { first_name: ownerInfo.first_name, last_name: ownerInfo.last_name, email: ownerInfo.email }
           : null,
       },
     };
@@ -48,6 +63,15 @@ export async function getReferralByToken(token: string) {
   }
 }
 
+/**
+ * Submit a guest referral from the guest landing page.
+ * 
+ * ACTUAL DB SCHEMA:
+ *   referrals.owner_id → FK to owners.id (NOT users.id)
+ *   referrals.destination → text ("Los Cabos" | "Mazatlán")
+ *   referrals.status → text ('pending', 'contacted', 'confirmed', 'completed', 'cancelled')
+ *   Uses created_at (not submitted_at) for timestamps
+ */
 export async function submitGuestReferral(data: {
   firstName: string;
   lastName: string;
@@ -63,6 +87,7 @@ export async function submitGuestReferral(data: {
     const adminClient = createAdminClient();
 
     // Resolve owner ID from token or email
+    // IMPORTANT: referrals.owner_id references owners.id, not users.id
     let ownerId: string | null = null;
 
     if (data.ownerToken) {
@@ -75,16 +100,17 @@ export async function submitGuestReferral(data: {
     }
 
     if (!ownerId && data.ownerEmail) {
+      // Look up owner by email in owners table
       const { data: owner } = await adminClient
-        .from('users')
+        .from('owners')
         .select('id')
         .eq('email', data.ownerEmail)
-        .eq('role', 'owner')
         .single();
       if (owner) ownerId = owner.id;
     }
 
     // Check for duplicates (email or phone within 180 days)
+    // Uses created_at (actual column) instead of submitted_at
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - 180);
 
@@ -92,31 +118,32 @@ export async function submitGuestReferral(data: {
       .from('referrals')
       .select('id')
       .or(`guest_email.eq.${data.email},guest_phone.eq.${data.phone}`)
-      .gte('submitted_at', cutoffDate.toISOString())
+      .gte('created_at', cutoffDate.toISOString())
       .limit(1);
 
     const isDuplicate = duplicates && duplicates.length > 0;
-    const duplicateOfId = isDuplicate ? duplicates[0].id : null;
 
-    const dest = data.destination === 'mazatlan' ? 'mazatlan' : 'los_cabos';
+    // Map destination to display text (actual DB uses text, not enum)
+    const dest = data.destination.toLowerCase().includes('mazat') ? 'Mazatlán' : 'Los Cabos';
 
-    // Create referral
+    // Create referral (using actual DB column names)
+    const insertData: Record<string, unknown> = {
+      guest_first_name: data.firstName,
+      guest_last_name: data.lastName,
+      guest_email: data.email,
+      guest_phone: data.phone,
+      destination: dest,
+      status: 'pending',
+    };
+
+    // Only add owner_id if we have one (FK constraint)
+    if (ownerId) {
+      insertData.owner_id = ownerId;
+    }
+
     const { data: newReferral, error: referralError } = await adminClient
       .from('referrals')
-      .insert({
-        owner_id: ownerId || '00000000-0000-0000-0000-000000000000', // placeholder if no owner
-        guest_first_name: data.firstName,
-        guest_last_name: data.lastName,
-        guest_email: data.email,
-        guest_phone: data.phone,
-        destination_initial: dest,
-        destination_current: dest,
-        status: 'new',
-        consent_transactional: data.consentTransactional,
-        consent_marketing: data.consentMarketing,
-        source: data.ownerToken ? 'guest_link' : 'admin_manual',
-        duplicate_of_referral_id: duplicateOfId,
-      })
+      .insert(insertData)
       .select()
       .single();
 
@@ -126,81 +153,106 @@ export async function submitGuestReferral(data: {
     }
 
     if (newReferral) {
-      // Create opportunity
-      await adminClient.from('opportunities').insert({
-        referral_id: newReferral.id,
-        destination: dest,
-        stage: 'new',
-      });
+      // Try to create opportunity (opportunities table uses enums)
+      try {
+        const destEnum = dest.includes('Mazat') ? 'mazatlan' : 'los_cabos';
+        await adminClient.from('opportunities').insert({
+          referral_id: newReferral.id,
+          destination: destEnum,
+          stage: 'new',
+        });
+      } catch (oppErr) {
+        console.error('Warning: Could not create opportunity:', oppErr);
+      }
 
-      // Create 24h follow-up task
-      const dueAt = new Date();
-      dueAt.setHours(dueAt.getHours() + 24);
-      await adminClient.from('internal_tasks').insert({
-        referral_id: newReferral.id,
-        task_type: 'contact_within_24h',
-        description: `Contact guest ${data.firstName} ${data.lastName} within 24 hours`,
-        due_at: dueAt.toISOString(),
-        status: 'pending',
-      });
+      // Try to create 24h follow-up task
+      try {
+        const dueAt = new Date();
+        dueAt.setHours(dueAt.getHours() + 24);
+        await adminClient.from('internal_tasks').insert({
+          referral_id: newReferral.id,
+          task_type: 'contact_within_24h',
+          description: `Contact guest ${data.firstName} ${data.lastName} within 24 hours`,
+          due_at: dueAt.toISOString(),
+          status: 'pending',
+        });
+      } catch (taskErr) {
+        console.error('Warning: Could not create task:', taskErr);
+      }
 
       // Queue guest confirmation notification
-      await adminClient.from('notifications').insert({
-        recipient_user_id: null,
-        recipient_role: 'guest',
-        channel: 'email',
-        template_key: 'guest_confirmation',
-        language: 'en',
-        payload_json: {
-          guest_name: `${data.firstName} ${data.lastName}`,
-          guest_email: data.email,
-          destination: dest,
-        },
-        status: 'queued',
-      });
-
-      // Queue internal team notification
-      await adminClient.from('notifications').insert({
-        recipient_user_id: null,
-        recipient_role: 'internal',
-        channel: 'email',
-        template_key: 'internal_new_referral',
-        language: 'en',
-        payload_json: {
-          guest_name: `${data.firstName} ${data.lastName}`,
-          guest_email: data.email,
-          guest_phone: data.phone,
-          owner_email: data.ownerEmail || 'Unknown',
-          destination: dest,
-        },
-        status: 'queued',
-      });
-
-      // If duplicate, notify admin
-      if (isDuplicate) {
+      try {
         await adminClient.from('notifications').insert({
           recipient_user_id: null,
-          recipient_role: 'admin',
-          channel: 'in_app',
-          template_key: 'duplicate_referral_detected',
+          recipient_role: 'guest',
+          channel: 'email',
+          template_key: 'guest_confirmation',
           language: 'en',
           payload_json: {
             guest_name: `${data.firstName} ${data.lastName}`,
             guest_email: data.email,
-            duplicate_of: duplicateOfId,
+            destination: dest,
           },
           status: 'queued',
         });
+      } catch (notifErr) {
+        console.error('Warning: Could not queue notification:', notifErr);
+      }
+
+      // Queue internal team notification
+      try {
+        await adminClient.from('notifications').insert({
+          recipient_user_id: null,
+          recipient_role: 'internal',
+          channel: 'email',
+          template_key: 'internal_new_referral',
+          language: 'en',
+          payload_json: {
+            guest_name: `${data.firstName} ${data.lastName}`,
+            guest_email: data.email,
+            guest_phone: data.phone,
+            owner_email: data.ownerEmail || 'Unknown',
+            destination: dest,
+          },
+          status: 'queued',
+        });
+      } catch (notifErr) {
+        console.error('Warning: Could not queue internal notification:', notifErr);
+      }
+
+      // If duplicate, notify admin
+      if (isDuplicate) {
+        try {
+          await adminClient.from('notifications').insert({
+            recipient_user_id: null,
+            recipient_role: 'admin',
+            channel: 'in_app',
+            template_key: 'duplicate_referral_detected',
+            language: 'en',
+            payload_json: {
+              guest_name: `${data.firstName} ${data.lastName}`,
+              guest_email: data.email,
+              duplicate_of: duplicates![0].id,
+            },
+            status: 'queued',
+          });
+        } catch (notifErr) {
+          console.error('Warning: Could not queue duplicate notification:', notifErr);
+        }
       }
 
       // Audit log
-      await adminClient.from('audit_logs').insert({
-        actor_user_id: null,
-        action_key: 'referral.guest_submitted',
-        entity_type: 'referral',
-        entity_id: newReferral.id,
-        after_json: newReferral,
-      });
+      try {
+        await adminClient.from('audit_logs').insert({
+          actor_user_id: null,
+          action_key: 'referral.guest_submitted',
+          entity_type: 'referral',
+          entity_id: newReferral.id,
+          after_json: newReferral,
+        });
+      } catch (auditErr) {
+        console.error('Warning: Could not create audit log:', auditErr);
+      }
     }
 
     revalidatePath('/');

@@ -7,24 +7,408 @@ import { revalidatePath } from 'next/cache';
 // ===== MAGIC LINK AUTH (MVP Primary) =====
 
 export async function sendMagicLink(email: string, locale: string = 'en') {
-  const supabase = await createClient();
+  try {
+    const supabase = await createClient();
 
-  const redirectUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/auth/callback?locale=${locale}`;
+    const redirectUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/auth/callback?locale=${locale}`;
 
-  const { error } = await supabase.auth.signInWithOtp({
-    email,
-    options: {
-      emailRedirectTo: redirectUrl,
-      shouldCreateUser: true,
-    },
-  });
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: redirectUrl,
+        shouldCreateUser: true,
+      },
+    });
 
-  if (error) {
-    console.error('Error sending magic link:', error);
-    return { error: error.message };
+    if (error) {
+      console.error('Error sending magic link:', error);
+      return { error: error.message };
+    }
+
+    return { success: true };
+  } catch (err: any) {
+    console.error('Unexpected error sending magic link:', err);
+    return { error: err.message || 'Unexpected error' };
+  }
+}
+
+// ===== PROFILE MANAGEMENT =====
+
+/**
+ * Ensures an owner profile exists in both 'users' and 'owners' tables.
+ * IMPORTANT: The actual DB schema uses:
+ *   - owners.user_id (FK → auth.users.id)
+ *   - owners.email, owners.first_name, owners.last_name, owners.phone
+ *   - owners.preferred_destination (text: "Los Cabos" | "Mazatlán")
+ */
+export async function ensureOwnerProfile(
+  userId: string,
+  data: {
+    email: string;
+    firstName?: string;
+    lastName?: string;
+    phone?: string;
+    destination?: string;
+  }
+) {
+  const adminClient = createAdminClient();
+
+  // Check if user already exists in users table
+  const { data: existingUser } = await adminClient
+    .from('users')
+    .select('id')
+    .eq('id', userId)
+    .single();
+
+  if (!existingUser) {
+    // Create user record (users table uses name_first, name_last)
+    const { error: userError } = await adminClient.from('users').insert({
+      id: userId,
+      role: 'owner',
+      destination_scope: mapDestinationToScope(data.destination),
+      name_first: data.firstName || '',
+      name_last: data.lastName || '',
+      email: data.email,
+      phone: data.phone || null,
+      language_preference: 'en',
+      status: 'active',
+    });
+
+    if (userError && userError.code !== '23505') {
+      console.error('Error creating user profile:', userError);
+    }
   }
 
+  // Check if owner profile exists (owners table uses user_id, NOT owner_user_id)
+  const { data: existingOwner } = await adminClient
+    .from('owners')
+    .select('id')
+    .eq('user_id', userId)
+    .single();
+
+  if (!existingOwner) {
+    const { error: ownerError } = await adminClient.from('owners').insert({
+      user_id: userId,
+      email: data.email,
+      first_name: data.firstName || '',
+      last_name: data.lastName || '',
+      phone: data.phone || '',
+      preferred_destination: mapDestinationToDisplay(data.destination),
+      status: 'active',
+    });
+
+    if (ownerError && ownerError.code !== '23505') {
+      console.error('Error creating owner profile:', ownerError);
+    }
+  }
+
+  return existingOwner;
+}
+
+/**
+ * Helper: Get the owner's record ID (owners.id) from the auth user ID.
+ * This is critical because referrals.owner_id references owners.id, NOT users.id.
+ */
+async function getOwnerIdFromUserId(userId: string): Promise<string | null> {
+  const adminClient = createAdminClient();
+  const { data: owner } = await adminClient
+    .from('owners')
+    .select('id')
+    .eq('user_id', userId)
+    .single();
+  return owner?.id || null;
+}
+
+export async function completeOwnerProfile(formData: FormData) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) return { error: 'Not authenticated' };
+
+  const firstName = formData.get('firstName') as string;
+  const lastName = formData.get('lastName') as string;
+  const phone = formData.get('phone') as string;
+  const destination = formData.get('preferredDestination') as string;
+
+  const adminClient = createAdminClient();
+
+  // Update users table
+  const { error: userError } = await adminClient
+    .from('users')
+    .update({
+      name_first: firstName,
+      name_last: lastName,
+      phone: phone || null,
+      destination_scope: mapDestinationToScope(destination),
+    })
+    .eq('id', user.id);
+
+  if (userError) {
+    console.error('Error updating user profile:', userError);
+    return { error: 'Failed to update profile' };
+  }
+
+  // Also update owners table
+  await adminClient
+    .from('owners')
+    .update({
+      first_name: firstName,
+      last_name: lastName,
+      phone: phone || '',
+      preferred_destination: mapDestinationToDisplay(destination),
+    })
+    .eq('user_id', user.id);
+
+  revalidatePath('/');
   return { success: true };
+}
+
+export async function signOut() {
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signOut();
+  if (error) {
+    console.error('Error signing out:', error);
+    return { error: error.message };
+  }
+  revalidatePath('/');
+  return { success: true };
+}
+
+// ===== REFERRAL CRUD =====
+
+/**
+ * Creates a referral from the Owner Dashboard.
+ * IMPORTANT: referrals.owner_id references owners.id (not users.id).
+ * Uses actual DB column names: destination (text), status ('pending').
+ */
+export async function createReferral(data: {
+  guestFirstName: string;
+  guestLastName: string;
+  guestEmail: string;
+  guestPhone: string;
+  destination: string;
+  specialRequests?: string;
+}) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) return { error: 'Not authenticated' };
+
+  try {
+    const adminClient = createAdminClient();
+
+    // Ensure owner profile exists
+    await ensureOwnerProfile(user.id, { email: user.email! });
+
+    // Get the owner's record ID (owners.id) - this is what referrals.owner_id references
+    const ownerId = await getOwnerIdFromUserId(user.id);
+    if (!ownerId) {
+      return { error: 'Owner profile not found. Please try again.' };
+    }
+
+    const dest = mapDestinationToDisplay(data.destination);
+
+    // Check for duplicates (email or phone within 180 days)
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - 180);
+
+    const { data: duplicates } = await adminClient
+      .from('referrals')
+      .select('id')
+      .or(`guest_email.eq.${data.guestEmail},guest_phone.eq.${data.guestPhone}`)
+      .gte('created_at', cutoffDate.toISOString())
+      .limit(1);
+
+    const isDuplicate = duplicates && duplicates.length > 0;
+
+    // Create referral record (actual DB schema)
+    const { data: newReferral, error: referralError } = await adminClient
+      .from('referrals')
+      .insert({
+        owner_id: ownerId, // owners.id, NOT users.id
+        guest_first_name: data.guestFirstName,
+        guest_last_name: data.guestLastName,
+        guest_email: data.guestEmail,
+        guest_phone: data.guestPhone,
+        destination: dest,
+        special_requests: data.specialRequests || null,
+        status: 'pending',
+      })
+      .select()
+      .single();
+
+    if (referralError) {
+      console.error('Error creating referral:', referralError);
+      return { error: `Error creating referral: ${referralError.message}` };
+    }
+
+    if (newReferral) {
+      // Update owner stats
+      await adminClient
+        .from('owners')
+        .update({
+          total_referrals: (await getOwnerTotalReferrals(adminClient, ownerId)) + 1,
+        })
+        .eq('id', ownerId);
+
+      // Try to create opportunity (may fail if table schema differs)
+      try {
+        await adminClient.from('opportunities').insert({
+          referral_id: newReferral.id,
+          destination: mapDestinationToEnum(data.destination),
+          stage: 'new',
+        });
+      } catch (oppErr) {
+        console.error('Warning: Could not create opportunity:', oppErr);
+      }
+
+      // Try to create internal task
+      try {
+        const dueAt = new Date();
+        dueAt.setHours(dueAt.getHours() + 24);
+        await adminClient.from('internal_tasks').insert({
+          referral_id: newReferral.id,
+          task_type: 'contact_within_24h',
+          description: `Contact guest ${data.guestFirstName} ${data.guestLastName} within 24 hours`,
+          due_at: dueAt.toISOString(),
+          status: 'pending',
+        });
+      } catch (taskErr) {
+        console.error('Warning: Could not create task:', taskErr);
+      }
+
+      // Try to log audit
+      try {
+        await adminClient.from('audit_logs').insert({
+          actor_user_id: user.id,
+          action_key: 'referral.created',
+          entity_type: 'referral',
+          entity_id: newReferral.id,
+          after_json: newReferral,
+        });
+      } catch (auditErr) {
+        console.error('Warning: Could not create audit log:', auditErr);
+      }
+
+      // Try to queue notifications
+      try {
+        await queueNotification(adminClient, {
+          recipientRole: 'owner',
+          recipientUserId: user.id,
+          channel: 'email',
+          templateKey: 'owner_referral_confirmation',
+          language: 'en',
+          payload: {
+            owner_name: user.user_metadata?.first_name || user.email,
+            guest_name: `${data.guestFirstName} ${data.guestLastName}`,
+            destination: dest,
+          },
+        });
+      } catch (notifErr) {
+        console.error('Warning: Could not queue notification:', notifErr);
+      }
+    }
+
+    revalidatePath('/');
+    return { success: true };
+  } catch (error: any) {
+    console.error('Unexpected error creating referral:', error);
+    return { error: error.message || 'Unexpected error' };
+  }
+}
+
+export async function updateReferral(
+  referralId: string,
+  data: {
+    guestFirstName?: string;
+    guestLastName?: string;
+    guestEmail?: string;
+    guestPhone?: string;
+    destination?: string;
+  }
+) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: 'Not authenticated' };
+
+  try {
+    const adminClient = createAdminClient();
+
+    // Get owner ID
+    const ownerId = await getOwnerIdFromUserId(user.id);
+    if (!ownerId) return { error: 'Owner not found' };
+
+    // Verify ownership (referrals.owner_id = owners.id)
+    const { data: referral } = await adminClient
+      .from('referrals')
+      .select('owner_id, status')
+      .eq('id', referralId)
+      .single();
+
+    if (!referral || referral.owner_id !== ownerId) {
+      return { error: 'Permission denied' };
+    }
+
+    const updateData: Record<string, unknown> = {};
+    if (data.guestFirstName) updateData.guest_first_name = data.guestFirstName;
+    if (data.guestLastName) updateData.guest_last_name = data.guestLastName;
+    if (data.guestEmail) updateData.guest_email = data.guestEmail;
+    if (data.guestPhone) updateData.guest_phone = data.guestPhone;
+    if (data.destination) updateData.destination = mapDestinationToDisplay(data.destination);
+
+    const { error: updateError } = await adminClient
+      .from('referrals')
+      .update(updateData)
+      .eq('id', referralId);
+
+    if (updateError) return { error: updateError.message };
+
+    revalidatePath('/');
+    return { success: true };
+  } catch (error: any) {
+    return { error: error.message };
+  }
+}
+
+export async function deleteReferral(referralId: string) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: 'Not authenticated' };
+
+  try {
+    const adminClient = createAdminClient();
+
+    const ownerId = await getOwnerIdFromUserId(user.id);
+    if (!ownerId) return { error: 'Owner not found' };
+
+    const { data: referral } = await adminClient
+      .from('referrals')
+      .select('owner_id, status')
+      .eq('id', referralId)
+      .single();
+
+    if (!referral || referral.owner_id !== ownerId) {
+      return { error: 'Permission denied' };
+    }
+
+    if (referral.status !== 'pending') {
+      return { error: 'Can only delete pending referrals' };
+    }
+
+    await adminClient.from('referrals').delete().eq('id', referralId);
+    revalidatePath('/');
+    return { success: true };
+  } catch (error: any) {
+    return { error: error.message };
+  }
 }
 
 // ===== LEGACY PASSWORD AUTH (kept for backwards compatibility) =====
@@ -62,7 +446,6 @@ export async function signUpWithEmail(data: {
       return { error: 'Could not create user' };
     }
 
-    // Create owner profile using admin client
     await ensureOwnerProfile(authData.user.id, {
       email: data.email,
       firstName: data.firstName,
@@ -93,306 +476,6 @@ export async function signInWithEmail(email: string, password: string) {
   return { success: true };
 }
 
-// ===== PROFILE MANAGEMENT =====
-
-export async function ensureOwnerProfile(
-  userId: string,
-  data: {
-    email: string;
-    firstName?: string;
-    lastName?: string;
-    phone?: string;
-    destination?: string;
-  }
-) {
-  const adminClient = createAdminClient();
-
-  // Check if user already exists in our users table
-  const { data: existingUser } = await adminClient
-    .from('users')
-    .select('id')
-    .eq('id', userId)
-    .single();
-
-  if (!existingUser) {
-    // Create user record
-    const { error: userError } = await adminClient.from('users').insert({
-      id: userId,
-      role: 'owner',
-      destination_scope: mapDestination(data.destination),
-      name_first: data.firstName || '',
-      name_last: data.lastName || '',
-      email: data.email,
-      phone: data.phone || null,
-      language_preference: 'en',
-      status: 'active',
-    });
-
-    if (userError && userError.code !== '23505') {
-      console.error('Error creating user profile:', userError);
-    }
-  }
-
-  // Check if owner profile exists
-  const { data: existingOwner } = await adminClient
-    .from('owners')
-    .select('id')
-    .eq('owner_user_id', userId)
-    .single();
-
-  if (!existingOwner) {
-    const { error: ownerError } = await adminClient.from('owners').insert({
-      owner_user_id: userId,
-      owner_external_id: null,
-      unit_community: null,
-    });
-
-    if (ownerError && ownerError.code !== '23505') {
-      console.error('Error creating owner profile:', ownerError);
-    }
-  }
-}
-
-export async function completeOwnerProfile(formData: FormData) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) return { error: 'Not authenticated' };
-
-  const firstName = formData.get('firstName') as string;
-  const lastName = formData.get('lastName') as string;
-  const phone = formData.get('phone') as string;
-  const destination = formData.get('preferredDestination') as string;
-
-  const adminClient = createAdminClient();
-
-  // Update user
-  const { error: userError } = await adminClient
-    .from('users')
-    .update({
-      name_first: firstName,
-      name_last: lastName,
-      phone: phone || null,
-      destination_scope: mapDestination(destination),
-    })
-    .eq('id', user.id);
-
-  if (userError) {
-    console.error('Error updating user profile:', userError);
-    return { error: 'Failed to update profile' };
-  }
-
-  revalidatePath('/');
-  return { success: true };
-}
-
-export async function signOut() {
-  const supabase = await createClient();
-  const { error } = await supabase.auth.signOut();
-  if (error) {
-    console.error('Error signing out:', error);
-    return { error: error.message };
-  }
-  revalidatePath('/');
-  return { success: true };
-}
-
-// ===== REFERRAL CRUD =====
-
-export async function createReferral(data: {
-  guestFirstName: string;
-  guestLastName: string;
-  guestEmail: string;
-  guestPhone: string;
-  destination: string;
-  consentTransactional?: boolean;
-  consentMarketing?: boolean;
-}) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) return { error: 'Not authenticated' };
-
-  try {
-    const adminClient = createAdminClient();
-
-    // Ensure owner profile exists
-    await ensureOwnerProfile(user.id, { email: user.email! });
-
-    const dest = mapDestination(data.destination);
-
-    // Create referral record (uses spec schema)
-    const { data: newReferral, error: referralError } = await adminClient
-      .from('referrals')
-      .insert({
-        owner_id: user.id,
-        guest_first_name: data.guestFirstName,
-        guest_last_name: data.guestLastName,
-        guest_email: data.guestEmail,
-        guest_phone: data.guestPhone,
-        destination_initial: dest || 'los_cabos',
-        destination_current: dest || 'los_cabos',
-        status: 'new',
-        consent_transactional: data.consentTransactional ?? true,
-        consent_marketing: data.consentMarketing ?? false,
-        source: 'owner_dashboard',
-      })
-      .select()
-      .single();
-
-    if (referralError) {
-      console.error('Error creating referral:', referralError);
-      return { error: `Error creating referral: ${referralError.message}` };
-    }
-
-    // Create corresponding opportunity (1:1)
-    if (newReferral) {
-      await adminClient.from('opportunities').insert({
-        referral_id: newReferral.id,
-        destination: dest || 'los_cabos',
-        stage: 'new',
-      });
-
-      // Create internal task (24h follow-up)
-      const dueAt = new Date();
-      dueAt.setHours(dueAt.getHours() + 24);
-      await adminClient.from('internal_tasks').insert({
-        referral_id: newReferral.id,
-        task_type: 'contact_within_24h',
-        description: `Contact guest ${data.guestFirstName} ${data.guestLastName} within 24 hours`,
-        due_at: dueAt.toISOString(),
-        status: 'pending',
-      });
-
-      // Log audit
-      await adminClient.from('audit_logs').insert({
-        actor_user_id: user.id,
-        action_key: 'referral.created',
-        entity_type: 'referral',
-        entity_id: newReferral.id,
-        after_json: newReferral,
-      });
-
-      // Queue notifications
-      await queueNotification(adminClient, {
-        recipientRole: 'owner',
-        recipientUserId: user.id,
-        channel: 'email',
-        templateKey: 'owner_referral_confirmation',
-        language: 'en',
-        payload: {
-          owner_name: user.user_metadata?.first_name || user.email,
-          guest_name: `${data.guestFirstName} ${data.guestLastName}`,
-          destination: data.destination,
-        },
-      });
-
-      await queueNotification(adminClient, {
-        recipientRole: 'guest',
-        recipientUserId: null,
-        channel: 'email',
-        templateKey: 'guest_confirmation',
-        language: 'en',
-        payload: {
-          guest_name: `${data.guestFirstName} ${data.guestLastName}`,
-          guest_email: data.guestEmail,
-        },
-      });
-    }
-
-    revalidatePath('/');
-    return { success: true };
-  } catch (error: any) {
-    console.error('Unexpected error creating referral:', error);
-    return { error: error.message || 'Unexpected error' };
-  }
-}
-
-export async function updateReferral(
-  referralId: string,
-  data: {
-    guestFirstName?: string;
-    guestLastName?: string;
-    guestEmail?: string;
-    guestPhone?: string;
-    destination?: string;
-  }
-) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return { error: 'Not authenticated' };
-
-  try {
-    const adminClient = createAdminClient();
-
-    // Verify ownership
-    const { data: referral } = await adminClient
-      .from('referrals')
-      .select('owner_id, status')
-      .eq('id', referralId)
-      .single();
-
-    if (!referral || referral.owner_id !== user.id) {
-      return { error: 'Permission denied' };
-    }
-
-    const updateData: Record<string, unknown> = {};
-    if (data.guestFirstName) updateData.guest_first_name = data.guestFirstName;
-    if (data.guestLastName) updateData.guest_last_name = data.guestLastName;
-    if (data.guestEmail) updateData.guest_email = data.guestEmail;
-    if (data.guestPhone) updateData.guest_phone = data.guestPhone;
-
-    const { error: updateError } = await adminClient
-      .from('referrals')
-      .update(updateData)
-      .eq('id', referralId);
-
-    if (updateError) return { error: updateError.message };
-
-    revalidatePath('/');
-    return { success: true };
-  } catch (error: any) {
-    return { error: error.message };
-  }
-}
-
-export async function deleteReferral(referralId: string) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return { error: 'Not authenticated' };
-
-  try {
-    const adminClient = createAdminClient();
-    const { data: referral } = await adminClient
-      .from('referrals')
-      .select('owner_id, status')
-      .eq('id', referralId)
-      .single();
-
-    if (!referral || referral.owner_id !== user.id) {
-      return { error: 'Permission denied' };
-    }
-
-    if (referral.status !== 'new') {
-      return { error: 'Can only delete new referrals' };
-    }
-
-    await adminClient.from('referrals').delete().eq('id', referralId);
-    revalidatePath('/');
-    return { success: true };
-  } catch (error: any) {
-    return { error: error.message };
-  }
-}
-
 // ===== SOCIAL AUTH (kept for future) =====
 
 export async function signInWithGoogle() {
@@ -421,12 +504,49 @@ export async function signInWithFacebook() {
 
 // ===== HELPERS =====
 
-function mapDestination(dest?: string | null): 'los_cabos' | 'mazatlan' | null {
+/**
+ * Maps user-facing destination strings to the DB enum values for the users table.
+ * users.destination_scope uses the enum: 'los_cabos' | 'mazatlan'
+ */
+function mapDestinationToScope(dest?: string | null): 'los_cabos' | 'mazatlan' | null {
   if (!dest) return null;
   const lower = dest.toLowerCase();
   if (lower.includes('cabo')) return 'los_cabos';
   if (lower.includes('mazat')) return 'mazatlan';
   return null;
+}
+
+/**
+ * Maps destination to display text used in owners and referrals tables.
+ * These tables use plain text: "Los Cabos" | "Mazatlán"
+ */
+function mapDestinationToDisplay(dest?: string | null): string {
+  if (!dest) return 'Los Cabos';
+  const lower = dest.toLowerCase();
+  if (lower.includes('mazat')) return 'Mazatlán';
+  return 'Los Cabos';
+}
+
+/**
+ * Maps destination to enum value for the opportunities table.
+ */
+function mapDestinationToEnum(dest?: string | null): 'los_cabos' | 'mazatlan' {
+  if (!dest) return 'los_cabos';
+  const lower = dest.toLowerCase();
+  if (lower.includes('mazat')) return 'mazatlan';
+  return 'los_cabos';
+}
+
+async function getOwnerTotalReferrals(
+  adminClient: ReturnType<typeof createAdminClient>,
+  ownerId: string
+): Promise<number> {
+  const { data } = await adminClient
+    .from('owners')
+    .select('total_referrals')
+    .eq('id', ownerId)
+    .single();
+  return data?.total_referrals || 0;
 }
 
 async function queueNotification(

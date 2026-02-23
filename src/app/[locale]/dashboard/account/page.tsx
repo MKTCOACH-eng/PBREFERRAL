@@ -12,7 +12,7 @@ export default async function AccountPage({
   const { locale } = await params;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  const t = await getTranslations('account');
+  const t = await getTranslations({ locale, namespace: 'account' });
 
   if (!user) return null;
 
@@ -25,12 +25,29 @@ export default async function AccountPage({
     .eq('id', user.id)
     .single();
 
-  // Get or create share link
+  // Get owner profile
+  const { data: ownerProfile } = await adminClient
+    .from('owners')
+    .select('*')
+    .eq('user_id', user.id)
+    .single();
+
+  // Get or create share link (try with user.id first, as that's what the original code used)
   let { data: shareLink } = await adminClient
     .from('share_links')
     .select('*')
     .eq('owner_id', user.id)
     .single();
+
+  // If not found by user.id, try by owners.id
+  if (!shareLink && ownerProfile?.id) {
+    const { data: linkByOwner } = await adminClient
+      .from('share_links')
+      .select('*')
+      .eq('owner_id', ownerProfile.id)
+      .single();
+    shareLink = linkByOwner;
+  }
 
   if (!shareLink) {
     const token = generateToken();
@@ -59,9 +76,9 @@ export default async function AccountPage({
       <ProfileSection
         user={{
           email: user.email || '',
-          firstName: userProfile?.name_first || '',
-          lastName: userProfile?.name_last || '',
-          phone: userProfile?.phone || '',
+          firstName: ownerProfile?.first_name || userProfile?.name_first || '',
+          lastName: ownerProfile?.last_name || userProfile?.name_last || '',
+          phone: ownerProfile?.phone || userProfile?.phone || '',
         }}
       />
 

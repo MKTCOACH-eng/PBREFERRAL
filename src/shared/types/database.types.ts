@@ -1,5 +1,6 @@
-// Database types generated from Supabase schema
-// This file should be regenerated when schema changes using: npx supabase gen types typescript
+// Database types - matches ACTUAL Supabase schema (from supabase-setup.sql)
+// Note: The migrations (001_initial_schema.sql) describe a different schema
+// but the actual DB was created with supabase-setup.sql
 
 export type Json =
   | string
@@ -9,11 +10,16 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
+// Users table uses these enums (from migrations)
 export type UserRole = 'owner' | 'internal' | 'dest_admin' | 'super_admin'
 export type UserStatus = 'active' | 'disabled'
 export type LanguagePreference = 'en' | 'es'
 export type Destination = 'los_cabos' | 'mazatlan'
-export type ReferralStatus = 'new' | 'contacted' | 'qualified' | 'visit_scheduled' | 'closed_won' | 'closed_lost'
+
+// Actual referral status values (text column, not enum)
+export type ReferralStatus = 'pending' | 'new' | 'contacted' | 'confirmed' | 'qualified' | 
+  'visit_scheduled' | 'completed' | 'closed_won' | 'closed_lost' | 'cancelled'
+
 export type ReferralSource = 'owner_dashboard' | 'guest_link' | 'admin_manual'
 export type RewardStatus = 'pending' | 'issued'
 export type NotificationChannel = 'email' | 'in_app'
@@ -23,6 +29,7 @@ export type RecipientRole = 'owner' | 'internal' | 'admin' | 'guest'
 export interface Database {
   public: {
     Tables: {
+      // users table (from migrations - uses spec schema)
       users: {
         Row: {
           id: string
@@ -64,62 +71,78 @@ export interface Database {
           updated_at?: string
         }
       }
+      // owners table (ACTUAL schema from supabase-setup.sql)
+      // Uses user_id, not owner_user_id
+      // Has email, first_name, last_name, phone columns
       owners: {
         Row: {
           id: string
-          owner_user_id: string
-          owner_external_id: string | null
-          unit_community: string | null
-          referrals_total_count: number
-          referrals_won_count: number
-          rewards_total_amount: number
-          last_referral_at: string | null
+          user_id: string
+          email: string
+          first_name: string
+          last_name: string
+          phone: string
+          preferred_destination: string | null
+          status: string
+          total_referrals: number
+          successful_referrals: number
+          total_rewards_earned: number
           created_at: string
           updated_at: string
         }
         Insert: {
           id?: string
-          owner_user_id: string
-          owner_external_id?: string | null
-          unit_community?: string | null
-          referrals_total_count?: number
-          referrals_won_count?: number
-          rewards_total_amount?: number
-          last_referral_at?: string | null
+          user_id: string
+          email: string
+          first_name: string
+          last_name: string
+          phone?: string
+          preferred_destination?: string | null
+          status?: string
+          total_referrals?: number
+          successful_referrals?: number
+          total_rewards_earned?: number
           created_at?: string
           updated_at?: string
         }
         Update: {
           id?: string
-          owner_user_id?: string
-          owner_external_id?: string | null
-          unit_community?: string | null
-          referrals_total_count?: number
-          referrals_won_count?: number
-          rewards_total_amount?: number
-          last_referral_at?: string | null
+          user_id?: string
+          email?: string
+          first_name?: string
+          last_name?: string
+          phone?: string
+          preferred_destination?: string | null
+          status?: string
+          total_referrals?: number
+          successful_referrals?: number
+          total_rewards_earned?: number
           created_at?: string
           updated_at?: string
         }
       }
+      // referrals table (ACTUAL schema from supabase-setup.sql)
+      // Uses destination (text), not destination_initial/destination_current
+      // Uses created_at, not submitted_at
       referrals: {
         Row: {
           id: string
-          owner_id: string
+          owner_id: string // FK → owners.id
           guest_first_name: string
           guest_last_name: string
-          guest_full_name: string
           guest_email: string
           guest_phone: string
-          destination_initial: Destination
-          destination_current: Destination
-          status: ReferralStatus
-          consent_transactional: boolean
-          consent_marketing: boolean
-          submitted_at: string
+          destination: string // text, e.g. "Los Cabos" | "Mazatlán"
+          preferred_dates: string | null
+          number_of_guests: number
+          special_requests: string | null
+          status: string // text: pending, contacted, confirmed, completed, cancelled
+          guest_token: string | null
+          guest_token_expires_at: string | null
+          guest_viewed_at: string | null
+          guest_accepted_at: string | null
+          created_at: string
           updated_at: string
-          duplicate_of_referral_id: string | null
-          source: ReferralSource
         }
         Insert: {
           id?: string
@@ -128,15 +151,17 @@ export interface Database {
           guest_last_name: string
           guest_email: string
           guest_phone: string
-          destination_initial: Destination
-          destination_current: Destination
-          status?: ReferralStatus
-          consent_transactional?: boolean
-          consent_marketing?: boolean
-          submitted_at?: string
+          destination: string
+          preferred_dates?: string | null
+          number_of_guests?: number
+          special_requests?: string | null
+          status?: string
+          guest_token?: string | null
+          guest_token_expires_at?: string | null
+          guest_viewed_at?: string | null
+          guest_accepted_at?: string | null
+          created_at?: string
           updated_at?: string
-          duplicate_of_referral_id?: string | null
-          source?: ReferralSource
         }
         Update: {
           id?: string
@@ -145,17 +170,20 @@ export interface Database {
           guest_last_name?: string
           guest_email?: string
           guest_phone?: string
-          destination_initial?: Destination
-          destination_current?: Destination
-          status?: ReferralStatus
-          consent_transactional?: boolean
-          consent_marketing?: boolean
-          submitted_at?: string
+          destination?: string
+          preferred_dates?: string | null
+          number_of_guests?: number
+          special_requests?: string | null
+          status?: string
+          guest_token?: string | null
+          guest_token_expires_at?: string | null
+          guest_viewed_at?: string | null
+          guest_accepted_at?: string | null
+          created_at?: string
           updated_at?: string
-          duplicate_of_referral_id?: string | null
-          source?: ReferralSource
         }
       }
+      // opportunities table (from migrations - uses spec schema with enums)
       opportunities: {
         Row: {
           id: string
@@ -414,34 +442,7 @@ export interface Database {
       }
     }
     Views: {
-      v_pipeline_summary: {
-        Row: {
-          destination: Destination
-          status: ReferralStatus
-          count: number
-          count_last_30_days: number
-        }
-      }
-      v_owner_performance: {
-        Row: {
-          id: string
-          email: string
-          owner_name: string
-          referrals_total_count: number
-          referrals_won_count: number
-          rewards_total_amount: number
-          last_referral_at: string | null
-          conversion_rate: number
-        }
-      }
-      v_sla_compliance: {
-        Row: {
-          destination_current: Destination
-          total_referrals: number
-          overdue_new: number
-          sla_compliance_rate: number
-        }
-      }
+      [_ in never]: never
     }
     Functions: {
       [_ in never]: never
@@ -460,3 +461,8 @@ export interface Database {
     }
   }
 }
+
+// Helper types for convenience
+export type Tables<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Row']
+export type InsertTables<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Insert']
+export type UpdateTables<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Update']
