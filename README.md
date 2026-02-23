@@ -18,6 +18,23 @@ A luxury referral management platform for **Pueblo Bonito Golf & Spa Resorts**. 
 
 ## Features
 
+
+## 🔧 Recent Update (Feb 23, 2026)
+
+**Schema Sync Completed:** All critical bugs fixed by synchronizing code with actual DB schema.
+
+Key fixes:
+- Fixed `owners.user_id` column reference (was `owner_user_id`)
+- Fixed `referrals.destination` column (was `destination_initial/current`)
+- Fixed duplicate detection to use `created_at` (was `submitted_at`)
+- Fixed CreateReferralForm field name mismatch
+- Fixed Dashboard i18n for Spanish locale
+- Updated TypeScript types to match actual DB schema
+
+See `/sync_report.md` for full details.
+
+---
+
 ### ✅ Implemented (Core MVP)
 
 - **Owner Landing** (`/homeowner`) — Bilingual hero, magic link auth, guest requirements
